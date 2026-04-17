@@ -39,14 +39,17 @@ export function HeroRobot({ className }: HeroRobotProps) {
     })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.45
     mount.appendChild(renderer.domElement)
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.9)
-    const key = new THREE.DirectionalLight(0xdff3ff, 1.2)
-    key.position.set(3, 2, 4)
-    const rim = new THREE.DirectionalLight(0x88d3ff, 0.6)
-    rim.position.set(-3, 1, -2)
-    scene.add(ambient, key, rim)
+    const ambient = new THREE.AmbientLight(0xffffff, 2.25)
+    const key = new THREE.DirectionalLight(0xdff3ff, 1)
+    key.position.set(10, 25, 3.6)
+    const rim = new THREE.DirectionalLight(0x88d3ff, 1.5)
+    rim.position.set(-2.4, 1, -2.2)
+    const hemi = new THREE.HemisphereLight(0xeaf7ff, 0x1f2c3d, 1.15)
+    scene.add(ambient, key, rim, hemi)
 
     const loader = new GLTFLoader()
 
