@@ -80,7 +80,7 @@
   --sidebar-accent-foreground: var(--color-neutral-100);
   --sidebar-border: --alpha(var(--color-white) / 5%);
   --sidebar-ring: var(--color-neutral-400);
-  --background: var(--color-slate-950);
+  --background: var(--color-mist-950);
   --foreground: var(--color-neutral-100);
   --destructive-foreground: var(--color-red-400);
   --info: var(--color-blue-500);

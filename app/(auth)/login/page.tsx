@@ -15,7 +15,9 @@ export default function AuthPage() {
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2">
       <div className="relative hidden h-full flex-col border-r bg-secondary p-10 lg:flex dark:bg-secondary/20">
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
-        <Logo className="mr-auto h-7" />
+        <span>
+          <Logo className="h-24" />
+        </span>
 
         <div className="z-10 mt-auto">
           <blockquote className="space-y-2">
@@ -50,12 +52,10 @@ export default function AuthPage() {
           </Button>
         </Link>
 
-        <div className="mx-auto space-y-4 sm:w-sm">
-          <Logo className="h-7 lg:hidden" />
-          <div className="flex flex-col space-y-1">
-            <h1 className="text-2xl font-bold tracking-wide">
-              Inicia sesión o regístrate
-            </h1>
+        <Logo className="h-24 lg:hidden" />
+        <div className="m-4 mx-auto space-y-4 sm:w-sm">
+          <div className="flex flex-col items-center space-y-1 lg:items-start">
+            <h1 className="text-2xl font-bold">Inicia sesión o regístrate</h1>
             <p className="text-base text-muted-foreground">
               Ingresa o crea tu cuenta del Centro de Prototipado.
             </p>

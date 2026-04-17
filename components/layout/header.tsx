@@ -18,7 +18,7 @@ export function Header() {
         className={cn(
           "mx-auto w-full max-w-6xl border-x border-b bg-background/60",
           {
-            "border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60":
+            "border-border bg-background/95 backdrop-blur-md supports-backdrop-filter:bg-background/60":
               scrolled,
           }
         )}

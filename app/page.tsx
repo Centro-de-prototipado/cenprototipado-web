@@ -10,17 +10,27 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen w-full bg-background">
+    <div className="relative min-h-screen w-full overflow-hidden bg-background">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle 1200px at 0% 400px, color-mix(in oklch, var(--primary) 10%, transparent), transparent 40%),
+            radial-gradient(circle 1200px at 100% 400px, color-mix(in oklch, var(--primary) 10%, transparent), transparent 40%)
+          `,
+        }}
+      />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0 dark:hidden"
         style={{
           backgroundImage: `
-            repeating-linear-gradient(22.5deg, transparent, transparent 2px, rgba(75, 85, 99, 0.06) 2px, rgba(75, 85, 99, 0.06) 3px, transparent 3px, transparent 8px),
-            repeating-linear-gradient(67.5deg, transparent, transparent 2px, rgba(107, 114, 128, 0.05) 2px, rgba(107, 114, 128, 0.05) 3px, transparent 3px, transparent 8px),
-            repeating-linear-gradient(112.5deg, transparent, transparent 2px, rgba(55, 65, 81, 0.04) 2px, rgba(55, 65, 81, 0.04) 3px, transparent 3px, transparent 8px),
-            repeating-linear-gradient(157.5deg, transparent, transparent 2px, rgba(31, 41, 55, 0.03) 2px, rgba(31, 41, 55, 0.03) 3px, transparent 3px, transparent 8px)
-          `,
+          repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 20px),
+          repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 20px)
+        `,
+          backgroundSize: "40px 40px",
         }}
       />
       <div
@@ -28,13 +38,13 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-0 z-0 hidden dark:block"
         style={{
           backgroundImage: `
-            repeating-linear-gradient(22.5deg, transparent, transparent 2px, rgba(226, 232, 240, 0.07) 2px, rgba(226, 232, 240, 0.07) 3px, transparent 3px, transparent 9px),
-            repeating-linear-gradient(67.5deg, transparent, transparent 2px, rgba(203, 213, 225, 0.06) 2px, rgba(203, 213, 225, 0.06) 3px, transparent 3px, transparent 9px),
-            repeating-linear-gradient(112.5deg, transparent, transparent 2px, rgba(148, 163, 184, 0.05) 2px, rgba(148, 163, 184, 0.05) 3px, transparent 3px, transparent 9px),
-            repeating-linear-gradient(157.5deg, transparent, transparent 2px, rgba(100, 116, 139, 0.04) 2px, rgba(100, 116, 139, 0.04) 3px, transparent 3px, transparent 9px)
+            repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px),
+            repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px)
           `,
+          backgroundSize: "40px 40px",
         }}
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
@@ -46,6 +56,7 @@ export default function HomePage() {
           <div className="absolute inset-y-0 -right-8 w-px bg-border/40" />
         </div>
       </div>
+
       <div className="mx-auto">
         <Header />
         <div className="overflow-x-hidden">
