@@ -7,7 +7,10 @@ interface CentroLogoProps {
 export function Logo({ className }: CentroLogoProps) {
   return (
     <div
-      className="centro-logo-svg-wrapper inline-block"
+      className={cn(
+        "centro-logo-svg-wrapper inline-flex items-center justify-center align-middle",
+        className
+      )}
       aria-label="Centro de Prototipado"
       role="img"
     >
@@ -20,7 +23,7 @@ export function Logo({ className }: CentroLogoProps) {
         }
       `}</style>
       <svg
-        className={cn("h-6 w-auto", className)}
+        className="block h-full w-auto"
         xmlns="http://www.w3.org/2000/svg"
         style={{ display: "block" }}
         viewBox="0 0 2271 1038"
