@@ -59,7 +59,7 @@
   --secondary: --alpha(var(--color-white) / 4%);
   --secondary-foreground: var(--color-neutral-100);
   --muted: --alpha(var(--color-white) / 4%);
-  --muted-foreground: color-mix(in srgb, var(--color-neutral-500) 90%, var(--color-white));
+  --muted-foreground: color-mix(in srgb, var(--color-neutral-400) 90%, var(--color-white));
   --accent: --alpha(var(--color-white) / 4%);
   --accent-foreground: var(--color-neutral-100);
   --destructive: color-mix(in srgb, var(--color-red-500) 90%, var(--color-white));
@@ -80,7 +80,7 @@
   --sidebar-accent-foreground: var(--color-neutral-100);
   --sidebar-border: --alpha(var(--color-white) / 5%);
   --sidebar-ring: var(--color-neutral-400);
-  --background: color-mix(in srgb, var(--color-neutral-950) 95%, var(--color-white));
+  --background: var(--color-slate-950);
   --foreground: var(--color-neutral-100);
   --destructive-foreground: var(--color-red-400);
   --info: var(--color-blue-500);
@@ -173,6 +173,7 @@
   }
   html {
     @apply font-sans;
+    font-size: clamp(17px, 0.2vw + 16px, 18px);
   }
 }
 
