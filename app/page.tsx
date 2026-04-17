@@ -2,6 +2,8 @@ import { CallToAction } from "@/components/sections/cta"
 import { ContactSection } from "@/components/sections/contact-section"
 import { FaqsSection } from "@/components/sections/faqs-page"
 import { FeatureSection } from "@/components/sections/feature-section"
+import { GallerySection } from "@/components/sections/gallery-section"
+import { InstagramSection } from "@/components/sections/instagram-section"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 import { HeroSection } from "@/components/sections/hero"
@@ -16,8 +18,8 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
         style={{
           backgroundImage: `
-            radial-gradient(circle 1200px at 0% 400px, color-mix(in oklch, var(--primary) 10%, transparent), transparent 40%),
-            radial-gradient(circle 1200px at 100% 400px, color-mix(in oklch, var(--primary) 10%, transparent), transparent 40%)
+            radial-gradient(circle 1500px at 0% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%),
+            radial-gradient(circle 1500px at 100% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%)
           `,
         }}
       />
@@ -27,8 +29,8 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-0 z-0 dark:hidden"
         style={{
           backgroundImage: `
-          repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 20px),
-          repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 20px)
+          repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px),
+          repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px)
         `,
           backgroundSize: "40px 40px",
         }}
@@ -68,6 +70,8 @@ export default function HomePage() {
             <div className="relative z-10 border-x">
               <HeroSection />
               <FeatureSection />
+              <GallerySection />
+              <InstagramSection />
               {/* <TestimonialsSection /> */}
               <FaqsSection />
               <ContactSection />

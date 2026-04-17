@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
-import { MailIcon, PhoneIcon } from "lucide-react"
+import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const contactInfo = [
@@ -17,6 +17,11 @@ const contactInfo = [
     icon: <PhoneIcon className="size-5" />,
     label: "Teléfono",
     value: "+57 (606) 887 9300",
+  },
+  {
+    icon: <MapPinIcon className="size-5" />,
+    label: "Ubicacion",
+    value: "Museo Interactivo Samoga, segundo piso",
   },
 ]
 
@@ -33,11 +38,12 @@ export function ContactSection() {
             Contacta al Centro de Prototipado
           </h2>
           <p className="text-sm text-muted-foreground md:text-base">
-            Si necesitas más información sobre las Aulas STEM y STEAM, completa
-            el formulario y te contactaremos.
+            Resolvemos dudas sobre visitas academicas, capacitaciones y
+            desarrollo de proyectos en el Centro.
           </p>
           <p className="text-xs text-muted-foreground md:text-sm">
-            Nuestro equipo responde en el menor tiempo posible.
+            Nuestro equipo responde en el menor tiempo posible y te orienta
+            segun tu necesidad.
           </p>
         </div>
       </div>

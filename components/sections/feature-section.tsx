@@ -32,11 +32,11 @@ export function FeatureSection() {
           )}
         >
           <h2 className="text-3xl font-bold text-balance md:text-5xl lg:font-black">
-            Formación, innovación y desarrollo territorial.
+            Explora, aprende y crea con tecnologia.
           </h2>
           <p className="mt-4 text-sm text-balance text-muted-foreground md:text-base">
-            Una estrategia educativa para fortalecer capacidades STEM y STEAM en
-            instituciones oficiales de Caldas y Manizales.
+            Un espacio abierto al publico para convertir ideas en proyectos
+            reales con fabricacion digital, robotica y experiencias STEM.
           </p>
         </div>
       </div>
@@ -106,39 +106,39 @@ export function FeatureCard({
 
 const features: FeatureType[] = [
   {
-    title: "Cobertura por subregiones",
+    title: "Innovacion abierta",
     icon: <ZapIcon />,
     description:
-      "Implementación progresiva en municipios de Caldas para llegar a las seis subregiones del departamento.",
+      "Impulsamos proyectos colaborativos para transformar ideas en prototipos con impacto educativo y social.",
   },
   {
-    title: "Aulas STEM y STEAM",
+    title: "Visitas academicas",
     icon: <CpuIcon />,
     description:
-      "En municipios se desarrollan Aulas STEM; en Manizales se implementan Aulas STEAM con Artes como eje transversal.",
+      "Recibimos instituciones universitarias para explorar tecnologias y conocer metodologias de creacion aplicada.",
   },
   {
-    title: "Capacidades instaladas",
+    title: "Impresion y fabricacion",
     icon: <FingerprintIcon />,
     description:
-      "El enfoque prioriza formación docente y estudiantil para asegurar continuidad más allá de la dotación de equipos.",
+      "Trabajamos con impresion 3D, corte laser, CNC y escaneo 3D para materializar ideas con precision.",
   },
   {
-    title: "Aprendizaje basado en proyectos",
+    title: "Realidad virtual y robotica",
     icon: <PencilIcon />,
     description:
-      "La metodología fortalece pensamiento crítico, resolución de problemas y creatividad en contextos reales.",
+      "Integramos experiencias inmersivas, microcontroladores y fischertechnik para aprender haciendo.",
   },
   {
-    title: "Orientación Socio-Ocupacional",
+    title: "Formacion docente STEM",
     icon: <Settings2Icon />,
     description:
-      "La selección de equipos responde a actividades económicas del territorio e intereses de los estudiantes.",
+      "Iniciamos capacitaciones para profesores de aulas STEM con metodologias innovadoras y herramientas digitales.",
   },
   {
-    title: "Tecnología para innovar",
+    title: "Centro abierto al publico",
     icon: <SparklesIcon />,
     description:
-      "Las aulas incluyen impresoras 3D, CNC láser, kits de robótica y herramientas de programación.",
+      "Si tienes una idea, un proyecto o curiosidad por crear, ven y desarrolla tu propuesta con nuestro equipo.",
   },
 ]

@@ -9,19 +9,19 @@ export function CallToAction() {
       <DecorIcon className="size-3" position="top-right" />
       <div className="relative border-b px-12 py-20 md:px-16 md:py-30">
         <h2 className="text-center text-3xl font-bold text-balance md:text-5xl lg:text-5xl">
-          Conecta educación, innovación y territorio.
+          Descubre el Centro de Prototipado
         </h2>
         <p className="mt-3 text-center text-sm text-balance text-muted-foreground md:text-base">
-          Conoce cómo las Aulas STEM y STEAM fortalecen capacidades en Caldas y
-          Manizales.
+          Un espacio para explorar, aprender y crear sin limites con
+          tecnologias que convierten ideas en soluciones reales.
         </p>
       </div>
       <div className="relative flex items-center justify-center gap-3 bg-secondary/50 px-12 py-8 md:px-16 md:py-10 dark:bg-secondary/20">
         <Button variant="outline" size="lg">
-          Ver noticias
+          Ver actividades
         </Button>
         <Button size="lg">
-          Explorar proyecto <ArrowRightIcon data-icon="inline-end" />
+          Visitanos en Samoga <ArrowRightIcon data-icon="inline-end" />
         </Button>
       </div>
       <DecorIcon className="size-3" position="bottom-left" />

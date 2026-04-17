@@ -19,9 +19,8 @@ export function FaqsSection() {
               Preguntas frecuentes
             </h2>
             <p className="text-muted-foreground">
-              Respuestas rápidas sobre el Centro de Prototipado como cuenta
-              institucional UNAL y su trabajo en innovación educativa y
-              desarrollo tecnológico.
+              Respuestas sobre servicios, tecnologias y formas de participar en
+              las actividades del Centro de Prototipado.
             </p>
             <p className="text-muted-foreground">
               {"¿No encuentras la información que buscas? "}
@@ -64,44 +63,44 @@ export function FaqsSection() {
 const faqs = [
   {
     id: "item-1",
-    title: "¿Qué son las Aulas STEM y STEAM?",
+    title: "¿Que es el Centro de Prototipado?",
     content:
-      "Las Aulas STEM fortalecen formación en ciencia, tecnología, ingeniería y matemáticas; las Aulas STEAM integran además Artes para potenciar creatividad e innovación.",
+      "Es un espacio de innovacion y desarrollo tecnologico donde transformamos ideas en prototipos mediante metodologias de aprendizaje practico.",
   },
   {
     id: "item-2",
-    title: "¿Dónde se implementa el proyecto?",
+    title: "¿Que tecnologias puedo encontrar?",
     content:
-      "En los municipios de Caldas se desarrollan Aulas STEM y en instituciones educativas oficiales de Manizales se implementan Aulas STEAM, según lo definido normativamente.",
+      "Contamos con impresion 3D, corte y grabado laser, CNC, escaneo 3D, realidad virtual, microcontroladores y robotica educativa con fischertechnik.",
   },
   {
     id: "item-3",
-    title: "¿Cómo avanza la implementación por fases?",
+    title: "¿Quienes pueden visitar el Centro?",
     content:
-      "La implementación ha sido progresiva: Fase 1 con La Dorada, Marmato, Villamaría, Neira y Pácora; Fase 2 con Marquetalia, Victoria, Belalcázar, Palestina, San José y Aguadas; y una tercera fase proyectada para 12 municipios adicionales.",
+      "El Centro esta abierto al publico. Recibimos estudiantes, docentes, instituciones y comunidad interesada en crear y experimentar con tecnologia.",
   },
   {
     id: "item-4",
-    title: "¿Cómo se eligen los equipos para cada aula?",
+    title: "¿Como puedo participar en actividades del Centro?",
     content:
-      "La dotación se define con la estrategia de Orientación Socio-Ocupacional (OSO), que considera actividades económicas del territorio e intereses de los estudiantes.",
+      "Puedes participar mediante visitas guiadas, proyectos colaborativos, talleres y procesos de formacion segun tu perfil e interes.",
   },
   {
     id: "item-5",
-    title: "¿Qué incluye la formación para los profesionales?",
+    title: "¿El Centro tambien realiza formacion docente?",
     content:
-      "Antes de iniciar en territorio, reciben capacitación en enfoque STEAM, competencias del siglo XXI, aprendizaje basado en proyectos y uso y mantenimiento de equipos.",
+      "Si. Iniciamos capacitaciones para profesores de aulas STEM orientadas al fortalecimiento pedagogico y tecnologico.",
   },
   {
     id: "item-6",
-    title: "¿Qué equipos tienen las aulas?",
+    title: "¿Donde estan ubicados?",
     content:
-      "Las aulas cuentan con impresoras 3D, máquinas CNC de corte y grabado láser, kits de robótica y herramientas de programación, entre otros recursos.",
+      "Estamos en el Museo Interactivo Samoga, segundo piso. Puedes acercarte para conocer nuestros servicios y actividades.",
   },
   {
     id: "item-7",
-    title: "¿Cómo se garantiza la sostenibilidad del proyecto?",
+    title: "¿Puedo llevar una idea o proyecto propio?",
     content:
-      "Los bienes se integran a inventarios oficiales de alcaldías o instituciones educativas, y la estrategia prioriza dejar capacidades instaladas para continuidad local.",
+      "Claro. Si tienes una idea, un proyecto o simplemente curiosidad por crear, te acompanamos para convertirla en un prototipo funcional.",
   },
 ]

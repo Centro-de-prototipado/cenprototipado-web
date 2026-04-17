@@ -18,7 +18,7 @@ export function HeroSection() {
           <div
             className={cn(
               "absolute -inset-x-20 inset-y-0 z-0 rounded-full",
-              "bg-[radial-gradient(ellipse_at_center,theme(--color-primary/.1),transparent,transparent)]",
+              "bg-[radial-gradient(ellipse_at_center,theme(--color-primary/.08),transparent,transparent)]",
               "blur-[80px]"
             )}
           />
@@ -52,7 +52,7 @@ export function HeroSection() {
             "animate-in delay-100 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
           )}
         >
-          Innovación pedagógica y fortalecimiento empresarial
+          Donde otros ven ideas, aqui las convertimos en prototipos
         </h1>
 
         <HeroRobot
@@ -65,21 +65,21 @@ export function HeroSection() {
 
         <p
           className={cn(
-            "text-center text-sm text-muted-foreground sm:text-lg",
+            "max-w-3xl text-center text-sm text-muted-foreground sm:text-lg",
             "animate-in delay-200 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
           )}
         >
-          Cuenta institucional UNAL. Espacio académico de innovación y
-          desarrollo tecnológico, orientado al apoyo de procesos de creación y
-          experimentación en el territorio.
+          El Centro de Prototipado continua fortaleciendo la innovacion
+          pedagogica, tecnologica y territorial mediante procesos de creacion y
+          experimentacion aplicada.
         </p>
 
         <div className="flex w-fit animate-in items-center justify-center gap-3 pt-2 delay-300 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in">
           <Button variant="outline" size="lg">
-            <PhoneCallIcon data-icon="inline-start" /> Conocer el proyecto
+            <PhoneCallIcon data-icon="inline-start" /> Quiero saber mas
           </Button>
           <Button size="lg">
-            Ver implementación <ArrowRightIcon data-icon="inline-end" />
+            Explorar el Centro <ArrowRightIcon data-icon="inline-end" />
           </Button>
         </div>
       </div>
