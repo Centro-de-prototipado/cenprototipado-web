@@ -1,5 +1,4 @@
 import { Logo } from "@/components/shared/logo"
-import { Button } from "@/components/ui/button"
 
 const navLinks = [
   { href: "#", label: "Características" },
@@ -69,18 +68,10 @@ export function Footer() {
           <a
             aria-label="x/twitter"
             className="inline-flex items-center gap-1 text-foreground/80 hover:text-foreground hover:underline"
-            href={"https://x.com/shabanhr"}
             rel="noreferrer"
             target="_blank"
           >
-            <img
-              alt="shaban"
-              className="size-4 rounded-full"
-              height="auto"
-              src="https://github.com/shabanhr.png"
-              width="auto"
-            />
-            Shaban
+            Centro de Prototipado
           </a>
         </p>
       </div>

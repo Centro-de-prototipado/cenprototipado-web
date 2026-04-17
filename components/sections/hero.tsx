@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Button } from "@/components/ui/button"
 import { HeroRobot } from "@/components/sections/hero-robot"
-import { Logo } from "@/components/shared/logo"
+
 import { ArrowRightIcon, PhoneCallIcon } from "lucide-react"
 
 export function HeroSection() {
@@ -46,17 +46,9 @@ export function HeroSection() {
           </div>
         </a> */}
 
-        <div
-          className={cn(
-            "animate-in delay-75 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
-          )}
-        >
-          <Logo className="h-14 md:h-20 lg:h-36" />
-        </div>
-
         <h1
           className={cn(
-            "max-w-3xl text-center text-4xl font-bold text-balance text-foreground md:text-6xl lg:font-black",
+            "max-w-4xl text-center text-5xl font-extrabold text-balance text-foreground md:text-7xl",
             "animate-in delay-100 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
           )}
         >
@@ -73,7 +65,7 @@ export function HeroSection() {
 
         <p
           className={cn(
-            "text-center text-sm tracking-wider text-muted-foreground sm:text-lg",
+            "text-center text-sm text-muted-foreground sm:text-lg",
             "animate-in delay-200 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
           )}
         >

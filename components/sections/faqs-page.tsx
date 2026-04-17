@@ -32,7 +32,7 @@ export function FaqsSection() {
           </div>
         </div>
         <div className="relative flex flex-col justify-center">
-          <Accordion className="rounded-none border-y-0">
+          <Accordion className="rounded-none border-y-0 border-t border-b bg-background/40 transition-colors hover:bg-background/50">
             {faqs.map((item, index) => (
               <AccordionItem
                 className="group relative"

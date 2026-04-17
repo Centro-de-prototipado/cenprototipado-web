@@ -52,7 +52,7 @@ export function ContactSection() {
         </div>
 
         {/* Right Column - Contact Form */}
-        <div className="px-12 py-10 md:px-16 md:py-12">
+        <div className="bg-background/40 px-12 py-10 transition-colors hover:bg-background/50 md:px-16 md:py-12">
           <ContactForm />
         </div>
       </div>
@@ -116,7 +116,7 @@ function ContactInfo({ icon, label, value }: ContactInfoProps) {
   return (
     <div
       className={cn(
-        "group relative border-b bg-background px-12 py-6 transition-colors hover:bg-muted/20 md:px-16 md:py-8"
+        "group relative border-b bg-background/40 px-12 py-6 transition-colors hover:bg-background/20 md:px-16 md:py-8"
       )}
     >
       <DecorIcon

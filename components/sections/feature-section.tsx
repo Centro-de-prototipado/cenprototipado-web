@@ -42,7 +42,7 @@ export function FeatureSection() {
       </div>
 
       <div className="relative border-t">
-        <div className="grid grid-cols-2 gap-px bg-border md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-px bg-background/40 md:grid-cols-3">
           {features.map((feature) => (
             <FeatureCard feature={feature} key={feature.title} />
           ))}
@@ -64,7 +64,7 @@ export function FeatureCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden border-border bg-background px-6 py-8 transition-colors hover:bg-sidebar md:px-8 md:py-10",
+        "group relative overflow-hidden border-border px-6 py-8 transition-colors hover:bg-background/50 md:px-8 md:py-10",
         className
       )}
       {...props}
