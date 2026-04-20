@@ -1,52 +1,21 @@
 import { CallToAction } from "@/components/sections/cta"
 import { ContactSection } from "@/components/sections/contact-section"
 import { FaqsSection } from "@/components/sections/faqs-page"
-import { FeatureSection } from "@/components/sections/feature-section"
+import { InstitutionalPreviewSection } from "@/components/sections/institutional-preview-section"
 import { GallerySection } from "@/components/sections/gallery-section"
 import { InstagramSection } from "@/components/sections/instagram-section"
-import { Footer } from "@/components/layout/footer"
+import { PortfolioSection } from "../components/sections/portfolio-section"
+import { TechnologiesSection } from "@/components/sections/technologies-section"
+
 import { Header } from "@/components/layout/header"
 import { HeroSection } from "@/components/sections/hero"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Footer } from "@/components/layout/footer"
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle 1500px at 0% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%),
-            radial-gradient(circle 1500px at 100% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%)
-          `,
-        }}
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 dark:hidden"
-        style={{
-          backgroundImage: `
-          repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px),
-          repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px)
-        `,
-          backgroundSize: "40px 40px",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 hidden dark:block"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px),
-            repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px)
-          `,
-          backgroundSize: "40px 40px",
-        }}
-      />
-
+    <>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
@@ -61,30 +30,25 @@ export default function HomePage() {
 
       <div className="mx-auto">
         <Header />
-        <div className="overflow-x-hidden">
-          <main className="relative mx-auto w-full max-w-6xl">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
-            />
-            <div className="relative z-10 border-x">
-              <HeroSection />
-              <FeatureSection />
-              <GallerySection />
-              <InstagramSection />
-              {/* <TestimonialsSection /> */}
-              <FaqsSection />
-              <ContactSection />
-              <CallToAction />
-              <DecorIcon className="size-4" position="bottom-left" />
-              <DecorIcon className="size-4" position="bottom-right" />
-            </div>
-          </main>
-          <div className="mt-20">
-            <Footer />
+        <main className="relative mx-auto w-full max-w-6xl bg-background/50">
+          <div className="relative z-10 border-x">
+            <HeroSection />
+            <GallerySection />
+            <InstitutionalPreviewSection />
+            <TechnologiesSection />
+            <PortfolioSection />
+            <InstagramSection />
+            <FaqsSection />
+            <ContactSection />
+            <CallToAction />
+            <DecorIcon className="size-4" position="bottom-left" />
+            <DecorIcon className="size-4" position="bottom-right" />
           </div>
+        </main>
+        <div className="mt-20">
+          <Footer />
         </div>
       </div>
-    </div>
+    </>
   )
 }
