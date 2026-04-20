@@ -17,7 +17,7 @@ export function HeroSection() {
         >
           <div
             className={cn(
-              "absolute -inset-x-20 inset-y-0 z-0 rounded-full",
+              "absolute -inset-x-20 inset-y-0 z-0 rounded-none-none",
               "bg-[radial-gradient(ellipse_at_center,theme(--color-primary/.08),transparent,transparent)]",
               "blur-[80px]"
             )}
@@ -25,7 +25,7 @@ export function HeroSection() {
         </div>
         {/* <a
           className={cn(
-            "group relative mx-auto flex w-fit items-center gap-3 rounded-sm border bg-card p-1 shadow",
+            "group relative mx-auto flex w-fit items-center gap-3 rounded-none-none border bg-card p-1 shadow",
             "animate-in transition-all delay-500 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in"
           )}
           href="#link"
@@ -34,7 +34,7 @@ export function HeroSection() {
           <DecorIcon className="size-2" position="top-right" />
           <DecorIcon className="size-2" position="bottom-left" />
           <DecorIcon className="size-2" position="bottom-right" />
-          <div className="rounded-xs border bg-card px-1.5 py-0.5 shadow-sm">
+          <div className="rounded-none-xs border bg-card px-1.5 py-0.5 shadow-sm">
             <p className="font-mono text-xs">CENTRO</p>
           </div>
 

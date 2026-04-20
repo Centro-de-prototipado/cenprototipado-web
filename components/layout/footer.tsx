@@ -36,7 +36,7 @@ export function Footer() {
                 key={label}
                 aria-label={label}
                 href={href}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-none-none hover:bg-muted"
               >
                 <span className="size-4">{icon}</span>
               </a>

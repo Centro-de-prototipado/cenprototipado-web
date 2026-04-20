@@ -52,10 +52,10 @@ export function MobileNav() {
             data-slot={open ? "open" : "closed"}
           >
             <div className="flex w-full flex-col gap-y-2">
-              <span className="text-sm">Proyecto</span>
+              <span className="text-sm">Tecnologias</span>
               {productLinks.map((link) => (
                 <LinkItem
-                  className="rounded-lg p-2 active:bg-muted dark:active:bg-muted/50"
+                  className="rounded-none-none p-2 active:bg-muted dark:active:bg-muted/50"
                   key={`product-${link.label}`}
                   {...link}
                 />
@@ -63,14 +63,14 @@ export function MobileNav() {
               <span className="text-sm">Institucional</span>
               {companyLinks.map((link) => (
                 <LinkItem
-                  className="rounded-lg p-2 active:bg-muted dark:active:bg-muted/50"
+                  className="rounded-none-none p-2 active:bg-muted dark:active:bg-muted/50"
                   key={`company-${link.label}`}
                   {...link}
                 />
               ))}
               {companyLinks2.map((link) => (
                 <LinkItem
-                  className="rounded-lg p-2 active:bg-muted dark:active:bg-muted/50"
+                  className="rounded-none-none p-2 active:bg-muted dark:active:bg-muted/50"
                   key={`company-${link.label}`}
                   {...link}
                 />

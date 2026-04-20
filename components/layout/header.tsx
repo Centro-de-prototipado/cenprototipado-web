@@ -28,12 +28,12 @@ export function Header() {
           <DecorIcon className="size-3" position="bottom-right" />
 
           <div className="flex items-center gap-5">
-            <a
-              className="inline-flex h-14 items-center justify-center rounded-lg px-1 hover:bg-muted dark:hover:bg-muted/50"
-              href="#"
+            <Link
+              className="inline-flex h-14 items-center justify-center rounded-none-none px-1 hover:bg-muted dark:hover:bg-muted/50"
+              href="/"
             >
               <Logo className="h-full" />
-            </a>
+            </Link>
             <DesktopNav />
           </div>
           <div className="hidden items-center gap-2 md:flex">

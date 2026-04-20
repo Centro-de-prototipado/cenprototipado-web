@@ -11,7 +11,7 @@ const contactInfo = [
   {
     icon: <MailIcon className="size-5" />,
     label: "Correo",
-    value: "centroprototipado_man@unal.edu.co",
+    value: "cenprototipado_man@unal.edu.co",
   },
   {
     icon: <PhoneIcon className="size-5" />,
@@ -20,14 +20,14 @@ const contactInfo = [
   },
   {
     icon: <MapPinIcon className="size-5" />,
-    label: "Ubicacion",
-    value: "Museo Interactivo Samoga, segundo piso",
+    label: "Ubicación",
+    value: "Manizales, Museo Interactivo Samoga, segundo piso",
   },
 ]
 
 export function ContactSection() {
   return (
-    <section className="relative w-full border-b">
+    <section className="relative w-full border-b" id="contacto">
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
 
@@ -134,7 +134,7 @@ function ContactInfo({ icon, label, value }: ContactInfoProps) {
         position="top-right"
       />
       <div className="flex items-center gap-3">
-        <div className="flex size-9 items-center justify-center rounded-md border bg-background">
+        <div className="flex size-9 items-center justify-center rounded-none-none border bg-background">
           {icon}
         </div>
         <div>

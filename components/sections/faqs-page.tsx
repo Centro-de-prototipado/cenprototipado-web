@@ -9,7 +9,7 @@ import {
 
 export function FaqsSection() {
   return (
-    <section className="relative w-full border-b">
+    <section className="relative w-full border-b" id="preguntas-frecuentes">
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
       <div className="relative grid w-full md:grid-cols-2">
@@ -31,7 +31,7 @@ export function FaqsSection() {
           </div>
         </div>
         <div className="relative flex flex-col justify-center">
-          <Accordion className="rounded-none border-y-0 border-t border-b bg-background/40 transition-colors hover:bg-background/50">
+          <Accordion className="rounded-none-none border-y-0 border-t border-b bg-background/40 transition-colors hover:bg-background/50">
             {faqs.map((item, index) => (
               <AccordionItem
                 className="group relative"

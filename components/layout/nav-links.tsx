@@ -14,63 +14,70 @@ import {
   RotateCcwIcon,
   LeafIcon,
   HelpCircleIcon,
+  FolderKanbanIcon,
 } from "lucide-react"
 
 export const productLinks: LinkItemType[] = [
   {
-    label: "Aulas STEM",
-    href: "#",
-    description: "Implementación en municipios de Caldas",
+    label: "Tecnologias del Centro",
+    href: "/tecnologias",
+    description: "Inventario, capacidades y equipos disponibles",
     icon: <GlobeIcon />,
   },
   {
-    label: "Aulas STEAM",
-    href: "#",
-    description: "Implementación en instituciones oficiales de Manizales",
+    label: "Fabricacion digital",
+    href: "/tecnologias",
+    description: "Impresion 3D, corte laser, CNC y escaneo 3D",
     icon: <LayersIcon />,
   },
   {
-    label: "Formación docente",
-    href: "#",
-    description: "Capacitación en enfoque STEAM y aprendizaje por proyectos",
+    label: "Formacion docente",
+    href: "/institucional#articulacion-stem",
+    description: "Capacitacion en enfoque STEM y aprendizaje por proyectos",
     icon: <UserPlusIcon />,
   },
   {
-    label: "Impacto territorial",
-    href: "#",
-    description: "Seguimiento por fases en municipios y subregiones",
+    label: "Proyectos desarrollados",
+    href: "/institucional#casos-exito",
+    description: "Proyectos desarrollados con enfoque educativo y social",
     icon: <BarChart3Icon />,
   },
   {
-    label: "Dotación tecnológica",
-    href: "#",
-    description: "Impresión 3D, CNC láser, robótica y programación",
+    label: "Dotacion tecnologica",
+    href: "/tecnologias",
+    description: "Equipos, software y experiencias para prototipar",
     icon: <PlugIcon />,
   },
   {
     label: "Centro de Prototipado",
-    href: "#",
-    description: "Innovación pedagógica y fortalecimiento empresarial",
+    href: "/institucional",
+    description: "Quienes somos, mision, vision y equipo",
     icon: <CodeIcon />,
+  },
+  {
+    label: "Portafolio",
+    href: "/portafolio",
+    description: "Proyectos desarrollados y resultados interactivos",
+    icon: <FolderKanbanIcon />,
   },
 ]
 
 export const companyLinks: LinkItemType[] = [
   {
-    label: "Sobre el proyecto",
-    href: "#",
+    label: "Quienes somos",
+    href: "/institucional",
     description: "Conoce la estrategia STEM y STEAM en Caldas",
     icon: <UsersIcon />,
   },
   {
-    label: "Resultados",
-    href: "#",
-    description: "Avances e hitos por municipio e institución",
+    label: "Equipo de trabajo",
+    href: "/institucional#equipo",
+    description: "Equipo con perfiles y retratos visuales",
     icon: <StarIcon />,
   },
   {
-    label: "Alianzas",
-    href: "#",
+    label: "Articulacion STEM",
+    href: "/institucional#articulacion-stem",
     icon: <HandshakeIcon />,
     description: "Trabajo articulado con alcaldías e instituciones educativas",
   },
@@ -78,28 +85,28 @@ export const companyLinks: LinkItemType[] = [
 
 export const companyLinks2: LinkItemType[] = [
   {
-    label: "Términos del servicio",
-    href: "#",
+    label: "Tecnologias",
+    href: "/tecnologias",
     icon: <FileTextIcon />,
   },
   {
-    label: "Política de privacidad",
-    href: "#",
+    label: "Proyectos desarrollados",
+    href: "/institucional#casos-exito",
     icon: <ShieldIcon />,
   },
   {
-    label: "Política de devoluciones",
-    href: "#",
+    label: "Contacto",
+    href: "/#contacto",
     icon: <RotateCcwIcon />,
   },
   {
-    label: "Blog",
-    href: "#",
+    label: "Portafolio",
+    href: "/portafolio",
     icon: <LeafIcon />,
   },
   {
-    label: "Centro de ayuda",
-    href: "#",
+    label: "Ayuda",
+    href: "/#preguntas-frecuentes",
     icon: <HelpCircleIcon />,
   },
 ]

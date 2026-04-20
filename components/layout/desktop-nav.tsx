@@ -10,7 +10,7 @@ import {
   companyLinks,
   companyLinks2,
   productLinks,
-} from "@/components/layout/nav-links"
+} from "./nav-links"
 import { LinkItem } from "@/components/shared/shared"
 
 export function DesktopNav() {
@@ -19,10 +19,10 @@ export function DesktopNav() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="bg-transparent">
-            Proyecto
+            Tecnologias
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-1 pr-1.5">
-            <div className="grid w-lg grid-cols-2 gap-2 rounded-lg border bg-card p-2 shadow">
+            <div className="grid w-lg grid-cols-2 gap-2 rounded-none-none border bg-card p-2 shadow">
               {productLinks.map((item, i) => (
                 <NavigationMenuLink
                   key={`item-${item.label}-${i}`}
@@ -35,9 +35,9 @@ export function DesktopNav() {
                 {"¿Te interesa? "}
                 <a
                   className="font-medium text-foreground hover:underline"
-                  href="#"
+                  href="/institucional"
                 >
-                  Agenda una demostración
+                  Conoce el centro
                 </a>
               </p>
             </div>
@@ -49,10 +49,10 @@ export function DesktopNav() {
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
             <div className="grid w-lg grid-cols-2 gap-2">
-              <div className="space-y-2 rounded-lg border bg-card p-2 shadow">
+              <div className="space-y-2 rounded-none-none border bg-card p-2 shadow">
                 {companyLinks.map((item, i) => (
                   <NavigationMenuLink
-                    className="rounded-sm"
+                    className="rounded-none-none"
                     key={`item-${item.label}-${i}`}
                     render={<LinkItem {...item} />}
                   />
@@ -72,8 +72,8 @@ export function DesktopNav() {
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuLink className="px-4" href="#">
-          Recursos
+        <NavigationMenuLink className="px-4" href="/portafolio">
+          Portafolio
         </NavigationMenuLink>
       </NavigationMenuList>
     </NavigationMenu>
