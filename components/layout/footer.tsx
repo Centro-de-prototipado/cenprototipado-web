@@ -1,23 +1,16 @@
 import { Logo } from "@/components/shared/logo"
 
 const navLinks = [
-  { href: "#", label: "Características" },
-  { href: "#", label: "Blog" },
-  { href: "#", label: "Nosotros" },
-  { href: "#", label: "Contacto" },
-  { href: "#", label: "Licencia" },
-  { href: "#", label: "Privacidad" },
+  { href: "/centro", label: "Centro" },
+  { href: "/tecnologias", label: "Tecnologías" },
+  { href: "/portafolio", label: "Portafolio" },
+  { href: "/contacto", label: "Contacto" },
 ]
 
 const socialLinks = [
   {
     href: "#",
-    label: "X",
-    icon: <XIcon />,
-  },
-  {
-    href: "#",
-    label: "Github",
+    label: "Instagram",
     icon: <XIcon />,
   },
 ]
@@ -36,7 +29,7 @@ export function Footer() {
                 key={label}
                 aria-label={label}
                 href={href}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-none-none hover:bg-muted"
+                className="rounded-none-none inline-flex h-9 w-9 items-center justify-center hover:bg-muted"
               >
                 <span className="size-4">{icon}</span>
               </a>

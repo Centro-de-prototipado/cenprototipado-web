@@ -1,13 +1,19 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { SectionCarousel } from "@/components/ui/section-carousel"
 import { DecorIcon } from "@/components/ui/decor-icon"
-import {
-  availableTechnologies,
-  successCases,
-  technologySpotlights,
-  teamMembers,
-} from "@/lib/institutional-data"
+import { buttonVariants } from "@/components/ui/button"
+import { teamMembers } from "@/lib/institutional-data"
+import { cn } from "@/lib/utils"
+import { ArrowRightIcon } from "lucide-react"
+
+const stemPoints = [
+  "Uso de tecnologías emergentes en procesos educativos.",
+  "Proyectos interdisciplinarios entre estudiantes, docentes e investigadores.",
+  "Creación de prototipos y soluciones aplicadas a distintas áreas del conocimiento.",
+  "Integración de metodologías STEM y STEAM en enseñanza y aprendizaje.",
+]
 
 export function InstitutionalSection() {
   return (
@@ -15,60 +21,67 @@ export function InstitutionalSection() {
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
 
+      {/* Quiénes somos */}
       <div className="border-b px-12 py-16 md:px-16 md:py-20">
         <div className="mx-auto flex max-w-5xl flex-col gap-6">
-          <p className="inline-flex w-fit rounded-none-none border bg-card px-3 py-1 text-xs tracking-wide text-muted-foreground uppercase">
-            Quienes somos
+          <p className="inline-flex w-fit rounded-none border bg-card px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase">
+            Quiénes somos
           </p>
           <h2 className="max-w-4xl text-3xl font-bold text-balance md:text-5xl lg:font-black">
             Un espacio para transformar ideas en prototipos reales con impacto
-            educativo, social y tecnologico.
+            educativo, social y tecnológico.
           </h2>
           <p className="max-w-4xl text-sm text-muted-foreground md:text-base">
-            El Centro de Prototipado impulsa la innovacion, el aprendizaje
-            practico y el desarrollo de soluciones tecnologicas. Aqui,
+            El Centro de Prototipado impulsa la innovación, el aprendizaje
+            práctico y el desarrollo de soluciones tecnológicas. Aquí,
             estudiantes, docentes y comunidades convierten retos reales en
-            prototipos funcionales mediante fabricacion digital y tecnologias
-            emergentes. Tambien apoyamos los procesos educativos de las Aulas
+            prototipos funcionales mediante fabricación digital y tecnologías
+            emergentes. También apoyamos los procesos educativos de las Aulas
             STEM de Manizales y Caldas, fortaleciendo el aprendizaje en ciencia,
-            tecnologia, ingenieria y matematicas.
+            tecnología, ingeniería y matemáticas.
           </p>
-          <p className="text-xs tracking-wide text-muted-foreground uppercase">
-            Direccion de Investigacion y Extension - DIMA · Centro de
+          <p className="text-xs tracking-[0.2em] text-muted-foreground/70 uppercase">
+            Dirección de Investigación y Extensión – DIMA · Centro de
             Prototipado · Sede Manizales
           </p>
         </div>
       </div>
 
+      {/* Misión / Visión */}
       <div className="grid border-b md:grid-cols-2">
-        <article className="border-b p-6 md:border-r md:border-b-0 md:p-10">
-          <h3 className="text-2xl font-semibold md:text-3xl">Mision</h3>
+        <article className="border-b bg-card/30 p-6 md:border-r md:border-b-0 md:p-10">
+          <p className="text-xs tracking-[0.24em] text-muted-foreground uppercase">
+            Misión
+          </p>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            Democratizar el acceso a tecnologias de fabricacion digital y
-            promover la innovacion mediante el aprendizaje practico, la
-            experimentacion y la colaboracion interdisciplinaria.
+            Democratizar el acceso a tecnologías de fabricación digital y
+            promover la innovación mediante el aprendizaje práctico, la
+            experimentación y la colaboración interdisciplinaria.
           </p>
         </article>
-        <article className="p-6 md:p-10">
-          <h3 className="text-2xl font-semibold md:text-3xl">Vision</h3>
+        <article className="bg-card/30 p-6 md:p-10">
+          <p className="text-xs tracking-[0.24em] text-muted-foreground uppercase">
+            Visión
+          </p>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            Ser un referente en innovacion y fabricacion digital, reconocido por
-            impulsar proyectos tecnologicos y facilitar el acceso a herramientas
+            Ser un referente en innovación y fabricación digital, reconocido por
+            impulsar proyectos tecnológicos y facilitar el acceso a herramientas
             y conocimientos para transformar ideas en soluciones con impacto
             educativo, social y empresarial.
           </p>
         </article>
       </div>
 
+      {/* Equipo */}
       <div className="border-b p-6 md:p-10" id="equipo">
         <div className="mx-auto max-w-5xl">
           <SectionCarousel
-            description="Equipo interdisciplinario que lidera procesos de innovacion, formacion y acompanamiento tecnico en el Centro."
+            description="Equipo interdisciplinario que lidera procesos de innovación, formación y acompañamiento técnico en el Centro."
             title="Equipo de trabajo"
           >
             {teamMembers.map((member, index) => (
               <article
-                className="min-w-72 snap-start overflow-hidden border bg-background md:min-w-80"
+                className="min-w-64 snap-start overflow-hidden border bg-background shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] md:min-w-72 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
                 key={`${member.name}-${member.role}`}
               >
                 <div
@@ -80,12 +93,12 @@ export function InstitutionalSection() {
                     className="object-cover"
                     fill
                     priority={index === 0}
-                    sizes="(max-width: 768px) 80vw, 320px"
+                    sizes="(max-width: 768px) 80vw, 288px"
                     src={member.portrait}
                   />
                 </div>
                 <div className="border-t p-4">
-                  <p className="text-sm font-medium">{member.name}</p>
+                  <p className="text-sm font-semibold">{member.name}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {member.role}
                   </p>
@@ -96,116 +109,71 @@ export function InstitutionalSection() {
         </div>
       </div>
 
+      {/* Articulación STEM */}
       <div className="border-b p-6 md:p-10" id="articulacion-stem">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4">
-          <h3 className="text-2xl font-semibold text-balance md:text-3xl">
-            Articulacion con las Aulas STEM
-          </h3>
-          <p className="max-w-4xl text-sm text-muted-foreground md:text-base">
-            Las Aulas STEM y el Centro de Prototipado trabajan de manera
-            articulada con espacios academicos y tecnologicos para fortalecer
-            formacion, investigacion e innovacion.
-          </p>
-
-          <ul className="grid gap-3 pl-5 text-sm text-muted-foreground md:grid-cols-2 md:text-base">
-            <li className="list-disc">
-              Uso de tecnologias emergentes en procesos educativos.
-            </li>
-            <li className="list-disc">
-              Proyectos interdisciplinarios entre estudiantes, docentes e
-              investigadores.
-            </li>
-            <li className="list-disc">
-              Creacion de prototipos y soluciones aplicadas a distintas areas
-              del conocimiento.
-            </li>
-            <li className="list-disc">
-              Integracion de metodologias STEM y STEAM en ensenanza y
-              aprendizaje.
-            </li>
+        <div className="mx-auto max-w-5xl space-y-6">
+          <div className="space-y-2">
+            <p className="text-xs tracking-[0.24em] text-muted-foreground uppercase">
+              Articulación
+            </p>
+            <h3 className="text-2xl font-bold text-balance md:text-3xl">
+              Trabajo articulado con las Aulas STEM
+            </h3>
+            <p className="max-w-3xl text-sm text-muted-foreground md:text-base">
+              Las Aulas STEM y el Centro de Prototipado trabajan de manera
+              articulada para fortalecer formación, investigación e innovación.
+              Esta colaboración genera ecosistemas que conectan la educación, la
+              tecnología y el desarrollo de soluciones para la sociedad.
+            </p>
+          </div>
+          <ul className="grid gap-px border bg-border/40 sm:grid-cols-2">
+            {stemPoints.map((point) => (
+              <li
+                key={point}
+                className="bg-background px-5 py-4 text-sm text-muted-foreground"
+              >
+                <span className="mr-2 font-bold text-foreground">→</span>
+                {point}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
-      <div className="border-b p-6 md:p-10" id="casos-exito">
-        <div className="mx-auto max-w-5xl">
-          <SectionCarousel
-            description="Proyectos desarrollados en realidad aumentada, realidad virtual, gemelos digitales, BIM, analitica y experiencias inmersivas."
-            title="Proyectos desarrollados"
+      {/* CTAs: portafolio + tecnologías */}
+      <div className="grid border-b sm:grid-cols-2">
+        <div className="relative border-b px-6 py-8 sm:border-r sm:border-b-0 md:px-10 md:py-10">
+          <DecorIcon className="size-2" position="top-left" />
+          <p className="text-xs tracking-[0.24em] text-muted-foreground uppercase">
+            Proyectos
+          </p>
+          <p className="mt-1 text-sm font-medium md:text-base">
+            Explora los proyectos desarrollados en el Centro.
+          </p>
+          <Link
+            className={cn(buttonVariants({ size: "sm" }), "mt-4")}
+            href="/portafolio"
           >
-            {successCases.map((caseItem) => (
-              <article
-                className="min-w-44 snap-start border bg-card p-5 md:min-w-52"
-                key={caseItem.title}
-              >
-                <p className="text-xs tracking-wide text-muted-foreground uppercase">
-                  Proyecto
-                </p>
-                <h4 className="mt-2 text-xl font-semibold text-balance">
-                  {caseItem.title}
-                </h4>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  {caseItem.description}
-                </p>
-              </article>
-            ))}
-          </SectionCarousel>
+            Ver portafolio <ArrowRightIcon data-icon="inline-end" />
+          </Link>
         </div>
-      </div>
-
-      <div className="p-6 md:p-10" id="tecnologias">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6">
-          <SectionCarousel
-            description="Contamos con herramientas para diseno, ingenieria, innovacion y educacion orientadas a construir, probar y escalar soluciones."
-            title="Tecnologias del Centro de Prototipado"
+        <div className="relative px-6 py-8 md:px-10 md:py-10">
+          <DecorIcon className="size-2" position="top-right" />
+          <p className="text-xs tracking-[0.24em] text-muted-foreground uppercase">
+            Equipamiento
+          </p>
+          <p className="mt-1 text-sm font-medium md:text-base">
+            Impresión 3D, corte láser, CNC, RV y más.
+          </p>
+          <Link
+            className={cn(
+              buttonVariants({ size: "sm", variant: "outline" }),
+              "mt-4"
+            )}
+            href="/tecnologias"
           >
-            {availableTechnologies.map((technology) => (
-              <div
-                className="min-w-44 snap-start border bg-card p-4 text-sm font-medium tracking-wide uppercase md:min-w-52"
-                key={technology}
-              >
-                <p className="text-[11px] text-muted-foreground">Equipo</p>
-                <p className="mt-2 text-base tracking-normal normal-case">
-                  {technology}
-                </p>
-                <div className="mt-4 grid grid-cols-4 gap-1">
-                  <span className="col-span-3 h-1 bg-foreground/20" />
-                  <span className="h-1 bg-foreground/50" />
-                  <span className="h-1 bg-foreground/20" />
-                  <span className="col-span-4 h-1 bg-foreground/10" />
-                </div>
-              </div>
-            ))}
-          </SectionCarousel>
-
-          <SectionCarousel title="Capacidades destacadas">
-            {technologySpotlights.map((technology) => (
-              <article
-                className="min-w-[20rem] snap-start border bg-background p-5 md:min-w-[24rem]"
-                key={technology.title}
-              >
-                <p className="text-xs tracking-wide text-muted-foreground uppercase">
-                  {technology.subtitle}
-                </p>
-                <h4 className="mt-2 text-lg font-semibold text-balance">
-                  {technology.title}
-                </h4>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  {technology.description}
-                </p>
-                <ul className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                  {technology.applications.map((application) => (
-                    <li
-                      className="border px-2 py-1"
-                      key={`${technology.title}-${application}`}
-                    >
-                      {application}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </SectionCarousel>
+            Ver tecnologías <ArrowRightIcon data-icon="inline-end" />
+          </Link>
         </div>
       </div>
 

@@ -33,17 +33,6 @@ export default function RootLayout({
             <div className="relative min-h-screen w-full overflow-hidden bg-background">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 z-0 hidden lg:block"
-                style={{
-                  backgroundImage: `
-            radial-gradient(circle 1500px at 0% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%),
-            radial-gradient(circle 1500px at 100% 400px, color-mix(in oklch, var(--primary) 8%, transparent), transparent 40%)
-          `,
-                }}
-              />
-
-              <div
-                aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-0 dark:hidden"
                 style={{
                   backgroundImage: `

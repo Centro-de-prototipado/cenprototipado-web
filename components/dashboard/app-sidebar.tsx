@@ -122,7 +122,7 @@ export function AppSidebar() {
     >
       <SidebarHeader className="relative h-14 justify-center px-2 py-0">
         <a
-          className="flex h-11 w-max items-center justify-center rounded-none-none px-3 hover:bg-muted dark:hover:bg-muted/50"
+          className="rounded-none-none flex h-11 w-max items-center justify-center px-3 hover:bg-muted dark:hover:bg-muted/50"
           href="#link"
         >
           <Logo className="h-7" />

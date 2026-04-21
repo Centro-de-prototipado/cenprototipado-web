@@ -29,7 +29,7 @@ export function Header() {
 
           <div className="flex items-center gap-5">
             <Link
-              className="inline-flex h-14 items-center justify-center rounded-none-none px-1 hover:bg-muted dark:hover:bg-muted/50"
+              className="rounded-none-none inline-flex h-14 items-center justify-center px-1 hover:bg-muted dark:hover:bg-muted/50"
               href="/"
             >
               <Logo className="h-full" />

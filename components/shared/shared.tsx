@@ -25,7 +25,7 @@ export function LinkItem({
     >
       <div
         className={cn(
-          "flex aspect-square size-12 items-center justify-center rounded-none-none border bg-card text-sm shadow-sm",
+          "rounded-none-none flex aspect-square size-12 items-center justify-center border bg-card text-sm shadow-sm",
           "[&_svg:not([class*='size-'])]:size-5 [&_svg:not([class*='size-'])]:text-foreground"
         )}
       >

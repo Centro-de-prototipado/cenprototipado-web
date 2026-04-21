@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
@@ -17,7 +18,7 @@ export function HeroSection() {
         >
           <div
             className={cn(
-              "absolute -inset-x-20 inset-y-0 z-0 rounded-none-none",
+              "rounded-none-none absolute -inset-x-20 inset-y-0 z-0",
               "bg-[radial-gradient(ellipse_at_center,theme(--color-primary/.08),transparent,transparent)]",
               "blur-[80px]"
             )}
@@ -75,12 +76,16 @@ export function HeroSection() {
         </p>
 
         <div className="flex w-fit animate-in items-center justify-center gap-3 pt-2 delay-300 duration-500 ease-out fill-mode-backwards slide-in-from-bottom-10 fade-in">
-          <Button variant="outline" size="lg">
-            <PhoneCallIcon data-icon="inline-start" /> Quiero saber mas
-          </Button>
-          <Button size="lg">
-            Explorar el Centro <ArrowRightIcon data-icon="inline-end" />
-          </Button>
+          <Link href="/contacto">
+            <Button variant="outline" size="lg">
+              <PhoneCallIcon data-icon="inline-start" /> Quiero saber mas
+            </Button>
+          </Link>
+          <Link href="/centro">
+            <Button size="lg">
+              Explorar el Centro <ArrowRightIcon data-icon="inline-end" />
+            </Button>
+          </Link>
         </div>
       </div>
       <DecorIcon className="size-3" position="bottom-left" />

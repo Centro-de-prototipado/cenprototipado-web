@@ -134,7 +134,7 @@ function ContactInfo({ icon, label, value }: ContactInfoProps) {
         position="top-right"
       />
       <div className="flex items-center gap-3">
-        <div className="flex size-9 items-center justify-center rounded-none-none border bg-background">
+        <div className="rounded-none-none flex size-9 items-center justify-center border bg-background">
           {icon}
         </div>
         <div>

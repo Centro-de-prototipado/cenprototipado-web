@@ -85,7 +85,7 @@ export function GallerySection() {
                 className="min-w-0 shrink-0 grow-0 basis-full pl-4 md:basis-1/2"
                 key={slide.src}
               >
-                <figure className="group relative overflow-hidden rounded-none-none border bg-card">
+                <figure className="group rounded-none-none relative overflow-hidden border bg-card">
                   <Image
                     alt={slide.alt}
                     className={cn(
@@ -97,7 +97,7 @@ export function GallerySection() {
                     width={1600}
                     height={1067}
                   />
-                  <figcaption className="absolute right-3 bottom-3 left-3 rounded-none-none border border-white/20 bg-black/45 px-3 py-2 text-xs text-white backdrop-blur-sm md:text-sm">
+                  <figcaption className="rounded-none-none absolute right-3 bottom-3 left-3 border border-white/20 bg-black/45 px-3 py-2 text-xs text-white backdrop-blur-sm md:text-sm">
                     {slide.caption}
                   </figcaption>
                 </figure>

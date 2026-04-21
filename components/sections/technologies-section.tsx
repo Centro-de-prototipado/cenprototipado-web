@@ -54,13 +54,13 @@ export function TechnologiesSection() {
             <div className="absolute inset-y-0 right-0 w-px bg-border/70" />
             <div className="absolute inset-y-0 right-8 w-px bg-border/35" />
           </div>
-          <div className="absolute top-0 -right-12 size-56 rounded-none-none bg-primary/12 blur-3xl" />
-          <div className="absolute bottom-0 left-0 size-64 rounded-none-none bg-foreground/5 blur-3xl" />
+          <div className="rounded-none-none absolute top-0 -right-12 size-56 bg-primary/12 blur-3xl" />
+          <div className="rounded-none-none absolute bottom-0 left-0 size-64 bg-foreground/5 blur-3xl" />
         </div>
 
         <div className="relative mx-auto flex max-w-6xl flex-col gap-8">
           <div className="space-y-5">
-            <p className="inline-flex w-fit rounded-none-none border bg-card/80 px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase backdrop-blur">
+            <p className="rounded-none-none inline-flex w-fit border bg-card/80 px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase backdrop-blur">
               Tecnologias del centro
             </p>
             <h2 className="max-w-2xl text-3xl font-bold text-balance md:text-5xl lg:text-6xl lg:font-black">

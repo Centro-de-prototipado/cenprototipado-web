@@ -3,20 +3,13 @@ import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { cn } from "@/lib/utils"
+import { ArrowRightIcon } from "lucide-react"
 
-const previewHighlights = [
-  {
-    label: "Liderazgo territorial",
-    value: "Caldas y Manizales",
-  },
-  {
-    label: "Trabajo articulado",
-    value: "Aulas STEM + Centro",
-  },
-  {
-    label: "Enfoque",
-    value: "Innovacion aplicada",
-  },
+const stats = [
+  { value: "+10", label: "Tecnologías disponibles" },
+  { value: "9+", label: "Proyectos desarrollados" },
+  { value: "Manizales · Caldas", label: "Impacto territorial" },
+  { value: "UNAL Manizales", label: "Sede institucional" },
 ]
 
 export function InstitutionalPreviewSection() {
@@ -33,66 +26,88 @@ export function InstitutionalPreviewSection() {
             <div className="absolute inset-y-0 right-0 w-px bg-border/70" />
             <div className="absolute inset-y-0 right-8 w-px bg-border/35" />
           </div>
-          <div className="absolute -top-10 right-6 size-44 rounded-none-none bg-primary/10 blur-3xl" />
-          <div className="absolute -bottom-8 left-0 size-48 rounded-none-none bg-foreground/5 blur-3xl" />
+          <div className="absolute -top-10 right-6 size-44 rounded-none bg-primary/10 blur-3xl" />
+          <div className="absolute -bottom-8 left-0 size-48 rounded-none bg-foreground/5 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-1">
-          <div className={cn("space-y-6")}>
-            <p className="inline-flex w-fit items-center rounded-none-none border bg-card/80 px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase backdrop-blur">
-              Quienes somos
+        <div className="relative mx-auto max-w-6xl space-y-8">
+          <div className="space-y-4">
+            <p className="inline-flex w-fit items-center rounded-none border bg-card/80 px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase backdrop-blur">
+              Quiénes somos
             </p>
-            <div className="max-w-4xl space-y-4">
-              <h2 className="text-3xl font-bold text-balance md:text-5xl lg:text-6xl lg:font-black">
-                Un centro para idear, prototipar y mostrar tecnologia con una
-                estetica clara y directa.
-              </h2>
-              <p className="max-w-2xl text-sm text-balance text-muted-foreground md:text-base">
-                El Centro de Prototipado trabaja con Aulas STEM, fabricacion
-                digital y experiencias inmersivas para convertir ideas en
-                soluciones reales con impacto educativo, social y empresarial.
+            <h2 className="max-w-4xl text-3xl font-bold text-balance md:text-5xl lg:text-6xl lg:font-black">
+              Un espacio donde las ideas se convierten en prototipos reales.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="space-y-4 text-sm text-muted-foreground md:text-base">
+              <p>
+                El Centro de Prototipado es un espacio diseñado para fomentar la
+                innovación, el aprendizaje práctico y el desarrollo de
+                soluciones tecnológicas. Aquí, estudiantes, docentes y
+                comunidades pueden transformar ideas en prototipos reales
+                utilizando herramientas de fabricación digital y tecnologías
+                emergentes.
+              </p>
+              <p>
+                Nuestro objetivo es fortalecer la creatividad, la
+                experimentación y el pensamiento innovador a través del uso de
+                tecnologías que permiten diseñar, fabricar y probar nuevas
+                ideas.
+              </p>
+              <p>
+                Además, apoyamos los procesos educativos de las{" "}
+                <strong className="font-medium text-foreground">
+                  Aulas STEM del municipio de Manizales y del departamento de
+                  Caldas
+                </strong>
+                , contribuyendo al fortalecimiento del aprendizaje en ciencia,
+                tecnología, ingeniería y matemáticas mediante experiencias
+                prácticas e innovadoras.
+              </p>
+              <p className="text-xs text-muted-foreground/70">
+                Dirección de Investigación y Extensión – DIMA · Centro de
+                Prototipado · Sede Manizales
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {previewHighlights.map((highlight) => (
+            <div className="grid grid-cols-2 gap-3 self-start">
+              {stats.map((stat) => (
                 <article
-                  key={highlight.label}
+                  key={stat.label}
                   className={cn(
                     "border bg-card/80 p-4 shadow-[8px_8px_0_0_rgba(0,0,0,0.08)] backdrop-blur",
                     "dark:shadow-[8px_8px_0_0_rgba(255,255,255,0.08)]"
                   )}
                 >
-                  <p className="text-xs tracking-wide text-muted-foreground uppercase">
-                    {highlight.label}
+                  <p className="text-lg font-bold text-foreground md:text-xl">
+                    {stat.value}
                   </p>
-                  <p className="mt-2 text-sm font-medium text-pretty">
-                    {highlight.value}
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {stat.label}
                   </p>
                 </article>
               ))}
             </div>
+          </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "w-full sm:w-auto"
-                )}
-                href="/institucional"
-              >
-                Ver pagina institucional
-              </Link>
-              <Link
-                className={cn(
-                  buttonVariants({ size: "lg", variant: "outline" }),
-                  "w-full sm:w-auto"
-                )}
-                href="/tecnologias"
-              >
-                Explorar tecnologias
-              </Link>
-            </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
+              href="/centro"
+            >
+              Conocer el Centro <ArrowRightIcon data-icon="inline-end" />
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ size: "lg", variant: "outline" }),
+                "w-full sm:w-auto"
+              )}
+              href="/tecnologias"
+            >
+              Ver tecnologías
+            </Link>
           </div>
         </div>
       </div>

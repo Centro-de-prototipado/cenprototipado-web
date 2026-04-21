@@ -6,74 +6,61 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import {
-  companyLinks,
-  companyLinks2,
-  productLinks,
-} from "./nav-links"
+import { centroLinks, exploreLinks } from "./nav-links"
 import { LinkItem } from "@/components/shared/shared"
 
 export function DesktopNav() {
   return (
     <NavigationMenu className="hidden md:flex">
       <NavigationMenuList>
+        {/* Centro dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="bg-transparent">
-            Tecnologias
+            Centro
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="p-1 pr-1.5">
-            <div className="grid w-lg grid-cols-2 gap-2 rounded-none-none border bg-card p-2 shadow">
-              {productLinks.map((item, i) => (
+          <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
+            <div className="w-sm space-y-1 rounded-none border bg-card p-2 shadow">
+              {centroLinks.map((item, i) => (
                 <NavigationMenuLink
-                  key={`item-${item.label}-${i}`}
+                  key={`centro-${i}`}
                   render={<LinkItem {...item} />}
                 />
               ))}
             </div>
             <div className="p-2">
               <p className="text-sm text-muted-foreground">
-                {"¿Te interesa? "}
+                {"¿Quieres visitarnos? "}
                 <a
                   className="font-medium text-foreground hover:underline"
-                  href="/institucional"
+                  href="/contacto"
                 >
-                  Conoce el centro
+                  Contáctanos
                 </a>
               </p>
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
+        {/* Explorar dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="bg-transparent">
-            Institucional
+            Explorar
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
-            <div className="grid w-lg grid-cols-2 gap-2">
-              <div className="space-y-2 rounded-none-none border bg-card p-2 shadow">
-                {companyLinks.map((item, i) => (
-                  <NavigationMenuLink
-                    className="rounded-none-none"
-                    key={`item-${item.label}-${i}`}
-                    render={<LinkItem {...item} />}
-                  />
-                ))}
-              </div>
-              <div className="space-y-2 p-3">
-                {companyLinks2.map((item, i) => (
-                  <NavigationMenuLink
-                    href={item.href}
-                    key={`item-${item.label}-${i}`}
-                  >
-                    {item.icon}
-                    {item.label}
-                  </NavigationMenuLink>
-                ))}
-              </div>
+            <div className="w-sm space-y-1 rounded-none border bg-card p-2 shadow">
+              {exploreLinks.map((item, i) => (
+                <NavigationMenuLink
+                  key={`explore-${i}`}
+                  render={<LinkItem {...item} />}
+                />
+              ))}
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuLink className="px-4" href="/portafolio">
-          Portafolio
+
+        {/* Contacto directo */}
+        <NavigationMenuLink className="px-4" href="/contacto">
+          Contacto
         </NavigationMenuLink>
       </NavigationMenuList>
     </NavigationMenu>

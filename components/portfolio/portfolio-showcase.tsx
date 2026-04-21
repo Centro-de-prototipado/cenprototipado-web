@@ -72,7 +72,7 @@ export function PortfolioShowcase({
 
 function PortfolioCard({ project }: { project: PortfolioProjectMeta }) {
   return (
-    <article className="group overflow-hidden iso-panel transition-all">
+    <article className="group iso-panel overflow-hidden transition-all">
       <Link href={`/portafolio/${project.slug}`}>
         <div className="relative h-64 overflow-hidden border-b-2 border-border">
           <Image
@@ -83,8 +83,8 @@ function PortfolioCard({ project }: { project: PortfolioProjectMeta }) {
             height={900}
           />
           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
-          
-          <div className="absolute right-3 bottom-0 left-3 flex items-center justify-between gap-3 translate-y-1/2 opacity-0 transition group-hover:opacity-100 group-hover:-translate-y-3">
+
+          <div className="absolute right-3 bottom-0 left-3 flex translate-y-1/2 items-center justify-between gap-3 opacity-0 transition group-hover:-translate-y-3 group-hover:opacity-100">
             <span className="border-2 border-primary bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-[2px_2px_0_0_var(--primary)]">
               {project.category}
             </span>
@@ -95,7 +95,7 @@ function PortfolioCard({ project }: { project: PortfolioProjectMeta }) {
         </div>
 
         <div className="flex flex-col gap-4 p-5 md:p-6">
-          <h3 className="text-2xl font-black uppercase tracking-tight text-balance group-hover:text-primary transition-colors">
+          <h3 className="text-2xl font-black tracking-tight text-balance uppercase transition-colors group-hover:text-primary">
             {project.title}
           </h3>
 
@@ -103,7 +103,7 @@ function PortfolioCard({ project }: { project: PortfolioProjectMeta }) {
             {project.techStack.map((item) => (
               <span
                 className={cn(
-                  "border-2 border-border px-3 py-1 text-[11px] font-bold uppercase tracking-widest",
+                  "border-2 border-border px-3 py-1 text-[11px] font-bold tracking-widest uppercase",
                   "bg-background text-muted-foreground shadow-[2px_2px_0_0_var(--border)]"
                 )}
                 key={`${project.id}-${item}`}

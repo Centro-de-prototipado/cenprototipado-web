@@ -4,11 +4,6 @@ export type TeamMember = {
   portrait: string
 }
 
-export type SuccessCase = {
-  title: string
-  description: string
-}
-
 export type TechnologySpotlight = {
   title: string
   subtitle: string
@@ -141,59 +136,6 @@ export const teamMembers: TeamMember[] = [
       "#613741",
       "#231116"
     ),
-  },
-]
-
-export const successCases: SuccessCase[] = [
-  {
-    title: "AR Campus",
-    description:
-      "Realidad aumentada aplicada al campus universitario con virtualizacion de modelos y escaneo de objetos.",
-  },
-  {
-    title: "Fabrica fischertechnik",
-    description:
-      "Simulacion de procesos industriales en realidad virtual para capacitacion en automatizacion y manufactura.",
-  },
-  {
-    title: "Capacitacion medica VR",
-    description:
-      "Entornos virtuales para entrenamiento de personal medico en procedimientos y protocolos de atencion.",
-  },
-  {
-    title: "Zombies VR Demo",
-    description:
-      "Videojuego demo en realidad virtual para mostrar capacidades de desarrollo inmersivo.",
-  },
-  {
-    title: "Entornos de aprendizaje MR",
-    description:
-      "Realidad mixta en procesos educativos, combinando elementos fisicos y virtuales.",
-  },
-  {
-    title: "Gemelo digital",
-    description:
-      "Replicas digitales de objetos y espacios con fotogrametria e impresion 3D para analisis y documentacion.",
-  },
-  {
-    title: "BIM + Realidad mixta",
-    description:
-      "Visualizacion de modelos arquitectonicos para planificacion y supervision de obras.",
-  },
-  {
-    title: "Tour 360 + Drone",
-    description:
-      "Recorridos virtuales y fotografia aerea para documentacion de espacios y promocion de proyectos.",
-  },
-  {
-    title: "Aplicativos con bases de datos",
-    description:
-      "Desarrollo de apps web y moviles para gestion de informacion, analisis y toma de decisiones.",
-  },
-  {
-    title: "AR BIM / AR Campus UN / AR Workflow",
-    description:
-      "Proyectos institucionales que integran BIM y realidad aumentada en escenarios academicos.",
   },
 ]
 
