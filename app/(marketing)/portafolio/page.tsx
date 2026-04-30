@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { PortfolioShowcase } from "@/components/portfolio/portfolio-showcase"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
@@ -6,7 +7,7 @@ import {
   getPortfolioCategories,
 } from "@/lib/portfolio-data"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Portafolio | Centro de Prototipado",
   description:
     "Proyectos desarrollados por el Centro de Prototipado: educación, industria y comunidad con metodologías de prototipado aplicado.",
