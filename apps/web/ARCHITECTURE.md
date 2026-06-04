@@ -98,13 +98,16 @@ imágenes locales en `/public` (`/taller.jpg`) no requieren patrón.
 ### Variables de entorno (`.env.local`)
 
 ```
-NOTION_TOKEN                       # integración interna (ntn_…), con la página compartida
-NOTION_PORTFOLIO_DATA_SOURCE_ID
-NOTION_TECNOLOGIAS_DATA_SOURCE_ID
-NOTION_EQUIPO_DATA_SOURCE_ID
-NOTION_FAQ_DATA_SOURCE_ID
-REVALIDATE_SECRET                  # protege POST /api/revalidate
+NOTION_TOKEN                       # imprescindible — integración interna (ntn_…), con la página compartida
+REVALIDATE_SECRET                  # protege POST /api/revalidate (necesario para revalidar)
+NOTION_PORTFOLIO_DATA_SOURCE_ID    # opcional — override; por defecto van hardcodeados en lib/notion/client.ts
+NOTION_TECNOLOGIAS_DATA_SOURCE_ID  # opcional
+NOTION_EQUIPO_DATA_SOURCE_ID       # opcional
+NOTION_FAQ_DATA_SOURCE_ID          # opcional
 ```
+
+> En **despliegue (Vercel)** solo hace falta `NOTION_TOKEN` (y `REVALIDATE_SECRET` para
+> revalidar). Los data source IDs tienen valor por defecto en el código.
 
 > **Setup imprescindible:** la integración interna debe tener compartida la página «CMS —
 > Centro de Prototipado» (UI de Notion → Conexiones), o las queries dan `object_not_found`.
