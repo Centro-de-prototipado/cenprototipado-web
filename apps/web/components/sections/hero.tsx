@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { HeroRobot } from "@/components/sections/hero-robot"
 import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon } from "lucide-react"
@@ -44,7 +45,7 @@ export function HeroSection() {
         {/* Left: Copy */}
         <div className="flex flex-col gap-5 border-b px-8 py-14 lg:border-b-0 lg:border-r lg:px-14 lg:py-20">
           {/* Eyebrow */}
-          <div className="flex items-center gap-2">
+          <Reveal as="div" immediate index={0} className="flex items-center gap-2">
             <span
               className="h-1.5 w-1.5 animate-pulse rounded-none bg-primary"
               style={{ animationDuration: "2s" }}
@@ -52,10 +53,13 @@ export function HeroSection() {
             <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
               Centro de Prototipado · UNAL Manizales
             </span>
-          </div>
+          </Reveal>
 
           {/* Title */}
-          <h1
+          <Reveal
+            as="h1"
+            immediate
+            index={1}
             className={cn(
               "m-0 max-w-xl font-extrabold text-balance text-foreground",
               "text-4xl leading-[0.98] tracking-[-0.03em]",
@@ -65,17 +69,22 @@ export function HeroSection() {
             Donde otros ven ideas,{" "}
             <span className="italic text-primary">aquí las convertimos</span>{" "}
             en prototipos.
-          </h1>
+          </Reveal>
 
           {/* Subtitle */}
-          <p className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground lg:text-[clamp(15px,1.4vw,17px)]">
+          <Reveal
+            as="p"
+            immediate
+            index={2}
+            className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground lg:text-[clamp(15px,1.4vw,17px)]"
+          >
             Fabricación digital, realidad inmersiva y robótica al servicio de
             estudiantes, docentes y comunidades. Un espacio abierto dentro del
             Museo Interactivo Samoga.
-          </p>
+          </Reveal>
 
           {/* CTAs */}
-          <div className="flex flex-wrap gap-3">
+          <Reveal as="div" immediate index={3} className="flex flex-wrap gap-3">
             <Link href="/centro">
               <Button size="lg">
                 Explorar el Centro <ArrowRightIcon data-icon="inline-end" />
@@ -86,10 +95,13 @@ export function HeroSection() {
                 <CalendarIcon data-icon="inline-start" /> Reservar un equipo
               </Button>
             </Link>
-          </div>
+          </Reveal>
 
           {/* Mini-stats */}
-          <div
+          <Reveal
+            as="div"
+            immediate
+            index={4}
             className="mt-auto grid grid-cols-2 gap-0 border-t pt-6 sm:grid-cols-4"
             style={{ borderTop: "1px solid var(--color-border)" }}
           >
@@ -109,13 +121,19 @@ export function HeroSection() {
                 </span>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
 
         {/* Right: 3D media slot */}
-        <div className="relative flex items-stretch px-8 py-10 lg:px-10">
+        <Reveal
+          as="div"
+          immediate
+          index={2}
+          delay={0.1}
+          className="relative flex items-stretch px-8 py-10 lg:px-10"
+        >
           <HeroMediaFrame />
-        </div>
+        </Reveal>
       </div>
 
       {/* Capability strip */}
@@ -123,7 +141,9 @@ export function HeroSection() {
         {capabilities.map((cap, i) => {
           const Icon = cap.icon
           return (
-            <div
+            <Reveal
+              as="div"
+              index={i}
               key={cap.label}
               className={cn(
                 "flex items-center gap-3 px-5 py-4",
@@ -142,7 +162,7 @@ export function HeroSection() {
                   {cap.detail}
                 </p>
               </div>
-            </div>
+            </Reveal>
           )
         })}
       </div>

@@ -27,6 +27,10 @@ type RevealTag =
   | "li"
   | "span"
   | "a"
+  | "h1"
+  | "h2"
+  | "p"
+  | "ul"
 
 type RevealProps = HTMLMotionProps<"div"> &
   Pick<
@@ -38,12 +42,15 @@ type RevealProps = HTMLMotionProps<"div"> &
     index?: number
     /** Extra delay in seconds, added on top of the stagger. */
     delay?: number
+    /** Play on mount instead of on scroll-into-view (use above the fold). */
+    immediate?: boolean
   }
 
 export function Reveal({
   as = "div",
   index = 0,
   delay = 0,
+  immediate = false,
   children,
   ...props
 }: RevealProps) {
@@ -54,19 +61,22 @@ export function Reveal({
     return <Comp {...props}>{children}</Comp>
   }
 
+  const initial = { opacity: 0, y: 8, filter: "blur(4px)" }
+  const shown = { opacity: 1, y: 0, filter: "blur(0px)" }
+  const transition = {
+    type: "spring" as const,
+    duration: 0.5,
+    bounce: 0,
+    delay: delay + Math.min(index, 8) * 0.06,
+  }
+
+  // Above-the-fold content animates on mount; everything else on scroll-in.
+  const trigger = immediate
+    ? { animate: shown }
+    : { whileInView: shown, viewport: { once: true, margin: "0px 0px -12% 0px" } }
+
   return (
-    <Comp
-      initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{
-        type: "spring",
-        duration: 0.5,
-        bounce: 0,
-        delay: delay + Math.min(index, 8) * 0.06,
-      }}
-      {...props}
-    >
+    <Comp initial={initial} transition={transition} {...trigger} {...props}>
       {children}
     </Comp>
   )
