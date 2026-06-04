@@ -1,5 +1,5 @@
-# dependencies
-/node_modules
+# dependencies (recursivo: aplica a apps/* y packages/* del monorepo)
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -9,14 +9,17 @@
 !.yarn/versions
 
 # testing
-/coverage
+coverage/
 
-# next.js
-/.next/
-/out/
+# next.js (cualquier app)
+.next/
+out/
+
+# turborepo
+.turbo/
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
@@ -30,6 +33,9 @@ pnpm-debug.log*
 
 # env files
 .env*.local
+
+# claude code — config personal por dev (el settings.json compartido sí se commitea)
+.claude/settings.local.json
 
 # typescript
 *.tsbuildinfo

@@ -73,16 +73,39 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ## Commands
 
 ```bash
-pnpm run dev        # Start dev server with Turbopack
-pnpm run build      # Production build
-pnpm run lint       # ESLint (flat config v9)
-pnpm run format     # Prettier formatting
-pnpm run typecheck  # TypeScript type check (no emit)
+# Raíz del monorepo
+pnpm dev              # todas las apps en paralelo
+pnpm dev:web          # solo apps/web (marketing)
+pnpm build            # build de todas (con caché Turborepo)
+pnpm lint / typecheck # lint y typecheck de todo
+
+# Dentro de apps/web/
+pnpm dev              # next dev --turbopack
+pnpm build / lint / typecheck / format
 ```
 
-> Package manager is **pnpm** — use `pnpm` for installing deps, but `npm run` scripts work fine.
+> Package manager is **pnpm** — use `pnpm` for installing deps.
+> Ver arquitectura completa en [ARCHITECTURE.md](./ARCHITECTURE.md).
 
-## Architecture
+## Monorepo Structure
+
+Este repositorio es un **Turborepo monorepo**. El proyecto actual (marketing/landing) vive en `apps/web/`. Las demás apps (`dashboard`, `lms`) se agregarán en `apps/`.
+
+```
+cenprototipado/
+├── apps/
+│   ├── web/        ← este proyecto (Next.js, @cen/web)
+│   ├── dashboard/  ← [futuro] plataforma interna
+│   └── lms/        ← [futuro] repositorio de recursos
+├── packages/
+│   ├── ui/         ← @cen/ui  — componentes compartidos
+│   ├── auth/       ← @cen/auth — cliente Logto + helpers
+│   └── db/         ← @cen/db  — cliente Supabase + tipos
+├── turbo.json
+└── pnpm-workspace.yaml
+```
+
+## Architecture (apps/web)
 
 Next.js 16 App Router marketing site for Centro de Prototipado (UNAL innovation center). No backend — purely static/SSR with file-based content.
 
