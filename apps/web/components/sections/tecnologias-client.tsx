@@ -19,7 +19,7 @@ import {
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Button } from "@/components/ui/button"
-import { technologies, faq } from "@/lib/institutional-data"
+import type { Technology, FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 
 const categories = [
@@ -31,7 +31,13 @@ const categories = [
   { id: "Digitalización", Icon: ScanIcon, desc: "Plotter, scanner 3D" },
 ]
 
-export function TecnologiasClient() {
+export function TecnologiasClient({
+  technologies,
+  faq,
+}: {
+  technologies: Technology[]
+  faq: FaqItem[]
+}) {
   const [filter, setFilter] = useState("Todas")
 
   const filtered =
@@ -192,12 +198,12 @@ export function TecnologiasClient() {
       </section>
 
       {/* ── FAQ ── */}
-      <FaqSection />
+      <FaqSection faq={faq} />
     </>
   )
 }
 
-function TechCardDetail({ t }: { t: (typeof technologies)[number] }) {
+function TechCardDetail({ t }: { t: Technology }) {
   const [open, setOpen] = useState(false)
   return (
     <article
@@ -273,7 +279,7 @@ function TechCardDetail({ t }: { t: (typeof technologies)[number] }) {
   )
 }
 
-function FaqSection() {
+function FaqSection({ faq }: { faq: FaqItem[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
   return (
     <section className="relative border-b px-8 py-16 lg:px-16 lg:py-20">

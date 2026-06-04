@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { TecnologiasClient } from "@/components/sections/tecnologias-client"
+import { getTechnologies } from "@/lib/notion/technologies"
+import { getFaq } from "@/lib/notion/faq"
 
 export const metadata: Metadata = {
   title: "Tecnologías | Centro de Prototipado",
@@ -7,6 +9,7 @@ export const metadata: Metadata = {
     "Explora el inventario de tecnologías del Centro de Prototipado: fabricación digital, realidad virtual, robótica, BIM y más.",
 }
 
-export default function TecnologiasPage() {
-  return <TecnologiasClient />
+export default async function TecnologiasPage() {
+  const [technologies, faq] = await Promise.all([getTechnologies(), getFaq()])
+  return <TecnologiasClient technologies={technologies} faq={faq} />
 }

@@ -7,7 +7,7 @@ import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon, ArrowRightIcon, GlobeIcon }
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Button } from "@/components/ui/button"
-import { faq, allies } from "@/lib/institutional-data"
+import { allies, type FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 
 const contact = {
@@ -19,7 +19,7 @@ const contact = {
 
 const queryTypes = ["Asesoría técnica", "Reserva de equipo", "Propuesta de proyecto", "Visita guiada", "Otro"]
 
-export function ContactoClient() {
+export function ContactoClient({ faq }: { faq: FaqItem[] }) {
   const [sent, setSent] = useState(false)
   const [queryType, setQueryType] = useState("Asesoría técnica")
 
@@ -260,7 +260,7 @@ export function ContactoClient() {
       </section>
 
       {/* ── FAQ ── */}
-      <FaqSection />
+      <FaqSection faq={faq} />
 
       {/* ── Aliados ── */}
       <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16">
@@ -336,7 +336,7 @@ function MapSVG() {
   )
 }
 
-function FaqSection() {
+function FaqSection({ faq }: { faq: FaqItem[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
   return (
     <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16" id="faq">

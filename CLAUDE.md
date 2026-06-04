@@ -107,7 +107,9 @@ cenprototipado/
 
 ## Architecture (apps/web)
 
-Next.js 16 App Router marketing site for Centro de Prototipado (UNAL innovation center). No backend — purely static/SSR with file-based content.
+Next.js 16 App Router marketing site for Centro de Prototipado (UNAL innovation center). No backend — content is managed in **Notion** (CMS) and rendered static/SSR.
+
+> Detalle completo de la app (incluido el CMS de Notion) en [`apps/web/ARCHITECTURE.md`](./apps/web/ARCHITECTURE.md).
 
 ### Route Groups
 
@@ -125,11 +127,11 @@ Next.js 16 App Router marketing site for Centro de Prototipado (UNAL innovation 
 - **`components/portfolio/`** — Portfolio showcase and detail components
 - **`components/dashboard/`** — Dashboard shell, sidebar, navbar
 
-### Data Flow
+### Data Flow (Notion CMS)
 
-Portfolio content lives in **`/content/portfolio/*.md`** — frontmatter parsed with `gray-matter`, loaded server-side via `lib/portfolio-data.ts` using React's `cache()`. Pages are async Server Components that await data at build time. No database, no API calls.
+Editorial content (Portfolio, Technologies, Team, FAQ) lives in **Notion data sources**, read server-side via `@notionhq/client` in **`lib/notion/*`** (`portfolio.ts`, `technologies.ts`, `team.ts`, `faq.ts`). Reads are filtered by `Publicado = true`, mapped to domain types, and wrapped in `unstable_cache` with tags (`portafolio`, `tecnologias`, `equipo`, `faq`). Pages are async Server Components; client sections receive data as props.
 
-Frontmatter schema: `id`, `slug`, `title`, `category` (Educacion | Industria | Comunidad), `year`, `image`, `summary`, `challenge`, `solution`, `techStack`, `outcomes`, `featured`.
+Portfolio uses a **hybrid** model: structured Notion properties feed the layout, and the page body is fetched as markdown (`pages.retrieveMarkdown()`) and rendered with `react-markdown`. Update after editing Notion via `POST /api/revalidate?secret=…[&tag=…]`. Notion property/DB details and data-source IDs live in [`apps/web/ARCHITECTURE.md`](./apps/web/ARCHITECTURE.md).
 
 ### Key Conventions
 

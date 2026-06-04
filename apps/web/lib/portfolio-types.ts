@@ -1,4 +1,5 @@
-export type PortfolioCategory = "Educacion" | "Industria" | "Comunidad"
+// Las categorías son de texto libre (definidas como opciones de select en Notion).
+export type PortfolioCategory = string
 
 export type PortfolioProjectMeta = {
   id: string

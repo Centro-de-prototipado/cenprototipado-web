@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
-import { getPortfolioProjects, getPortfolioCategories } from "@/lib/portfolio-data"
+import { getPortfolioProjects, getPortfolioCategories } from "@/lib/notion/portfolio"
 import { PortfolioShowcase } from "@/components/portfolio/portfolio-showcase"
 
 export const metadata: Metadata = {

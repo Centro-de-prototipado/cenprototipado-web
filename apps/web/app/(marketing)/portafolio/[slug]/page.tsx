@@ -5,8 +5,9 @@ import { ArrowLeftIcon, ArrowRightIcon, BuildingIcon } from "lucide-react"
 import type { Metadata } from "next"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Markdown } from "@/components/ui/markdown"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { getPortfolioProjectBySlug, getPortfolioProjects, getPortfolioSlugs } from "@/lib/portfolio-data"
+import { getPortfolioProjectBySlug, getPortfolioProjects, getPortfolioSlugs } from "@/lib/notion/portfolio"
 import { cn } from "@/lib/utils"
 
 export async function generateStaticParams() {
@@ -143,6 +144,22 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
         <DecorIcon className="size-3" position="bottom-left" />
         <DecorIcon className="size-3" position="bottom-right" />
       </section>
+
+      {/* ── Contenido extendido (cuerpo markdown de Notion) ── */}
+      {project.content.trim() && (
+        <section className="relative border-b px-8 py-12 lg:px-16">
+          <DecorIcon className="size-3" position="top-left" />
+          <DecorIcon className="size-3" position="top-right" />
+          <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+            Detalle
+          </span>
+          <div className="mt-4">
+            <Markdown>{project.content}</Markdown>
+          </div>
+          <DecorIcon className="size-3" position="bottom-left" />
+          <DecorIcon className="size-3" position="bottom-right" />
+        </section>
+      )}
 
       {/* ── Proceso ── */}
       <section className="relative border-b px-8 py-12 lg:px-16">

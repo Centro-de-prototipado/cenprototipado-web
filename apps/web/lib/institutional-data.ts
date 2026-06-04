@@ -20,7 +20,11 @@ function initialsFromName(name: string) {
     .join("")
 }
 
-function createPortraitDataUri(name: string, accent: string, accent2: string) {
+export function createPortraitDataUri(
+  name: string,
+  accent: string,
+  accent2: string
+) {
   const initials = initialsFromName(name)
   const svg = `
     <svg width="800" height="1000" viewBox="0 0 800 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${name}">
@@ -53,91 +57,6 @@ function createPortraitDataUri(name: string, accent: string, accent2: string) {
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
 }
-
-export const teamMembers: TeamMember[] = [
-  {
-    name: "Daniel Vick Gutierrez",
-    role: "Coord. Centro de Prototipado",
-    portrait: createPortraitDataUri(
-      "Daniel Vick Gutierrez",
-      "#3d2a1d",
-      "#0f172a"
-    ),
-  },
-  {
-    name: "Luis Montes Monsalve",
-    role: "Profesional y Coord. Aula STEM",
-    portrait: createPortraitDataUri(
-      "Luis Montes Monsalve",
-      "#1f3b59",
-      "#17324b"
-    ),
-  },
-  {
-    name: "Alejandra Ocampo",
-    role: "Coord. Funcional Aula STEM",
-    portrait: createPortraitDataUri("Alejandra Ocampo", "#43355f", "#0f1f3d"),
-  },
-  {
-    name: "Jassy Perea",
-    role: "Coord. Aulas STEM del Departamento",
-    portrait: createPortraitDataUri("Jassy Perea", "#31504b", "#142a25"),
-  },
-  {
-    name: "Sofia Rojas Montoya",
-    role: "Coord. Aulas STEM Manizales",
-    portrait: createPortraitDataUri(
-      "Sofia Rojas Montoya",
-      "#6a4b2f",
-      "#20150f"
-    ),
-  },
-  {
-    name: "Carla Paola Tapasco Hernandez",
-    role: "Tecnica de apoyo",
-    portrait: createPortraitDataUri(
-      "Carla Paola Tapasco Hernandez",
-      "#5c4a27",
-      "#1c1b14"
-    ),
-  },
-  {
-    name: "Cristian Andres Arenas Vargas",
-    role: "Estudiante Auxiliar",
-    portrait: createPortraitDataUri(
-      "Cristian Andres Arenas Vargas",
-      "#27465b",
-      "#111b26"
-    ),
-  },
-  {
-    name: "Jerson Estiven Giraldo Florez",
-    role: "Estudiante Auxiliar",
-    portrait: createPortraitDataUri(
-      "Jerson Estiven Giraldo Florez",
-      "#3b2d52",
-      "#160f24"
-    ),
-  },
-  {
-    name: "Jhon Edwin Garcia Cuervo",
-    role: "Estudiante Auxiliar",
-    portrait: createPortraitDataUri(
-      "Jhon Edwin Garcia Cuervo",
-      "#28504a",
-      "#0d1e1d"
-    ),
-  },
-  {
-    name: "Luis Felipe Giraldo Ortega",
-    role: "Estudiante Auxiliar",
-    portrait: createPortraitDataUri(
-      "Luis Felipe Giraldo Ortega",
-      "#613741",
-      "#231116"
-    ),
-  },
-]
 
 export const availableTechnologies = [
   "Impresoras 3D",
@@ -283,21 +202,6 @@ export const allies: Ally[] = [
 
 export type FaqItem = { q: string; a: string }
 
-export const faq: FaqItem[] = [
-  { q: "¿Quién puede usar los equipos del Centro?",
-    a: "Estudiantes, docentes e investigadores de la Universidad Nacional sede Manizales, así como aliados de la red STEM y proyectos avalados por DIMA. Comunidades externas pueden acceder a través de convenios o programas de extensión." },
-  { q: "¿Cómo solicito el uso de un equipo o tecnología?",
-    a: "Diligencia el formulario de reserva indicando el equipo, fecha y propósito. Recibirás confirmación en máximo 2 días hábiles. Para proyectos de mayor escala agenda una sesión de asesoría con el equipo del Centro." },
-  { q: "¿Tiene costo el uso de las tecnologías?",
-    a: "Para integrantes de la comunidad académica UNAL y proyectos de extensión social, el acceso es sin costo. Los materiales fungibles (filamento, resina, láminas) corren por cuenta del solicitante. Para empresas aliadas existen tarifas de servicio." },
-  { q: "¿Ofrecen capacitaciones o talleres?",
-    a: "Sí. Realizamos talleres regulares de impresión 3D, corte láser, electrónica, realidad virtual y BIM. Escríbenos para conocer los próximos eventos abiertos." },
-  { q: "¿Puedo proponer un proyecto colaborativo?",
-    a: "Por supuesto. Recibimos propuestas de docentes, semilleros, grupos de investigación y empresas. Escríbenos a cenprototipado_man@unal.edu.co con la descripción del proyecto y agendamos una reunión inicial." },
-  { q: "¿Dónde queda el Centro?",
-    a: "Estamos en el segundo piso del Museo Interactivo Samoga, en Manizales, Caldas. La entrada es por la portería principal del museo." },
-]
-
 export type Technology = {
   title: string
   subtitle: string
@@ -307,38 +211,3 @@ export type Technology = {
   units: number
   category: string
 }
-
-export const technologies: Technology[] = [
-  { title: "Brazo robótico para soldadura", subtitle: "Automatización y robótica aplicada",
-    description: "Permite simular procesos de automatización industrial y aprender principios de robótica y control.",
-    applications: ["Aprendizaje de robótica","Simulación de procesos industriales","Programación de movimientos automatizados","Prácticas educativas en automatización"],
-    status: "disponible", units: 1, category: "Robótica" },
-  { title: "Cortadora CNC", subtitle: "Fabricación con control computarizado",
-    description: "Fabrica piezas de alta precisión a partir de diseños digitales mediante procesos de corte automatizados.",
-    applications: ["Piezas estructurales","Prototipos industriales","Diseño y fabricación de productos","Maquetas y elementos técnicos"],
-    status: "disponible", units: 1, category: "Fabricación" },
-  { title: "Cortadora láser", subtitle: "Corte y grabado de alta precisión",
-    description: "Permite cortar y grabar materiales como madera y acrílico con gran detalle.",
-    applications: ["Maquetas arquitectónicas","Piezas decorativas","Señalización y diseño gráfico","Prototipos"],
-    status: "disponible", units: 1, category: "Fabricación" },
-  { title: "Gafas de realidad virtual", subtitle: "Experiencias tecnológicas inmersivas",
-    description: "Facilitan la interacción con entornos digitales para aprendizaje y experimentación.",
-    applications: ["Simulaciones educativas","Exploración de modelos 3D","Experiencias interactivas","Visualización de proyectos"],
-    status: "disponible", units: 4, category: "Inmersivo" },
-  { title: "Impresora 3D en resina", subtitle: "Alta precisión y detalle",
-    description: "Ideal para piezas complejas y prototipos que requieren gran calidad de acabado.",
-    applications: ["Piezas detalladas","Modelos pequeños","Prototipos de alta precisión"],
-    status: "reservada", units: 1, category: "Fabricación" },
-  { title: "Impresoras 3D FDM", subtitle: "Fabricación de objetos tridimensionales",
-    description: "Convierte modelos digitales en prototipos físicos para validar ideas y funcionalidades.",
-    applications: ["Desarrollo de prototipos","Piezas funcionales","Modelos educativos","Diseño de productos"],
-    status: "disponible", units: 6, category: "Fabricación" },
-  { title: "Microcontroladores", subtitle: "Programación y desarrollo electrónico",
-    description: "Dispositivos programables para proyectos de robótica, automatización y electrónica aplicada.",
-    applications: ["Control de sensores y actuadores","Automatización de sistemas","Prototipos electrónicos","Proyectos de robótica"],
-    status: "disponible", units: 12, category: "Electrónica" },
-  { title: "Plotter y scanner 3D", subtitle: "Impresión y digitalización avanzada",
-    description: "Herramientas para impresión de gran formato y captura digital de objetos reales.",
-    applications: ["Impresión de planos y carteles","Material gráfico educativo","Ingeniería inversa","Conservación y modificación de modelos"],
-    status: "disponible", units: 2, category: "Digitalización" },
-]

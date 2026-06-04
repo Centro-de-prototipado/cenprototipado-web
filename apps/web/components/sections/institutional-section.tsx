@@ -5,7 +5,7 @@ import { SectionCarousel } from "@/components/ui/section-carousel"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
 import { buttonVariants } from "@/components/ui/button"
-import { teamMembers } from "@/lib/institutional-data"
+import type { TeamMember } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 import { ArrowRightIcon } from "lucide-react"
 
@@ -16,7 +16,11 @@ const stemPoints = [
   "Integración de metodologías STEM y STEAM en enseñanza y aprendizaje.",
 ]
 
-export function InstitutionalSection() {
+export function InstitutionalSection({
+  teamMembers = [],
+}: {
+  teamMembers?: TeamMember[]
+}) {
   return (
     <section className="relative w-full border-b" id="quienes-somos">
       <DecorIcon className="size-3" position="top-left" />

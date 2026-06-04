@@ -12,7 +12,8 @@ import type { Metadata } from "next"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Button } from "@/components/ui/button"
-import { teamMembers, timeline, allies, faq } from "@/lib/institutional-data"
+import { timeline, allies, type TeamMember } from "@/lib/institutional-data"
+import { getTeamMembers } from "@/lib/notion/team"
 
 export const metadata: Metadata = {
   title: "Centro de Prototipado | Quiénes somos",
@@ -27,12 +28,13 @@ const stemPoints = [
   "Integración de metodologías STEM y STEAM en enseñanza y aprendizaje.",
 ]
 
-export default function CentroPage() {
+export default async function CentroPage() {
+  const teamMembers = await getTeamMembers()
   return (
     <>
       <CentroHero />
       <MisionVision />
-      <TeamSection />
+      <TeamSection members={teamMembers} />
       <StemSection />
       <AlliesSection />
       <CentroCta />
@@ -306,7 +308,7 @@ function MisionVision() {
 }
 
 /* ── Team ── */
-function TeamSection() {
+function TeamSection({ members }: { members: TeamMember[] }) {
   return (
     <section
       className="relative overflow-hidden border-b bg-muted/30 px-8 py-16 lg:px-16 lg:py-20"
@@ -352,7 +354,7 @@ function TeamSection() {
             scrollbarWidth: "none",
           }}
         >
-          {teamMembers.map((m) => (
+          {members.map((m) => (
             <article
               key={m.name}
               className="overflow-hidden border bg-card dark:border-white/12 dark:bg-white/5"
