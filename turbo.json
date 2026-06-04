@@ -4,7 +4,15 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "NOTION_TOKEN",
+        "NOTION_PORTFOLIO_DATA_SOURCE_ID",
+        "NOTION_TECNOLOGIAS_DATA_SOURCE_ID",
+        "NOTION_EQUIPO_DATA_SOURCE_ID",
+        "NOTION_FAQ_DATA_SOURCE_ID",
+        "REVALIDATE_SECRET"
+      ]
     },
     "dev": {
       "cache": false,
