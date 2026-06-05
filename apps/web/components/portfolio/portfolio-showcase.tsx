@@ -21,7 +21,7 @@ export function PortfolioShowcase({ projects, categories }: Props) {
 
   const filtered = useMemo(() => {
     return projects
-      .filter((p) => activeCategory === "Todos" || p.category === activeCategory)
+      .filter((p) => activeCategory === "Todos" || p.categories.includes(activeCategory))
       .filter((p) => !query || p.title.toLowerCase().includes(query.toLowerCase()) || p.summary.toLowerCase().includes(query.toLowerCase()))
   }, [projects, activeCategory, query])
 
@@ -48,7 +48,7 @@ export function PortfolioShowcase({ projects, categories }: Props) {
               >
                 {cat}
                 <span className="ml-1.5 font-mono text-[10px] opacity-55">
-                  {cat === "Todos" ? projects.length : projects.filter((p) => p.category === cat).length}
+                  {cat === "Todos" ? projects.length : projects.filter((p) => p.categories.includes(cat)).length}
                 </span>
               </button>
             ))}
@@ -127,11 +127,10 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
             href={`/portafolio/${p.slug}`}
             className="group grid items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/20"
             style={{
-              gridTemplateColumns: "52px 80px minmax(0,1.6fr) minmax(0,1fr) auto",
+              gridTemplateColumns: "80px minmax(0,1.6fr) minmax(0,1fr) auto",
               borderBottom: i < projects.length - 1 ? "1px solid var(--color-border)" : undefined,
             }}
           >
-            <span className="font-mono text-[10px] text-muted-foreground">{p.id}</span>
             <div className="relative h-16 w-20 overflow-hidden bg-black">
               <Image src={p.image} alt={p.title} fill className="object-cover" sizes="80px" />
             </div>
@@ -140,7 +139,7 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
               <p className="m-0 mt-1 text-xs text-muted-foreground line-clamp-1">{p.summary}</p>
             </div>
             <div className="flex flex-wrap gap-1.5">
-              <span className="border px-2 py-0.5 text-[10px] text-muted-foreground">{p.category}</span>
+              <span className="border px-2 py-0.5 text-[10px] text-muted-foreground">{p.categories.join(" · ")}</span>
               <span className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{p.year}</span>
             </div>
             <ArrowRightIcon className="size-4 text-muted-foreground" />
@@ -171,7 +170,7 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
           {/* Tags on hover */}
           <div className="absolute bottom-3 left-3.5 flex gap-1.5 opacity-0 translate-y-2 transition-all group-hover:opacity-100 group-hover:translate-y-0">
             <span className="border-2 border-primary bg-card px-2 py-0.5 text-[10px] font-bold uppercase" style={{ boxShadow: "2px 2px 0 0 var(--color-primary)" }}>
-              {project.category}
+              {project.categories.join(" · ")}
             </span>
             {project.featured && (
               <span className="border-2 border-border bg-card px-2 py-0.5 text-[10px] font-bold" style={{ boxShadow: "2px 2px 0 0 var(--color-border)" }}>★</span>
@@ -184,19 +183,20 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
 
         {/* Body */}
         <div className="flex flex-1 flex-col gap-2 p-5">
+
           <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground">{project.id}</span>
+            <h3 className="m-0 text-base font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+              {project.title}
+            </h3>
             <span className="font-mono text-[10px] text-muted-foreground">{project.year}</span>
           </div>
-          <h3 className="m-0 text-base font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-            {project.title}
-          </h3>
+
           <p className="m-0 text-xs leading-relaxed text-muted-foreground line-clamp-2">{project.summary}</p>
-          <div className="mt-1 flex flex-wrap gap-1.5">
+          {/*<div className="mt-1 flex flex-wrap gap-1.5">
             {project.techStack.slice(0, 3).map((t) => (
               <span key={t} className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{t}</span>
             ))}
-          </div>
+          </div>*/}
         </div>
       </Link>
     </article>

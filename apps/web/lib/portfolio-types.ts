@@ -1,11 +1,11 @@
-// Las categorías son de texto libre (definidas como opciones de select en Notion).
+// Las categorías son de texto libre (definidas como opciones de multi-select en Notion).
 export type PortfolioCategory = string
 
 export type PortfolioProjectMeta = {
   id: string
   slug: string
   title: string
-  category: PortfolioCategory
+  categories: PortfolioCategory[]
   year: string
   image: string
   summary: string

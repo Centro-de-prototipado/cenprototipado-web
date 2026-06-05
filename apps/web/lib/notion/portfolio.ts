@@ -14,7 +14,6 @@ import {
   getMultilineList,
   getNumber,
   getRichText,
-  getSelect,
   getTitle,
   getUrl,
 } from "./map"
@@ -25,10 +24,10 @@ const mapMeta = (page: PageObjectResponse): PortfolioProjectMeta => {
   const p = page.properties
   const partner = getRichText(p, "Aliado")
   return {
-    id: getRichText(p, "Código") || page.id,
+    id: page.id,
     slug: getRichText(p, "Slug"),
     title: getTitle(p, "Título"),
-    category: getSelect(p, "Categoría"),
+    categories: getMultiSelect(p, "Categoría"),
     year: String(getNumber(p, "Año") ?? ""),
     image: getUrl(p, "Imagen") || "/taller.jpg",
     summary: getRichText(p, "Resumen"),
@@ -95,7 +94,7 @@ export const getPortfolioCategories = async (): Promise<
   PortfolioCategoryFilter[]
 > => {
   const projects = await getPortfolioProjects()
-  const categories = new Set(projects.map((project) => project.category))
+  const categories = new Set(projects.flatMap((project) => project.categories))
   return ["Todos", ...categories]
 }
 

@@ -11,6 +11,7 @@ import type { Metadata } from "next"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
+import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { allies, type TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
@@ -91,18 +92,18 @@ function CentroHero({ stats }: { stats: Metric[] }) {
       <div className="relative z-1 grid grid-cols-1 lg:grid-cols-2">
         {/* Left: copy */}
         <div className="flex flex-col gap-5 border-b px-8 py-16 lg:border-r lg:border-b-0 lg:px-14 lg:py-20">
-          <span className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+          <Reveal as="span" immediate index={0} className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Institucional · DIMA · UNAL Manizales
-          </span>
-          <h1 className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
+          </Reveal>
+          <Reveal as="h1" immediate index={1} className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
             El Centro de <span className="text-primary">Prototipado</span>.
-          </h1>
-          <p className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
+          </Reveal>
+          <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
             Un espacio de innovación abierto donde estudiantes, docentes y
             comunidades convierten ideas en soluciones reales mediante
             fabricación digital y tecnologías emergentes. Sede: Museo
             Interactivo Samoga, Manizales.
-          </p>
+          </Reveal>
           <div className="flex flex-wrap gap-3">
             <Link href="/tecnologias">
               <Button size="lg">
@@ -264,7 +265,6 @@ function MisionVision() {
       eyebrow: "Misión",
       h3: "Democratizar el acceso a tecnologías de fabricación digital y promover la innovación.",
       p: "Mediante el aprendizaje práctico, la experimentación y la colaboración interdisciplinaria con estudiantes, docentes y comunidades.",
-      accent: true,
     },
     {
       Icon: GlobeIcon,
@@ -277,7 +277,7 @@ function MisionVision() {
       eyebrow: "Para quién",
       h3: "Estudiantes, docentes, semilleros, colegios y aliados de la industria.",
       p: "El acceso es abierto para la comunidad UNAL Manizales. Empresas y organizaciones pueden vincularse mediante convenios y programas de extensión.",
-      borderAccent: true,
+
     },
   ]
 
@@ -286,18 +286,12 @@ function MisionVision() {
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
       <div className="grid grid-cols-1 md:grid-cols-3">
-        {cards.map(({ Icon, eyebrow, h3, p, accent, borderAccent }, i) => (
+        {cards.map(({ Icon, eyebrow, h3, p }, i) => (
           <article
             key={eyebrow}
             className="relative flex flex-col gap-3.5 p-8 transition-colors hover:bg-muted/20 lg:p-10"
             style={{
               borderRight: i < 2 ? "1px solid var(--color-border)" : undefined,
-              borderLeft: borderAccent
-                ? "3px solid var(--color-primary)"
-                : undefined,
-              background: accent
-                ? "color-mix(in srgb, var(--color-primary) 6%, transparent)"
-                : undefined,
             }}
           >
             <div className="flex h-11 w-11 items-center justify-center border bg-background text-primary">

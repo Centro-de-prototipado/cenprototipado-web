@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { Portal, PortalBackdrop } from "@/components/ui/portal"
 import { Button } from "@/components/ui/button"
 import { centroLinks, exploreLinks } from "@/components/layout/nav-links"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { XIcon, MenuIcon, ChevronRightIcon } from "lucide-react"
 
 export function MobileNav() {
@@ -112,6 +113,7 @@ export function MobileNav() {
             </div>
 
             <div className="mt-6 flex flex-col gap-2">
+              <ThemeToggle showLabel className="w-full" />
               <Link href="/login">
                 <Button className="w-full" variant="outline">
                   Ingresar

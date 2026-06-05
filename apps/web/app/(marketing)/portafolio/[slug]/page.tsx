@@ -5,6 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon, BuildingIcon } from "lucide-react"
 import type { Metadata } from "next"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Reveal } from "@/components/ui/reveal"
 import { Markdown } from "@/components/ui/markdown"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { getPortfolioProjectBySlug, getPortfolioProjects, getPortfolioSlugs } from "@/lib/notion/portfolio"
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 const processSteps = [
-  { n: "01", t: "Diagnóstico",       d: "Entendimiento del reto con el equipo aliado." },
+  { n: "01", t: "Diagnóstico",       d: "Entendimiento del reto con el equipo." },
   { n: "02", t: "Conceptualización", d: "Maquetación, definición de stack, alcance." },
   { n: "03", t: "Fabricación",       d: "Implementación con las tecnologías del Centro." },
   { n: "04", t: "Validación",        d: "Pruebas, ajustes y entrega de resultados." },
@@ -39,7 +40,7 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
   if (!project) notFound()
 
   const related = allProjects
-    .filter((p) => p.category === project.category && p.slug !== project.slug)
+    .filter((p) => p.categories.some((c) => project.categories.includes(c)) && p.slug !== project.slug)
     .slice(0, 3)
 
   return (
@@ -53,7 +54,7 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
           <span className="opacity-40">/</span>
           <span className="font-medium text-foreground">{project.title}</span>
         </div>
-        <span className="font-mono text-[10px] text-muted-foreground">{project.id} · {project.year}</span>
+        <span className="font-mono text-[10px] text-muted-foreground">{project.year}</span>
       </nav>
 
       {/* ── Hero image full-bleed ── */}
@@ -72,10 +73,10 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
             className="absolute inset-0"
             style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 60%, transparent 100%)" }}
           />
-          <div className="absolute bottom-8 left-8 right-1/2 lg:left-16">
+          <Reveal immediate className="absolute bottom-8 left-8 right-1/2 lg:left-16">
             <div className="mb-3 flex flex-wrap gap-2">
               <span className="border-2 border-primary bg-card/90 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.14em] uppercase" style={{ boxShadow: "2px 2px 0 0 var(--color-primary)" }}>
-                {project.category}
+                {project.categories.join(" · ")}
               </span>
               {project.featured && (
                 <span className="border-2 border-border bg-card/90 px-2.5 py-0.5 text-[10px] font-bold" style={{ boxShadow: "2px 2px 0 0 var(--color-border)" }}>★ Destacado</span>
@@ -88,20 +89,18 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
               {project.title}
             </h1>
             <p className="mt-3 max-w-[48ch] text-base leading-relaxed text-white/75">{project.summary}</p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── Meta bar ── */}
       <section className="border-b bg-card">
         <div className="flex flex-wrap items-center justify-between gap-4 px-8 py-4 lg:px-16">
-          <div className="flex flex-wrap items-center gap-3">
-            <BuildingIcon className="size-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">{project.partner ?? "Centro de Prototipado"}</span>
+          {/*<div className="flex flex-wrap items-center gap-3">
             {project.techStack.map((t) => (
               <span key={t} className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{t}</span>
             ))}
-          </div>
+          </div>*/}
           <Link href="/contacto">
             <Button>Replicar este proyecto <ArrowRightIcon data-icon="inline-end" /></Button>
           </Link>
@@ -118,8 +117,10 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
             { label: "Solución",   body: project.solution,  list: null },
             { label: "Resultados", body: null, list: project.outcomes },
           ].map((s, i) => (
-            <article
+            <Reveal
+              as="article"
               key={s.label}
+              index={i}
               className="relative flex flex-col gap-3 p-8 transition-colors hover:bg-muted/20 lg:p-10"
               style={{ borderRight: i < 2 ? "1px solid var(--color-border)" : undefined, borderBottom: "none" }}
             >
@@ -138,7 +139,7 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
                   ))}
                 </ul>
               )}
-            </article>
+            </Reveal>
           ))}
         </div>
         <DecorIcon className="size-3" position="bottom-left" />
@@ -209,7 +210,7 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
                   <div aria-hidden="true" className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%)" }} />
                 </div>
                 <div className="flex flex-col gap-1.5 p-5">
-                  <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{r.category} · {r.year}</span>
+                  <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{r.categories.join(" · ")} · {r.year}</span>
                   <h4 className="m-0 text-sm font-bold text-foreground transition-colors group-hover:text-primary">{r.title}</h4>
                 </div>
               </Link>

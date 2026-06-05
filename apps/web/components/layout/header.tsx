@@ -6,6 +6,7 @@ import { useScroll } from "@/hooks/use-scroll"
 import { Button } from "@/components/ui/button"
 import { DesktopNav } from "@/components/layout/desktop-nav"
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import Link from "next/link"
 
@@ -37,6 +38,7 @@ export function Header() {
             <DesktopNav />
           </div>
           <div className="hidden items-center gap-2 md:flex">
+            <ThemeToggle />
             <Link href="/login">
               <Button variant="outline">Ingresar</Button>
             </Link>

@@ -93,7 +93,7 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
 
           <div className="absolute right-0 bottom-0 left-0 flex translate-y-1/2 items-center gap-2 px-4 opacity-0 transition-all group-hover:bottom-3 group-hover:translate-y-0 group-hover:opacity-100">
             <span className="border-2 border-primary bg-background px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-foreground uppercase shadow-[2px_2px_0_0_var(--primary)]">
-              {project.category}
+              {project.categories.join(" · ")}
             </span>
             {project.year && (
               <span className="border-2 border-border bg-background px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-muted-foreground uppercase shadow-[2px_2px_0_0_var(--border)]">
@@ -115,7 +115,7 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
           <p className="mt-2 line-clamp-2 text-xs text-muted-foreground md:text-sm">
             {project.summary}
           </p>
-          {project.techStack.length > 0 && (
+          {/*{project.techStack.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5">
               {project.techStack.slice(0, 3).map((tech) => (
                 <span
@@ -126,7 +126,7 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
                 </span>
               ))}
             </div>
-          )}
+          )}*/}
           <DecorIcon
             className="size-2 opacity-0 transition-opacity group-hover:opacity-100"
             position="bottom-left"

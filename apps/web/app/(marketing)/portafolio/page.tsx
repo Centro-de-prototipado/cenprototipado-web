@@ -4,6 +4,7 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { getPortfolioProjects, getPortfolioCategories } from "@/lib/notion/portfolio"
 import { PortfolioShowcase } from "@/components/portfolio/portfolio-showcase"
+import { Reveal } from "@/components/ui/reveal"
 
 export const metadata: Metadata = {
   title: "Portafolio | Centro de Prototipado",
@@ -35,18 +36,16 @@ export default async function PortafolioPage() {
         </div>
 
         <div className="relative z-1 px-8 pt-14 pb-0 lg:px-16 lg:pt-20">
-          <span className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+          <Reveal as="span" immediate index={0} className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Casos del Centro · {projects.length} proyectos
-          </span>
-          <h1 className="mt-4 max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground lg:text-[clamp(36px,5vw,72px)]">
+          </Reveal>
+          <Reveal as="h1" immediate index={1} className="mt-4 max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground lg:text-[clamp(36px,5vw,72px)]">
             Portafolio de{" "}
             <span className="text-primary">proyectos</span>.
-          </h1>
-          <p className="mt-4 max-w-[50ch] text-base leading-relaxed text-muted-foreground">
-            Casos donde estudiantes, semilleros, docentes y aliados aterrizaron
-            ideas en prototipos funcionales — desde VR médica hasta plataformas
-            BIM con realidad mixta.
-          </p>
+          </Reveal>
+          <Reveal as="p" immediate index={2} className="mt-4 max-w-[50ch] text-base leading-relaxed text-muted-foreground">
+            Casos donde estudiantes, semilleros, docentes y aliados aterrizaron ideas en prototipos funcionales.
+          </Reveal>
         </div>
 
         {/* Featured mosaic strip */}
@@ -75,7 +74,7 @@ export default async function PortafolioPage() {
                 <div aria-hidden="true" className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75), transparent 50%)" }} />
                 <figcaption className="absolute bottom-3 left-4 right-4 z-1 flex flex-col gap-1">
                   <span className="inline-flex w-fit border px-2 py-0.5 font-mono text-[10px] tracking-[0.14em] text-white uppercase" style={{ borderColor: "rgba(255,255,255,0.3)" }}>
-                    {p.category}
+                    {p.categories.join(" · ")}
                   </span>
                   <span className="text-sm font-bold leading-tight text-white">{p.title}</span>
                 </figcaption>

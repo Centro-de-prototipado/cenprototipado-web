@@ -12,7 +12,7 @@ export function FeatureSection({
 }: {
   technologies: Technology[]
 }) {
-  const shown = technologies.slice(0, 6)
+  const shown = technologies.slice(0, 4)
   const extra = Math.max(technologies.length - shown.length, 0)
 
   return (
@@ -28,10 +28,6 @@ export function FeatureSection({
         <h2 className="mt-3.5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-5xl">
           Equipamiento real para construir, probar y mostrar.
         </h2>
-        <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-          Hardware, software y experiencias de fabricación digital disponibles
-          para estudiantes, docentes y comunidades aliadas.
-        </p>
       </Reveal>
 
       {/* Tech grid */}
@@ -112,17 +108,6 @@ function TechCard({
       <p className="relative text-xs leading-relaxed text-muted-foreground flex-1">
         {tech.description}
       </p>
-
-      {tech.applications.length > 0 && (
-        <ul className="relative border-t pt-3 flex flex-col gap-1.5">
-          {tech.applications.slice(0, 3).map((app) => (
-            <li key={app} className="flex items-start gap-2 text-xs text-muted-foreground">
-              <span className="shrink-0 text-primary">→</span>
-              {app}
-            </li>
-          ))}
-        </ul>
-      )}
 
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="bottom-left" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="bottom-right" />
