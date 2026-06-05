@@ -30,9 +30,14 @@ export function SectionCarousel({
     const track = trackRef.current
     if (!track) return
 
-    const offset = track.clientWidth * 0.8
+    const firstCard = track.firstElementChild as HTMLElement | null
+    const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0
+    const step = firstCard
+      ? firstCard.getBoundingClientRect().width + gap
+      : track.clientWidth * 0.8
+
     track.scrollBy({
-      left: direction === "left" ? -offset : offset,
+      left: direction === "left" ? -step : step,
       behavior: "smooth",
     })
   }, [])
@@ -100,7 +105,7 @@ export function SectionCarousel({
       <div
         ref={trackRef}
         className={cn(
-          "no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2",
+          "no-scrollbar flex snap-x snap-proximity gap-4 overflow-x-auto scroll-smooth pb-2",
           "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         )}
       >

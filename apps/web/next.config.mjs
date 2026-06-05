@@ -15,6 +15,7 @@ const nextConfig = {
     // true    — all console output
     // false   — disabled
   },
+  cacheComponents: true,
 }
 
 export default nextConfig

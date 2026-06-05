@@ -61,12 +61,14 @@ portfolio.ts     ← getPortfolioProjects / …BySlug / …Featured / …Categor
 technologies.ts  ← getTechnologies
 team.ts          ← getTeamMembers   (foto: URL externa; si vacía → avatar SVG generado)
 faq.ts           ← getFaq
+metrics.ts       ← getMetrics (cifras de impacto, indexadas por `Clave`) + pickMetrics()
 ```
 
 Cada lectura se filtra por `Publicado = true`, se ordena (por `Año` o por `Orden`) y se
-envuelve en **`unstable_cache(fn, keys, { tags: [...] })`** sin tiempo de expiración → el
-contenido se cachea indefinidamente y solo se refresca on-demand.
-Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`.
+marca con la directiva **`"use cache"`** + `cacheTag(<tag>)` + `cacheLife("max")` (requerido
+por `cacheComponents: true`; reemplaza al antiguo `unstable_cache`). El contenido se cachea
+indefinidamente y solo se refresca on-demand.
+Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`, `metricas`.
 
 Las páginas/secciones son **Server Components async** que hacen `await` de estos
 fetchers. Los componentes cliente (`tecnologias-client`, `contacto-client`) reciben los
@@ -79,7 +81,7 @@ datos por **props** desde su page server.
 - Valida el secreto (`?secret=` o header `x-revalidate-secret`).
 - Ejecuta `revalidateTag(tag, "max")` (firma de Next 16) → las páginas estáticas se
   regeneran en la siguiente petición.
-- Sin `tag` revalida los cuatro; con `tag` solo ese.
+- Sin `tag` revalida los cinco; con `tag` solo ese.
 
 Es **manual** por ahora (curl/bookmark). Siguiente paso natural: una automatización de
 Notion («al editar → enviar webhook») que golpee ese endpoint al guardar.
@@ -104,6 +106,7 @@ NOTION_PORTFOLIO_DATA_SOURCE_ID    # opcional — override; por defecto van hard
 NOTION_TECNOLOGIAS_DATA_SOURCE_ID  # opcional
 NOTION_EQUIPO_DATA_SOURCE_ID       # opcional
 NOTION_FAQ_DATA_SOURCE_ID          # opcional
+NOTION_METRICAS_DATA_SOURCE_ID     # opcional
 ```
 
 > En **despliegue (Vercel)** solo hace falta `NOTION_TOKEN` (y `REVALIDATE_SECRET` para
@@ -120,10 +123,15 @@ NOTION_FAQ_DATA_SOURCE_ID          # opcional
 
 ## Contenido que NO está en Notion (hardcodeado)
 
-Copys fijos de hero/CTA, misión/visión, métricas, y los arrays `timeline`, `allies`,
-`technologySpotlights`, `availableTechnologies` en `lib/institutional-data.ts` (que
-también conserva los **tipos** `TeamMember`, `Technology`, `FaqItem` y el helper
-`createPortraitDataUri` usado como fallback de fotos de equipo).
+Copys fijos de hero/CTA, misión/visión, los puntos STEM (`stemPoints`), los pasos de
+proceso del portafolio (`processSteps`) y el array `allies` en `lib/institutional-data.ts`
+(que también conserva los **tipos** `TeamMember`, `Technology`, `FaqItem`, `Ally` y el
+helper `createPortraitDataUri`, fallback de fotos de equipo).
+
+> **Tecnologías y métricas son fuente única en Notion.** Las cifras de impacto se leen de
+> la DB **Métricas** (`getMetrics` + `pickMetrics` por `Clave`); el catálogo de tecnologías
+> (home: ticker + grid; /tecnologias) se lee de la DB **Tecnologías**. No duplicar estos
+> valores en código.
 
 ## Convenciones clave
 

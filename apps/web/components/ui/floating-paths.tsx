@@ -13,6 +13,8 @@ export function FloatingPaths({ position }: { position: number }) {
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
     color: `rgba(15,23,42,${0.1 + i * 0.03})`,
     width: 0.5 + i * 0.03,
+    // Duración variada pero determinista (Math.random rompe el prerender de Cache Components).
+    duration: 20 + ((i * 2.5) % 10),
   }))
 
   return (
@@ -37,7 +39,7 @@ export function FloatingPaths({ position }: { position: number }) {
             strokeOpacity={0.1 + path.id * 0.03}
             strokeWidth={path.width}
             transition={{
-              duration: 20 + Math.random() * 10,
+              duration: path.duration,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
             }}

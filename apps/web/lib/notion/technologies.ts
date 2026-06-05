@@ -1,6 +1,6 @@
 import { isFullPage } from "@notionhq/client"
 import type { PageObjectResponse } from "@notionhq/client"
-import { unstable_cache } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 import type { Technology } from "@/lib/institutional-data"
 import { DATA_SOURCES, notion } from "./client"
@@ -25,7 +25,11 @@ const mapTechnology = (page: PageObjectResponse): Technology => {
   }
 }
 
-const fetchTechnologies = async (): Promise<Technology[]> => {
+export const getTechnologies = async (): Promise<Technology[]> => {
+  "use cache"
+  cacheTag("tecnologias")
+  cacheLife("max")
+
   const items: { order: number; tech: Technology }[] = []
   let cursor: string | undefined
 
@@ -48,9 +52,3 @@ const fetchTechnologies = async (): Promise<Technology[]> => {
 
   return items.sort((a, b) => a.order - b.order).map((i) => i.tech)
 }
-
-export const getTechnologies = unstable_cache(
-  fetchTechnologies,
-  ["technologies"],
-  { tags: ["tecnologias"] }
-)

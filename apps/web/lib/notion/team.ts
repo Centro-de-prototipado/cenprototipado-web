@@ -1,6 +1,6 @@
 import { isFullPage } from "@notionhq/client"
 import type { PageObjectResponse } from "@notionhq/client"
-import { unstable_cache } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 import { createPortraitDataUri, type TeamMember } from "@/lib/institutional-data"
 import { DATA_SOURCES, notion } from "./client"
@@ -17,7 +17,11 @@ const mapTeamMember = (page: PageObjectResponse): TeamMember => {
   }
 }
 
-const fetchTeam = async (): Promise<TeamMember[]> => {
+export const getTeamMembers = async (): Promise<TeamMember[]> => {
+  "use cache"
+  cacheTag("equipo")
+  cacheLife("max")
+
   const items: { order: number; member: TeamMember }[] = []
   let cursor: string | undefined
 
@@ -40,7 +44,3 @@ const fetchTeam = async (): Promise<TeamMember[]> => {
 
   return items.sort((a, b) => a.order - b.order).map((i) => i.member)
 }
-
-export const getTeamMembers = unstable_cache(fetchTeam, ["team-members"], {
-  tags: ["equipo"],
-})

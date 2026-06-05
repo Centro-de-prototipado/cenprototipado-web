@@ -4,12 +4,16 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
 import { buttonVariants } from "@/components/ui/button"
-import { technologySpotlights, availableTechnologies } from "@/lib/institutional-data"
+import type { Technology } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 
-export function FeatureSection() {
-  const shown = technologySpotlights.slice(0, 6)
-  const extra = availableTechnologies.length - shown.length
+export function FeatureSection({
+  technologies,
+}: {
+  technologies: Technology[]
+}) {
+  const shown = technologies.slice(0, 6)
+  const extra = Math.max(technologies.length - shown.length, 0)
 
   return (
     <section className="relative w-full border-b" id="tecnologias-resumen">
@@ -73,7 +77,7 @@ function TechCard({
   tech,
   index,
 }: {
-  tech: (typeof technologySpotlights)[number]
+  tech: Technology
   index: number
 }) {
   return (

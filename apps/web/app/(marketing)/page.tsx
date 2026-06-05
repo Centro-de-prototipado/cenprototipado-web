@@ -6,14 +6,35 @@ import { GallerySection } from "@/components/sections/gallery-section"
 import { CasesSection } from "@/components/sections/cases-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { CallToAction } from "@/components/sections/cta"
+import { getTechnologies } from "@/lib/notion/technologies"
+import { getMetrics, pickMetrics } from "@/lib/notion/metrics"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [technologies, metrics] = await Promise.all([
+    getTechnologies(),
+    getMetrics(),
+  ])
+
   return (
     <div className="bg-background">
-      <HeroSection />
-      <TickerStrip />
-      <MetricsBand />
-      <FeatureSection />
+      <HeroSection
+        miniStats={pickMetrics(metrics, [
+          "tecnologias",
+          "proyectos",
+          "aulas-stem",
+          "municipios",
+        ])}
+      />
+      <TickerStrip technologies={technologies} />
+      <MetricsBand
+        metrics={pickMetrics(metrics, [
+          "tecnologias",
+          "proyectos",
+          "aulas-stem",
+          "personas-formadas",
+        ])}
+      />
+      <FeatureSection technologies={technologies} />
       <GallerySection />
       <CasesSection />
       <ContactSection />

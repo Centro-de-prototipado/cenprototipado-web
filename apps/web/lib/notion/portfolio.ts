@@ -1,6 +1,6 @@
 import { isFullPage } from "@notionhq/client"
 import type { PageObjectResponse } from "@notionhq/client"
-import { unstable_cache } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 import type {
   PortfolioCategoryFilter,
@@ -41,7 +41,13 @@ const mapMeta = (page: PageObjectResponse): PortfolioProjectMeta => {
   }
 }
 
-const fetchProjects = async (): Promise<PortfolioProjectMeta[]> => {
+export const getPortfolioProjects = async (): Promise<
+  PortfolioProjectMeta[]
+> => {
+  "use cache"
+  cacheTag("portafolio")
+  cacheLife("max")
+
   const projects: PortfolioProjectMeta[] = []
   let cursor: string | undefined
 
@@ -60,9 +66,13 @@ const fetchProjects = async (): Promise<PortfolioProjectMeta[]> => {
   return projects.sort((a, b) => Number(b.year) - Number(a.year))
 }
 
-const fetchProjectBySlug = async (
+export const getPortfolioProjectBySlug = async (
   slug: string
 ): Promise<PortfolioProject | null> => {
+  "use cache"
+  cacheTag("portafolio")
+  cacheLife("max")
+
   const res = await notion.dataSources.query({
     data_source_id: DATA_SOURCES.portafolio,
     filter: {
@@ -76,18 +86,6 @@ const fetchProjectBySlug = async (
   const { markdown } = await notion.pages.retrieveMarkdown({ page_id: item.id })
   return { ...mapMeta(item), content: markdown }
 }
-
-export const getPortfolioProjects = unstable_cache(
-  fetchProjects,
-  ["portfolio-projects"],
-  { tags: ["portafolio"] }
-)
-
-export const getPortfolioProjectBySlug = unstable_cache(
-  fetchProjectBySlug,
-  ["portfolio-project-by-slug"],
-  { tags: ["portafolio"] }
-)
 
 export const getFeaturedPortfolioProjects = async (): Promise<
   PortfolioProjectMeta[]

@@ -1,6 +1,6 @@
 import { isFullPage } from "@notionhq/client"
 import type { PageObjectResponse } from "@notionhq/client"
-import { unstable_cache } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 import type { FaqItem } from "@/lib/institutional-data"
 import { DATA_SOURCES, notion } from "./client"
@@ -11,7 +11,11 @@ const mapFaq = (page: PageObjectResponse): FaqItem => {
   return { q: getTitle(p, "Pregunta"), a: getRichText(p, "Respuesta") }
 }
 
-const fetchFaq = async (): Promise<FaqItem[]> => {
+export const getFaq = async (): Promise<FaqItem[]> => {
+  "use cache"
+  cacheTag("faq")
+  cacheLife("max")
+
   const items: { order: number; faq: FaqItem }[] = []
   let cursor: string | undefined
 
@@ -34,5 +38,3 @@ const fetchFaq = async (): Promise<FaqItem[]> => {
 
   return items.sort((a, b) => a.order - b.order).map((i) => i.faq)
 }
-
-export const getFaq = unstable_cache(fetchFaq, ["faq"], { tags: ["faq"] })

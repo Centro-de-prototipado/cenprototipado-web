@@ -4,14 +4,8 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { HeroRobot } from "@/components/sections/hero-robot"
+import type { Metric } from "@/lib/notion/metrics"
 import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon } from "lucide-react"
-
-const miniStats = [
-  { value: "10+", label: "Tecnologías" },
-  { value: "12+", label: "Proyectos" },
-  { value: "14",  label: "Aulas STEM" },
-  { value: "2",   label: "Municipios" },
-]
 
 const capabilities = [
   { icon: PrinterIcon,  label: "Fabricación",  detail: "3D · CNC · Láser" },
@@ -20,7 +14,7 @@ const capabilities = [
   { icon: LayersIcon,   label: "BIM · Twin",   detail: "Unity · Revit" },
 ]
 
-export function HeroSection() {
+export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
   return (
     <section className="relative overflow-hidden border-b">
       {/* Background glow */}
@@ -216,13 +210,27 @@ function HeroMediaFrame() {
 
       {/* Robot stage */}
       <div className="relative flex flex-1 items-center justify-center overflow-hidden">
-        {/* Radial spotlight behind the robot */}
+        {/* Radial spotlight behind the robot — gently breathes */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 size-[120%] -translate-x-1/2 -translate-y-1/2 opacity-70 dark:opacity-90"
           style={{
             background:
               "radial-gradient(circle at center, color-mix(in srgb, var(--color-primary) 22%, transparent) 0%, transparent 55%)",
+            animation: "proto-glow 5s ease-in-out infinite",
+          }}
+        />
+
+        {/* Rotating radar sweep */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 md:size-80 dark:opacity-70"
+          style={{
+            background:
+              "conic-gradient(from 0deg, transparent 0deg, color-mix(in srgb, var(--color-primary) 38%, transparent) 38deg, transparent 75deg)",
+            WebkitMaskImage: "radial-gradient(circle at center, black 30%, transparent 72%)",
+            maskImage: "radial-gradient(circle at center, black 30%, transparent 72%)",
+            animation: "proto-sweep 4.5s linear infinite",
           }}
         />
 
@@ -239,6 +247,42 @@ function HeroMediaFrame() {
           <span className="absolute left-1/2 bottom-0 h-3 w-px -translate-x-1/2 bg-primary/50" />
           <span className="absolute top-1/2 left-0 h-px w-3 -translate-y-1/2 bg-primary/50" />
           <span className="absolute top-1/2 right-0 h-px w-3 -translate-y-1/2 bg-primary/50" />
+        </div>
+
+        {/* Counter-rotating inner ring with orbiting node */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 size-52 -translate-x-1/2 -translate-y-1/2 opacity-50 md:size-56"
+          style={{ animation: "proto-spin-rev 22s linear infinite" }}
+        >
+          <div className="absolute inset-0 rounded-full border border-primary/20" />
+          <span
+            className="absolute left-1/2 top-0 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
+            style={{ boxShadow: "0 0 8px color-mix(in srgb, var(--color-primary) 80%, transparent)" }}
+          />
+        </div>
+
+        {/* Floating particles drifting upward */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+          {[
+            { left: "18%", delay: "0s", dur: "6.5s", size: 3 },
+            { left: "32%", delay: "2.1s", dur: "7.8s", size: 2 },
+            { left: "54%", delay: "1.2s", dur: "6.9s", size: 2 },
+            { left: "68%", delay: "3.4s", dur: "8.4s", size: 3 },
+            { left: "82%", delay: "0.7s", dur: "7.2s", size: 2 },
+          ].map((p, i) => (
+            <span
+              key={i}
+              className="absolute bottom-0 rounded-full bg-primary/70"
+              style={{
+                left: p.left,
+                height: p.size,
+                width: p.size,
+                boxShadow: "0 0 6px color-mix(in srgb, var(--color-primary) 70%, transparent)",
+                animation: `proto-float ${p.dur} ease-in-out ${p.delay} infinite`,
+              }}
+            />
+          ))}
         </div>
 
         {/* Crosshair guides */}
@@ -321,12 +365,31 @@ function HeroMediaFrame() {
           from { transform: translate(-50%, -50%) rotate(0deg); }
           to   { transform: translate(-50%, -50%) rotate(360deg); }
         }
+        @keyframes proto-spin-rev {
+          from { transform: translate(-50%, -50%) rotate(360deg); }
+          to   { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+        @keyframes proto-sweep {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
         @keyframes proto-blink {
           0%, 100% { opacity: 1; }
           50%      { opacity: 0.3; }
         }
+        @keyframes proto-glow {
+          0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+          50%      { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
+        }
+        @keyframes proto-float {
+          0%   { transform: translateY(0); opacity: 0; }
+          12%  { opacity: 1; }
+          80%  { opacity: 0.8; }
+          100% { transform: translateY(-220px); opacity: 0; }
+        }
         @media (prefers-reduced-motion: reduce) {
-          [style*="proto-scan"], [style*="proto-spin"], [style*="proto-blink"] { animation: none !important; }
+          [style*="proto-scan"], [style*="proto-spin"], [style*="proto-blink"],
+          [style*="proto-sweep"], [style*="proto-glow"], [style*="proto-float"] { animation: none !important; }
         }
       `}</style>
     </figure>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Logo } from "@/components/shared/logo"
+import { getCurrentYear } from "@/components/layout/current-year"
 import { DecorIcon } from "@/components/ui/decor-icon"
 
 const nav = [
@@ -19,7 +20,8 @@ const contact = [
   { label: "Lun–Vie · 8:00 – 17:00", href: "#" },
 ]
 
-export function Footer() {
+export async function Footer() {
+  const year = await getCurrentYear()
   return (
     <footer className="relative border-t">
       <DecorIcon className="size-3" position="top-left" />
@@ -85,7 +87,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t px-8 py-4 lg:px-16">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Centro de Prototipado · Universidad
+            © {year} Centro de Prototipado · Universidad
             Nacional de Colombia
           </p>
           <p className="font-mono text-[11px] text-muted-foreground/60">

@@ -1,7 +1,8 @@
-import { availableTechnologies } from "@/lib/institutional-data"
+import type { Technology } from "@/lib/institutional-data"
 
-export function TickerStrip() {
-  const items = [...availableTechnologies, ...availableTechnologies]
+export function TickerStrip({ technologies }: { technologies: Technology[] }) {
+  const names = technologies.map((t) => t.title)
+  const items = [...names, ...names]
   return (
     <div
       className="relative overflow-hidden border-b bg-muted/40 dark:bg-card"

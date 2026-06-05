@@ -1,26 +1,8 @@
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal, CountUp } from "@/components/ui/reveal"
+import type { Metric } from "@/lib/notion/metrics"
 
-const metrics = [
-  {
-    num: "10+",
-    label: "Tecnologías disponibles",
-    delta: "Fabricación · Inmersión · Robótica",
-  },
-  {
-    num: "12+",
-    label: "Proyectos desarrollados",
-    delta: "Con comunidades y semilleros",
-  },
-  {
-    num: "14",
-    label: "Aulas STEM articuladas",
-    delta: "Red Caldas · Manizales",
-  },
-  { num: "180+", label: "Personas formadas", delta: "Talleres 2025–26" },
-]
-
-export function MetricsBand() {
+export function MetricsBand({ metrics }: { metrics: Metric[] }) {
   return (
     <section className="relative overflow-hidden border-b bg-card">
       {/* Grid overlay (dark only) */}
@@ -72,7 +54,7 @@ export function MetricsBand() {
             <Reveal
               as="div"
               index={i}
-              key={m.label}
+              key={m.key}
               className="group relative flex flex-col gap-1 border-r border-b border-border p-5 transition-colors hover:bg-muted/40 dark:border-white/8 dark:hover:bg-white/5"
               style={{ margin: "-1px -1px 0 0" }}
             >
@@ -81,7 +63,7 @@ export function MetricsBand() {
                 position="top-left"
               />
               <CountUp
-                value={m.num}
+                value={m.value}
                 className="leading-none font-extrabold tracking-[-0.02em] text-foreground dark:text-white"
                 style={{ fontSize: "clamp(30px, 3.5vw, 44px)" }}
               />
@@ -89,7 +71,7 @@ export function MetricsBand() {
                 {m.label}
               </span>
               <span className="font-mono text-[11px] text-primary">
-                {m.delta}
+                {m.detail}
               </span>
             </Reveal>
           ))}

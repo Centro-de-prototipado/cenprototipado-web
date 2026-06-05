@@ -20,4 +20,7 @@ export const DATA_SOURCES = {
   faq:
     process.env.NOTION_FAQ_DATA_SOURCE_ID ||
     "a4fb64e7-3c81-4634-b6e3-4f3edbafef67",
+  metricas:
+    process.env.NOTION_METRICAS_DATA_SOURCE_ID ||
+    "c2162ede-be64-4dce-8799-3f53ee7b0c63",
 } as const

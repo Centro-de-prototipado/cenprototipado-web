@@ -16,7 +16,7 @@ export function DesktopNav() {
         {/* Centro dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="bg-transparent">
-            Centro
+            Nosotros
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
             <div className="w-sm space-y-1 rounded-none border bg-card p-2 shadow">

@@ -12,8 +12,10 @@ import type { Metadata } from "next"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Button } from "@/components/ui/button"
-import { timeline, allies, type TeamMember } from "@/lib/institutional-data"
+import { allies, type TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
+import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
+import { TeamCarousel } from "@/components/sections/team-carousel"
 
 export const metadata: Metadata = {
   title: "Centro de Prototipado | Quiénes somos",
@@ -29,13 +31,28 @@ const stemPoints = [
 ]
 
 export default async function CentroPage() {
-  const teamMembers = await getTeamMembers()
+  const [teamMembers, metrics] = await Promise.all([
+    getTeamMembers(),
+    getMetrics(),
+  ])
   return (
     <>
-      <CentroHero />
+      <CentroHero
+        stats={pickMetrics(metrics, [
+          "tecnologias",
+          "proyectos",
+          "equipo",
+          "aulas-stem",
+        ])}
+      />
       <MisionVision />
       <TeamSection members={teamMembers} />
-      <StemSection />
+      <StemSection
+        stats={pickMetrics(metrics, [
+          "instituciones-aliadas",
+          "municipios",
+        ])}
+      />
       <AlliesSection />
       <CentroCta />
     </>
@@ -43,7 +60,7 @@ export default async function CentroPage() {
 }
 
 /* ── Hero split ── */
-function CentroHero() {
+function CentroHero({ stats }: { stats: Metric[] }) {
   return (
     <section className="relative overflow-hidden border-b">
       <DecorIcon className="size-3" position="top-left" />
@@ -210,25 +227,22 @@ function CentroHero() {
 
           {/* Stats bar */}
           <div className="grid grid-cols-4 border-t bg-card">
-            {[
-              { num: "10+", k: "Tecnologías" },
-              { num: "12+", k: "Proyectos" },
-              { num: "10", k: "Personas" },
-              { num: "14", k: "Aulas STEM" },
-            ].map((s, i) => (
+            {stats.map((s, i) => (
               <div
-                key={s.k}
+                key={s.key}
                 className="flex flex-col gap-1 p-4"
                 style={{
                   borderRight:
-                    i < 3 ? "1px solid var(--color-border)" : undefined,
+                    i < stats.length - 1
+                      ? "1px solid var(--color-border)"
+                      : undefined,
                 }}
               >
                 <span className="text-xl font-extrabold tracking-[-0.02em] text-foreground">
-                  {s.num}
+                  {s.value}
                 </span>
                 <span className="text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                  {s.k}
+                  {s.label}
                 </span>
               </div>
             ))}
@@ -344,52 +358,15 @@ function TeamSection({ members }: { members: TeamMember[] }) {
           </div>
         </div>
 
-        {/* Scroll grid */}
-        <div
-          className="grid gap-3 overflow-x-auto pb-2"
-          style={{
-            gridAutoFlow: "column",
-            gridAutoColumns: "minmax(200px, 220px)",
-            scrollSnapType: "x mandatory",
-            scrollbarWidth: "none",
-          }}
-        >
-          {members.map((m) => (
-            <article
-              key={m.name}
-              className="overflow-hidden border bg-card dark:border-white/12 dark:bg-white/5"
-              style={{ scrollSnapAlign: "start" }}
-            >
-              <div
-                className="relative"
-                style={{ aspectRatio: "4/5", overflow: "hidden" }}
-              >
-                <Image
-                  src={m.portrait}
-                  alt={m.name}
-                  fill
-                  className="object-cover"
-                  sizes="220px"
-                />
-              </div>
-              <div className="border-t p-3.5">
-                <p className="m-0 text-sm font-bold text-foreground">
-                  {m.name}
-                </p>
-                <p className="m-0 mt-1 text-xs text-muted-foreground">
-                  {m.role}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
+        {/* Scroll carousel */}
+        <TeamCarousel members={members} />
       </div>
     </section>
   )
 }
 
 /* ── STEM Articulation ── */
-function StemSection() {
+function StemSection({ stats }: { stats: Metric[] }) {
   return (
     <section
       className="relative border-b px-8 py-16 lg:px-16 lg:py-20"
@@ -412,23 +389,22 @@ function StemSection() {
             tecnología y desarrollo de soluciones.
           </p>
           <div className="mt-6 grid grid-cols-2 border bg-card">
-            {[
-              { v: "14", k: "Instituciones aliadas" },
-              { v: "2", k: "Municipios impactados" },
-            ].map((s, i) => (
+            {stats.map((s, i) => (
               <div
-                key={s.k}
+                key={s.key}
                 className="p-5"
                 style={{
                   borderRight:
-                    i === 0 ? "1px solid var(--color-border)" : undefined,
+                    i < stats.length - 1
+                      ? "1px solid var(--color-border)"
+                      : undefined,
                 }}
               >
                 <p className="m-0 text-3xl font-extrabold tracking-[-0.02em] text-primary">
-                  {s.v}
+                  {s.value}
                 </p>
                 <p className="m-0 mt-1.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                  {s.k}
+                  {s.label}
                 </p>
               </div>
             ))}
