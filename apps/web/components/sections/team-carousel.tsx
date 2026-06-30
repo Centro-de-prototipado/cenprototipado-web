@@ -5,6 +5,7 @@ import Image from "next/image"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Reveal } from "@/components/ui/reveal"
 import type { TeamMember } from "@/lib/institutional-data"
 
 export function TeamCarousel({ members }: { members: TeamMember[] }) {
@@ -62,10 +63,12 @@ export function TeamCarousel({ members }: { members: TeamMember[] }) {
           scrollSnapType: "x proximity",
         }}
       >
-        {members.map((m) => (
-          <article
+        {members.map((m, i) => (
+          <Reveal
+            as="article"
             key={m.name}
-            className="overflow-hidden border bg-card dark:border-white/12 dark:bg-white/5"
+            index={i}
+            className="group overflow-hidden border bg-card dark:border-white/12 dark:bg-white/5"
             style={{ scrollSnapAlign: "start" }}
           >
             <div
@@ -76,7 +79,7 @@ export function TeamCarousel({ members }: { members: TeamMember[] }) {
                 src={m.portrait}
                 alt={m.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                 sizes="220px"
               />
             </div>
@@ -84,7 +87,7 @@ export function TeamCarousel({ members }: { members: TeamMember[] }) {
               <p className="m-0 text-sm font-bold text-foreground">{m.name}</p>
               <p className="m-0 mt-1 text-xs text-muted-foreground">{m.role}</p>
             </div>
-          </article>
+          </Reveal>
         ))}
       </div>
 

@@ -31,6 +31,8 @@ type RevealTag =
   | "h2"
   | "p"
   | "ul"
+  | "form"
+  | "aside"
 
 type RevealProps = HTMLMotionProps<"div"> &
   Pick<

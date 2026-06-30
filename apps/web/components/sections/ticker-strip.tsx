@@ -1,10 +1,12 @@
+import { Reveal } from "@/components/ui/reveal"
 import type { Technology } from "@/lib/institutional-data"
 
 export function TickerStrip({ technologies }: { technologies: Technology[] }) {
   const names = technologies.map((t) => t.title)
   const items = [...names, ...names]
   return (
-    <div
+    <Reveal
+      as="div"
       className="relative overflow-hidden border-b bg-muted/40 dark:bg-card"
       style={{ padding: "10px 0" }}
       aria-hidden="true"
@@ -27,6 +29,6 @@ export function TickerStrip({ technologies }: { technologies: Technology[] }) {
         ))}
       </div>
       <style>{`@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
-    </div>
+    </Reveal>
   )
 }

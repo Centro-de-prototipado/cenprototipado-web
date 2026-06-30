@@ -13,6 +13,7 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
+
 import { allies, type TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
 import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
@@ -229,8 +230,10 @@ function CentroHero({ stats }: { stats: Metric[] }) {
           {/* Stats bar */}
           <div className="grid grid-cols-4 border-t bg-card">
             {stats.map((s, i) => (
-              <div
+              <Reveal
+                as="div"
                 key={s.key}
+                index={i}
                 className="flex flex-col gap-1 p-4"
                 style={{
                   borderRight:
@@ -245,7 +248,7 @@ function CentroHero({ stats }: { stats: Metric[] }) {
                 <span className="text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                   {s.label}
                 </span>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -287,8 +290,10 @@ function MisionVision() {
       <DecorIcon className="size-3" position="top-right" />
       <div className="grid grid-cols-1 md:grid-cols-3">
         {cards.map(({ Icon, eyebrow, h3, p }, i) => (
-          <article
+          <Reveal
+            as="article"
             key={eyebrow}
+            index={i}
             className="relative flex flex-col gap-3.5 p-8 transition-colors hover:bg-muted/20 lg:p-10"
             style={{
               borderRight: i < 2 ? "1px solid var(--color-border)" : undefined,
@@ -306,7 +311,7 @@ function MisionVision() {
             <p className="m-0 text-sm leading-relaxed text-muted-foreground">
               {p}
             </p>
-          </article>
+          </Reveal>
         ))}
       </div>
       <DecorIcon className="size-3" position="bottom-left" />
@@ -337,7 +342,7 @@ function TeamSection({ members }: { members: TeamMember[] }) {
         }}
       />
       <div className="relative z-1">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
+        <Reveal as="div" className="mb-7 flex flex-wrap items-end justify-between gap-3">
           <div>
             <span className="text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
               Equipo
@@ -350,7 +355,7 @@ function TeamSection({ members }: { members: TeamMember[] }) {
               acompañamiento técnico.
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Scroll carousel */}
         <TeamCarousel members={members} />
@@ -369,7 +374,7 @@ function StemSection({ stats }: { stats: Metric[] }) {
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.3fr]">
-        <div>
+        <Reveal as="div">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Articulación
           </span>
@@ -403,12 +408,14 @@ function StemSection({ stats }: { stats: Metric[] }) {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         <ul className="m-0 list-none border bg-card p-0">
           {stemPoints.map((point, i) => (
-            <li
+            <Reveal
+              as="li"
               key={i}
+              index={i}
               className="grid grid-cols-[52px_1fr] items-start gap-3.5 p-5"
               style={{
                 borderBottom:
@@ -423,7 +430,7 @@ function StemSection({ stats }: { stats: Metric[] }) {
               <p className="m-0 text-sm leading-relaxed text-foreground">
                 {point}
               </p>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>
@@ -442,7 +449,7 @@ function AlliesSection() {
     >
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
-      <div className="mb-7 text-center">
+      <Reveal as="div" className="mb-7 text-center">
         <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
           Aliados
         </span>
@@ -453,14 +460,16 @@ function AlliesSection() {
           Instancias UNAL, sector productivo y red educativa que articulan los
           proyectos del Centro.
         </p>
-      </div>
+      </Reveal>
       <div
         className="grid border"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}
       >
         {allies.map((a, i) => (
-          <div
+          <Reveal
+            as="div"
             key={a.label}
+            index={i}
             className="flex min-h-28 flex-col items-center justify-center gap-1 bg-card p-5 text-center transition-colors hover:bg-card/60"
             style={{
               borderRight: "1px solid var(--color-border)",
@@ -473,7 +482,7 @@ function AlliesSection() {
             <span className="text-[10px] tracking-[0.14em] text-muted-foreground uppercase">
               {a.sub}
             </span>
-          </div>
+          </Reveal>
         ))}
       </div>
       <DecorIcon className="size-3" position="bottom-left" />
@@ -499,7 +508,7 @@ function CentroCta() {
           x={0}
         />
       </div>
-      <div className="relative z-1 flex max-w-2xl flex-col items-center gap-5">
+      <Reveal as="div" className="relative z-1 flex max-w-2xl flex-col items-center gap-5">
         <span className="inline-flex border bg-card px-3 py-1.5 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
           ¿Listo para crear?
         </span>
@@ -518,7 +527,7 @@ function CentroCta() {
             </Button>
           </Link>
         </div>
-      </div>
+      </Reveal>
       <DecorIcon className="size-3" position="bottom-left" />
       <DecorIcon className="size-3" position="bottom-right" />
     </section>

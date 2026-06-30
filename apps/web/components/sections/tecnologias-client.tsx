@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { AnimatePresence, motion } from "motion/react"
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -18,6 +19,7 @@ import {
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
+import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import type { Technology, FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
@@ -75,19 +77,19 @@ export function TecnologiasClient({
 
         {/* Copy */}
         <div className="flex flex-col gap-5 border-b px-8 py-16 lg:border-r lg:border-b-0 lg:px-14 lg:py-20">
-          <span className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+          <Reveal as="span" immediate index={0} className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Equipamiento · {filtered.length} tecnologías
-          </span>
-          <h1 className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
+          </Reveal>
+          <Reveal as="h1" immediate index={1} className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
             Tecnologías para{" "}
             <span className="text-primary">construir, probar</span> y mostrar.
-          </h1>
-          <p className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
+          </Reveal>
+          <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
             Hardware, software y experiencias de fabricación digital al servicio
             de estudiantes, docentes, semilleros y aliados. Desde impresoras 3D
             hasta realidad virtual.
-          </p>
-          <div className="flex flex-wrap gap-3">
+          </Reveal>
+          <Reveal as="div" immediate index={3} className="flex flex-wrap gap-3">
             <Link href="/contacto">
               <Button size="lg">
                 Reservar un equipo <CalendarIcon data-icon="inline-end" />
@@ -98,7 +100,7 @@ export function TecnologiasClient({
                 <PhoneIcon data-icon="inline-start" /> Pedir asesoría
               </Button>
             </Link>
-          </div>
+          </Reveal>
         </div>
 
         <DecorIcon className="size-3" position="bottom-left" />
@@ -129,8 +131,8 @@ export function TecnologiasClient({
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           }}
         >
-          {filtered.map((t) => (
-            <TechCardDetail key={t.title} t={t} />
+          {filtered.map((t, i) => (
+            <TechCardDetail key={t.title} t={t} index={i} />
           ))}
         </div>
         <DecorIcon className="size-3" position="bottom-left" />
@@ -153,7 +155,7 @@ export function TecnologiasClient({
           }}
         />
         <div className="relative z-1 grid grid-cols-1 gap-8 px-8 py-16 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-16">
-          <div>
+          <Reveal as="div">
             <span className="text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
               Reservar
             </span>
@@ -167,8 +169,8 @@ export function TecnologiasClient({
               Sin costo para la comunidad UNAL. Confirmación en máximo 2 días
               hábiles.
             </p>
-          </div>
-          <div className="flex flex-col gap-3">
+          </Reveal>
+          <Reveal as="div" index={1} className="flex flex-col gap-3">
             <div className="flex items-center gap-3 border bg-card p-4 dark:border-white/15 dark:bg-white/6">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center border text-primary dark:border-white/20">
                 <CalendarIcon className="size-4" />
@@ -193,7 +195,7 @@ export function TecnologiasClient({
                 <ArrowRightIcon data-icon="inline-end" />
               </Button>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -203,10 +205,12 @@ export function TecnologiasClient({
   )
 }
 
-function TechCardDetail({ t }: { t: Technology }) {
+function TechCardDetail({ t, index }: { t: Technology; index: number }) {
   const [open, setOpen] = useState(false)
   return (
-    <article
+    <Reveal
+      as="article"
+      index={index}
       className="relative flex flex-col overflow-hidden border-r border-b bg-card transition-colors hover:bg-card/80"
       style={{ margin: "-1px -1px 0 0" }}
     >
@@ -236,24 +240,34 @@ function TechCardDetail({ t }: { t: Technology }) {
           {t.description}
         </p>
       </div>
-      {open && (
-        <div className="border-t bg-muted/20 px-6 py-4">
-          <p className="mb-2.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-            Aplicaciones
-          </p>
-          <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
-            {t.applications.map((a) => (
-              <li
-                key={a}
-                className="flex items-start gap-2 text-xs text-muted-foreground"
-              >
-                <span className="shrink-0 text-primary">→</span>
-                {a}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: "spring", duration: 0.4, bounce: 0 }}
+            className="overflow-hidden border-t bg-muted/20"
+          >
+            <div className="px-6 py-4">
+              <p className="mb-2.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                Aplicaciones
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+                {t.applications.map((a) => (
+                  <li
+                    key={a}
+                    className="flex items-start gap-2 text-xs text-muted-foreground"
+                  >
+                    <span className="shrink-0 text-primary">→</span>
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="flex items-center justify-between border-t px-6 py-3">
         <span className="font-mono text-[11px] text-muted-foreground/70">
           {t.category} · {t.units} u.
@@ -275,7 +289,7 @@ function TechCardDetail({ t }: { t: Technology }) {
           </Link>
         </div>
       </div>
-    </article>
+    </Reveal>
   )
 }
 
@@ -286,7 +300,7 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.6fr]">
-        <div>
+        <Reveal as="div">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Preguntas frecuentes
           </span>
@@ -301,8 +315,8 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
               Más preguntas <ArrowRightIcon data-icon="inline-end" />
             </Button>
           </Link>
-        </div>
-        <div className="border bg-card">
+        </Reveal>
+        <Reveal as="div" index={1} className="border bg-card">
           {faq.slice(0, 5).map((f, i) => (
             <div key={i} className="border-b last:border-b-0">
               <button
@@ -323,14 +337,24 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
                   +
                 </span>
               </button>
-              {openIdx === i && (
-                <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
-                  {f.a}
-                </p>
-              )}
+              <AnimatePresence initial={false}>
+                {openIdx === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ type: "spring", duration: 0.4, bounce: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
+                      {f.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
       <DecorIcon className="size-3" position="bottom-left" />
       <DecorIcon className="size-3" position="bottom-right" />

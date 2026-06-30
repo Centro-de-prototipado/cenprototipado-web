@@ -59,8 +59,10 @@ export default async function PortafolioPage() {
             }}
           >
             {featured.slice(0, 3).map((p, i) => (
-              <figure
+              <Reveal
+                as="figure"
                 key={p.id}
+                index={i}
                 className="group relative m-0 overflow-hidden bg-black"
                 style={{ borderRight: i < 2 ? "1px solid var(--color-border)" : undefined }}
               >
@@ -78,7 +80,7 @@ export default async function PortafolioPage() {
                   </span>
                   <span className="text-sm font-bold leading-tight text-white">{p.title}</span>
                 </figcaption>
-              </figure>
+              </Reveal>
             ))}
           </div>
         )}

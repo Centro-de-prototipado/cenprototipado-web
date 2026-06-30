@@ -8,6 +8,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Reveal } from "@/components/ui/reveal"
 import { buttonVariants } from "@/components/ui/button"
 import type { PortfolioProjectMeta } from "@/lib/portfolio-types"
 import { cn } from "@/lib/utils"
@@ -35,7 +36,7 @@ export function CasesCarousel({
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
 
   return (
-    <div className="relative">
+    <Reveal as="div" className="relative">
       <div className="overflow-hidden px-6 py-6 md:px-8 md:py-8" ref={emblaRef}>
         <div className="-ml-4 flex">
           {projects.map((project) => (
@@ -72,7 +73,7 @@ export function CasesCarousel({
           <ChevronRightIcon className="size-4" />
         </button>
       </div>
-    </div>
+    </Reveal>
   )
 }
 

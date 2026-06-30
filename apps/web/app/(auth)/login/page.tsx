@@ -1,5 +1,6 @@
 import { AuthDivider } from "@/components/ui/auth-divider"
 import { FloatingPaths } from "@/components/ui/floating-paths"
+import { Reveal } from "@/components/ui/reveal"
 import { Logo } from "@/components/shared/logo"
 import { Button } from "@/components/ui/button"
 import {
@@ -53,7 +54,7 @@ export default function AuthPage() {
         </Link>
 
         <Logo className="h-24 lg:hidden" />
-        <div className="m-4 mx-auto space-y-4 sm:w-sm">
+        <Reveal as="div" immediate className="m-4 mx-auto space-y-4 sm:w-sm">
           <div className="flex flex-col items-center space-y-1 lg:items-start">
             <h1 className="text-2xl font-bold">Inicia sesión o regístrate</h1>
             <p className="text-base text-muted-foreground">
@@ -99,7 +100,7 @@ export default function AuthPage() {
             </Link>
             .
           </p>
-        </div>
+        </Reveal>
       </div>
     </main>
   )

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { SearchIcon, GridIcon, ListIcon, ArrowRightIcon } from "lucide-react"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { Reveal } from "@/components/ui/reveal"
 import type { PortfolioCategoryFilter, PortfolioProjectMeta } from "@/lib/portfolio-types"
 import { cn } from "@/lib/utils"
 
@@ -109,8 +110,8 @@ function GridView({ projects }: { projects: PortfolioProjectMeta[] }) {
   return (
     <section className="border-b px-8 py-12 lg:px-16">
       <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))" }}>
-        {projects.map((p) => (
-          <ProjectCard key={p.id} project={p} />
+        {projects.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={i} />
         ))}
       </div>
     </section>
@@ -122,37 +123,38 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
     <section className="border-b px-8 py-8 lg:px-16">
       <div className="border bg-card">
         {projects.map((p, i) => (
-          <Link
-            key={p.id}
-            href={`/portafolio/${p.slug}`}
-            className="group grid items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/20"
-            style={{
-              gridTemplateColumns: "80px minmax(0,1.6fr) minmax(0,1fr) auto",
-              borderBottom: i < projects.length - 1 ? "1px solid var(--color-border)" : undefined,
-            }}
-          >
-            <div className="relative h-16 w-20 overflow-hidden bg-black">
-              <Image src={p.image} alt={p.title} fill className="object-cover" sizes="80px" />
-            </div>
-            <div>
-              <p className="m-0 text-sm font-bold text-foreground group-hover:text-primary transition-colors">{p.title}</p>
-              <p className="m-0 mt-1 text-xs text-muted-foreground line-clamp-1">{p.summary}</p>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              <span className="border px-2 py-0.5 text-[10px] text-muted-foreground">{p.categories.join(" · ")}</span>
-              <span className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{p.year}</span>
-            </div>
-            <ArrowRightIcon className="size-4 text-muted-foreground" />
-          </Link>
+          <Reveal as="div" key={p.id} index={i}>
+            <Link
+              href={`/portafolio/${p.slug}`}
+              className="group grid items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/20"
+              style={{
+                gridTemplateColumns: "80px minmax(0,1.6fr) minmax(0,1fr) auto",
+                borderBottom: i < projects.length - 1 ? "1px solid var(--color-border)" : undefined,
+              }}
+            >
+              <div className="relative h-16 w-20 overflow-hidden bg-black">
+                <Image src={p.image} alt={p.title} fill className="object-cover" sizes="80px" />
+              </div>
+              <div>
+                <p className="m-0 text-sm font-bold text-foreground group-hover:text-primary transition-colors">{p.title}</p>
+                <p className="m-0 mt-1 text-xs text-muted-foreground line-clamp-1">{p.summary}</p>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="border px-2 py-0.5 text-[10px] text-muted-foreground">{p.categories.join(" · ")}</span>
+                <span className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{p.year}</span>
+              </div>
+              <ArrowRightIcon className="size-4 text-muted-foreground" />
+            </Link>
+          </Reveal>
         ))}
       </div>
     </section>
   )
 }
 
-function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
+function ProjectCard({ project, index }: { project: PortfolioProjectMeta; index: number }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80 hover:border-border/80">
+    <Reveal as="article" index={index} className="group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80 hover:border-border/80">
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="top-left" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="bottom-right" />
 
@@ -199,6 +201,6 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
           </div>*/}
         </div>
       </Link>
-    </article>
+    </Reveal>
   )
 }

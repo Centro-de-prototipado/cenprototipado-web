@@ -172,15 +172,17 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
         </h2>
         <ol className="grid list-none grid-cols-2 border p-0 m-0 md:grid-cols-4">
           {processSteps.map((step, i) => (
-            <li
+            <Reveal
+              as="li"
               key={step.n}
+              index={i}
               className="flex flex-col gap-2.5 bg-card p-6 transition-colors hover:bg-muted/20"
               style={{ borderRight: i < 3 ? "1px solid var(--color-border)" : undefined }}
             >
               <span className="font-extrabold text-2xl tracking-[-0.02em] text-primary">{step.n}</span>
               <p className="m-0 text-sm font-bold text-foreground">{step.t}</p>
               <p className="m-0 text-xs leading-relaxed text-muted-foreground">{step.d}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
         <DecorIcon className="size-3" position="bottom-left" />
@@ -199,21 +201,22 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {related.map((r) => (
-              <Link
-                key={r.id}
-                href={`/portafolio/${r.slug}`}
-                className="group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80"
-              >
-                <div className="relative overflow-hidden bg-black" style={{ aspectRatio: "4/3" }}>
-                  <Image src={r.image} alt={r.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="33vw" />
-                  <div aria-hidden="true" className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%)" }} />
-                </div>
-                <div className="flex flex-col gap-1.5 p-5">
-                  <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{r.categories.join(" · ")} · {r.year}</span>
-                  <h4 className="m-0 text-sm font-bold text-foreground transition-colors group-hover:text-primary">{r.title}</h4>
-                </div>
-              </Link>
+            {related.map((r, i) => (
+              <Reveal as="div" key={r.id} index={i}>
+                <Link
+                  href={`/portafolio/${r.slug}`}
+                  className="group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80"
+                >
+                  <div className="relative overflow-hidden bg-black" style={{ aspectRatio: "4/3" }}>
+                    <Image src={r.image} alt={r.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="33vw" />
+                    <div aria-hidden="true" className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%)" }} />
+                  </div>
+                  <div className="flex flex-col gap-1.5 p-5">
+                    <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">{r.categories.join(" · ")} · {r.year}</span>
+                    <h4 className="m-0 text-sm font-bold text-foreground transition-colors group-hover:text-primary">{r.title}</h4>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
           <DecorIcon className="size-3" position="bottom-left" />

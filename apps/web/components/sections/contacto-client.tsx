@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { AnimatePresence, motion } from "motion/react"
 import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon, ArrowRightIcon, GlobeIcon } from "lucide-react"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
+import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { allies, type FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
@@ -40,19 +42,19 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
 
         <div className="relative z-1 grid grid-cols-1 gap-8 px-8 py-16 lg:grid-cols-2 lg:items-center lg:px-14 lg:py-20">
           <div className="flex flex-col gap-5">
-            <span className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+            <Reveal as="span" immediate index={0} className="inline-flex w-fit border bg-card px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
               Contacto · Hablemos
-            </span>
-            <h1 className="m-0 max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground lg:text-[clamp(36px,5vw,72px)]">
+            </Reveal>
+            <Reveal as="h1" immediate index={1} className="m-0 max-w-[14ch] text-4xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground lg:text-[clamp(36px,5vw,72px)]">
               ¿Tienes una idea o proyecto?
-            </h1>
-            <p className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
+            </Reveal>
+            <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
               Coordinamos asesoría técnica, talleres, reservas de equipo y proyectos colaborativos con la comunidad académica y aliados externos.
-            </p>
+            </Reveal>
           </div>
 
           {/* Contact info grid */}
-          <div className="border bg-card">
+          <Reveal as="div" immediate index={2} delay={0.1} className="border bg-card">
             {[
               { Icon: MailIcon,   label: "Correo",   value: contact.email,    href: `mailto:${contact.email}` },
               { Icon: PhoneIcon,  label: "Teléfono", value: contact.phone,    href: `tel:${contact.phone.replace(/\s/g, "")}` },
@@ -77,7 +79,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
                 </span>
               </a>
             ))}
-          </div>
+          </Reveal>
         </div>
 
         <DecorIcon className="size-3" position="bottom-left" />
@@ -91,7 +93,8 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
 
         <div className="grid grid-cols-1 border lg:grid-cols-[1.5fr_1fr]">
           {/* Form */}
-          <form
+          <Reveal
+            as="form"
             onSubmit={(e) => { e.preventDefault(); setSent(true) }}
             className="relative flex flex-col gap-5 p-8 lg:border-r lg:p-9"
           >
@@ -160,10 +163,10 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
                 {sent ? "¡Mensaje enviado ✓" : "Enviar mensaje"} <ArrowRightIcon data-icon="inline-end" />
               </Button>
             </div>
-          </form>
+          </Reveal>
 
           {/* Sidebar */}
-          <aside className="flex flex-col gap-6 bg-background p-7 lg:p-8">
+          <Reveal as="aside" index={1} className="flex flex-col gap-6 bg-background p-7 lg:p-8">
             <div className="border bg-card p-5" style={{ boxShadow: "5px 5px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent)" }}>
               <span className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                 <span className="h-1.5 w-1.5 rounded-none bg-primary" />
@@ -193,7 +196,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
                 </a>
               </div>
             </div>
-          </aside>
+          </Reveal>
         </div>
 
         <DecorIcon className="size-3" position="bottom-left" />
@@ -205,15 +208,15 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
 
-        <div className="mb-6">
+        <Reveal as="div" className="mb-6">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Cómo llegar</span>
           <h2 className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">
             Museo Interactivo Samoga, segundo piso.
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">Entrada por la portería principal del museo, Sede Manizales de la UNAL.</p>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 border lg:grid-cols-[1.5fr_1fr]">
+        <Reveal as="div" index={1} className="grid grid-cols-1 border lg:grid-cols-[1.5fr_1fr]">
           {/* SVG Map */}
           <div className="relative min-h-80 overflow-hidden border-b lg:border-b-0 lg:border-r" style={{ background: "var(--color-muted)" }}>
             <MapSVG />
@@ -253,7 +256,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
               </a>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <DecorIcon className="size-3" position="bottom-left" />
         <DecorIcon className="size-3" position="bottom-right" />
@@ -266,16 +269,16 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
       <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16">
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
-        <div className="mb-6 text-center">
+        <Reveal as="div" className="mb-6 text-center">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Red de aliados</span>
           <h2 className="mt-3.5 text-2xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">Trabajamos en red.</h2>
-        </div>
+        </Reveal>
         <div className="grid border" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
-          {allies.map((a) => (
-            <div key={a.label} className="flex min-h-28 flex-col items-center justify-center gap-1 p-5 text-center bg-card transition-colors hover:bg-card/60" style={{ borderRight: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)" }}>
+          {allies.map((a, i) => (
+            <Reveal as="div" key={a.label} index={i} className="flex min-h-28 flex-col items-center justify-center gap-1 p-5 text-center bg-card transition-colors hover:bg-card/60" style={{ borderRight: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)" }}>
               <span className="text-sm font-bold tracking-[0.04em] text-foreground uppercase">{a.label}</span>
               <span className="text-[10px] tracking-[0.14em] text-muted-foreground uppercase">{a.sub}</span>
-            </div>
+            </Reveal>
           ))}
         </div>
         <DecorIcon className="size-3" position="bottom-left" />
@@ -343,22 +346,34 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.6fr]">
-        <div>
+        <Reveal as="div">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">FAQ</span>
           <h2 className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">Preguntas frecuentes.</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Todo lo que sueles preguntarte antes de contactarnos.</p>
-        </div>
-        <div className="border bg-card">
+        </Reveal>
+        <Reveal as="div" index={1} className="border bg-card">
           {faq.map((f, i) => (
             <div key={i} className="border-b last:border-b-0">
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)} className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-muted/20">
                 <span className="text-sm font-semibold text-foreground">{f.q}</span>
                 <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center border text-lg leading-none transition-transform", openIdx === i ? "rotate-45 bg-primary text-primary-foreground border-primary" : "")}>+</span>
               </button>
-              {openIdx === i && <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>}
+              <AnimatePresence initial={false}>
+                {openIdx === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ type: "spring", duration: 0.4, bounce: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
       <DecorIcon className="size-3" position="bottom-left" />
       <DecorIcon className="size-3" position="bottom-right" />
