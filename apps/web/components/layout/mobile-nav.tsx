@@ -46,7 +46,7 @@ export function MobileNav() {
           <PortalBackdrop />
           <div
             className={cn(
-              "size-full overflow-y-auto p-4",
+              "size-full overflow-y-auto bg-background p-4",
               "ease-out data-[slot=open]:animate-in data-[slot=open]:zoom-in-97"
             )}
             data-slot={open ? "open" : "closed"}

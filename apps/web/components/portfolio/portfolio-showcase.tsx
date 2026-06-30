@@ -126,24 +126,23 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
           <Reveal as="div" key={p.id} index={i}>
             <Link
               href={`/portafolio/${p.slug}`}
-              className="group grid items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/20"
+              className="group grid grid-cols-[64px_1fr_auto] items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/20 sm:grid-cols-[80px_minmax(0,1.6fr)_minmax(0,1fr)_auto] sm:gap-4 sm:px-5 sm:py-4"
               style={{
-                gridTemplateColumns: "80px minmax(0,1.6fr) minmax(0,1fr) auto",
                 borderBottom: i < projects.length - 1 ? "1px solid var(--color-border)" : undefined,
               }}
             >
-              <div className="relative h-16 w-20 overflow-hidden bg-black">
+              <div className="relative h-12 w-16 overflow-hidden bg-black sm:h-16 sm:w-20">
                 <Image src={p.image} alt={p.title} fill className="object-cover" sizes="80px" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="m-0 text-sm font-bold text-foreground group-hover:text-primary transition-colors">{p.title}</p>
                 <p className="m-0 mt-1 text-xs text-muted-foreground line-clamp-1">{p.summary}</p>
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="hidden flex-wrap gap-1.5 sm:flex">
                 <span className="border px-2 py-0.5 text-[10px] text-muted-foreground">{p.categories.join(" · ")}</span>
                 <span className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{p.year}</span>
               </div>
-              <ArrowRightIcon className="size-4 text-muted-foreground" />
+              <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground" />
             </Link>
           </Reveal>
         ))}

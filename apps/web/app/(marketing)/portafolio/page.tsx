@@ -5,6 +5,7 @@ import { GridPattern } from "@/components/ui/grid-pattern"
 import { getPortfolioProjects, getPortfolioCategories } from "@/lib/notion/portfolio"
 import { PortfolioShowcase } from "@/components/portfolio/portfolio-showcase"
 import { Reveal } from "@/components/ui/reveal"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Portafolio | Centro de Prototipado",
@@ -50,21 +51,16 @@ export default async function PortafolioPage() {
 
         {/* Featured mosaic strip */}
         {featured.length > 0 && (
-          <div
-            className="relative mt-10 border-t"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr",
-              height: 220,
-            }}
-          >
+          <div className="relative mt-10 grid grid-cols-1 border-t md:grid-cols-[2fr_1fr_1fr]">
             {featured.slice(0, 3).map((p, i) => (
               <Reveal
                 as="figure"
                 key={p.id}
                 index={i}
-                className="group relative m-0 overflow-hidden bg-black"
-                style={{ borderRight: i < 2 ? "1px solid var(--color-border)" : undefined }}
+                className={cn(
+                  "group relative m-0 h-[220px] overflow-hidden bg-black",
+                  i < 2 && "border-b border-border md:border-r md:border-b-0"
+                )}
               >
                 <Image
                   src={p.image}

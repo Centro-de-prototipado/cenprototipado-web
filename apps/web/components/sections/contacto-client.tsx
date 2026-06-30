@@ -227,7 +227,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
             />
             <div
               className="absolute border bg-card text-xs"
-              style={{ top: "52%", left: "58%", padding: "10px 12px", boxShadow: "3px 3px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent)", minWidth: 180, zIndex: 2 }}
+              style={{ top: "52%", left: "min(58%, calc(100% - 172px))", width: 160, padding: "10px 12px", boxShadow: "3px 3px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent)", zIndex: 2 }}
             >
               <p className="m-0 text-[9px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">Sede</p>
               <p className="m-0 mt-1 text-sm font-bold text-foreground">Centro de Prototipado</p>
