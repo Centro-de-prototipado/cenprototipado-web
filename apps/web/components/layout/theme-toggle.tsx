@@ -25,7 +25,7 @@ export function ThemeToggle({
   return (
     <Button
       variant="outline"
-      size={showLabel ? "default" : "icon"}
+      size={showLabel ? "default" : "icon-sm"}
       className={className}
       aria-label="Cambiar tema"
       title="Cambiar tema (D)"

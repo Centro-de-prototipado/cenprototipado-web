@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/navigation-menu"
 import { centroLinks, exploreLinks } from "./nav-links"
 import { LinkItem } from "@/components/shared/shared"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { ArrowRightIcon } from "lucide-react"
 
 export function DesktopNav() {
   return (
@@ -59,8 +62,11 @@ export function DesktopNav() {
         </NavigationMenuItem>
 
         {/* Contacto directo */}
-        <NavigationMenuLink className="px-4" href="/contacto">
-          Contacto
+        <NavigationMenuLink
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }), "ml-2")}
+          href="/contacto"
+        >
+          Contacto <ArrowRightIcon data-icon="inline-end" />
         </NavigationMenuLink>
       </NavigationMenuList>
     </NavigationMenu>
