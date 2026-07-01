@@ -96,12 +96,14 @@ export function MobileNav() {
             </div>
 
             <div className="mt-6 flex flex-col gap-2">
-              <ThemeToggle showLabel className="w-full" />
-              <Link href="/login">
-                <Button className="w-full" variant="outline">
-                  Ingresar
-                </Button>
-              </Link>
+              <div className="flex gap-2">
+                <ThemeToggle />
+                <Link href="/login" className="flex-1">
+                  <Button className="w-full" variant="outline">
+                    Ingresar
+                  </Button>
+                </Link>
+              </div>
               <Link href="/contacto" onClick={() => setOpen(false)}>
                 <Button className="w-full">
                   <MessageCircleIcon data-icon="inline-start" /> Contacto
