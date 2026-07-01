@@ -108,8 +108,8 @@ export function PortfolioShowcase({ projects, categories }: Props) {
 
 function GridView({ projects }: { projects: PortfolioProjectMeta[] }) {
   return (
-    <section className="border-b px-8 py-12 lg:px-16">
-      <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))" }}>
+    <section className="border-b py-12 lg:px-16">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
         {projects.map((p, i) => (
           <ProjectCard key={p.id} project={p} index={i} />
         ))}

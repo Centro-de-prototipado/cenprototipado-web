@@ -293,11 +293,11 @@
   }
   @media (max-width: 540px) {
     .gallery-bento {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(5, 200px);
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 150px 150px 150px;
     }
     .gallery-bento-lead {
-      grid-column: span 1;
+      grid-column: span 2;
       grid-row: span 1;
     }
   }

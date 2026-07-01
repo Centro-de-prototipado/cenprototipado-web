@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
-import { HeroRobot } from "@/components/sections/hero-robot"
+import { HeroRobotGate } from "@/components/sections/hero-robot-gate"
 import type { Metric } from "@/lib/notion/metrics"
 import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon } from "lucide-react"
 
@@ -118,13 +118,13 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
           </Reveal>
         </div>
 
-        {/* Right: 3D media slot */}
+        {/* Right: 3D media slot — desktop only */}
         <Reveal
           as="div"
           immediate
           index={2}
           delay={0.1}
-          className="relative flex items-stretch px-8 py-10 lg:px-10"
+          className="relative hidden items-stretch px-8 py-10 lg:flex lg:px-10"
         >
           <HeroMediaFrame />
         </Reveal>
@@ -312,7 +312,7 @@ function HeroMediaFrame() {
         />
 
         {/* Robot */}
-        <HeroRobot className="relative z-20 h-64 w-full max-w-sm md:h-80 md:max-w-md" />
+        <HeroRobotGate className="relative z-20 h-64 w-full max-w-sm md:h-80 md:max-w-md" />
 
         {/* Pedestal glow under the robot */}
         <div

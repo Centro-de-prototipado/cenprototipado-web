@@ -9,7 +9,7 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
-import { allies, type FaqItem } from "@/lib/institutional-data"
+import type { FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 
 const contact = {
@@ -87,7 +87,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
       </section>
 
       {/* ── Form + sidebar ── */}
-      <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16">
+      <section className="relative border-b py-14 lg:px-16 lg:py-16">
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
 
@@ -96,7 +96,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
           <Reveal
             as="form"
             onSubmit={(e) => { e.preventDefault(); setSent(true) }}
-            className="relative flex flex-col gap-5 p-8 lg:border-r lg:p-9"
+            className="relative flex flex-col gap-5 p-5 sm:p-8 lg:border-r lg:p-9"
           >
             <DecorIcon className="size-2" position="top-left" />
             <DecorIcon className="size-2" position="bottom-right" />
@@ -166,7 +166,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
           </Reveal>
 
           {/* Sidebar */}
-          <Reveal as="aside" index={1} className="flex flex-col gap-6 bg-background p-7 lg:p-8">
+          <Reveal as="aside" index={1} className="flex flex-col gap-6 bg-background p-5 sm:p-7 lg:p-8">
             <div className="border bg-card p-5" style={{ boxShadow: "5px 5px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent)" }}>
               <span className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                 <span className="h-1.5 w-1.5 rounded-none bg-primary" />
@@ -204,11 +204,11 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
       </section>
 
       {/* ── Mapa ── */}
-      <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16" id="mapa">
+      <section className="relative border-b py-14 lg:py-16 lg:px-16" id="mapa">
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
 
-        <Reveal as="div" className="mb-6">
+        <Reveal as="div" className="mb-6 px-8 lg:px-0">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Cómo llegar</span>
           <h2 className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">
             Museo Interactivo Samoga, segundo piso.
@@ -236,7 +236,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
           </div>
 
           {/* Info */}
-          <div className="flex flex-col gap-5 bg-card p-7">
+          <div className="flex flex-col gap-5 bg-card p-5 sm:p-7">
             {[
               { k: "Dirección",   v: "Museo Interactivo Samoga · 2do piso\nSede Manizales · Universidad Nacional\nManizales, Caldas — Colombia" },
               { k: "Coordenadas", v: "5.0594° N · 75.4905° W" },
@@ -264,26 +264,6 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
 
       {/* ── FAQ ── */}
       <FaqSection faq={faq} />
-
-      {/* ── Aliados ── */}
-      <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16">
-        <DecorIcon className="size-3" position="top-left" />
-        <DecorIcon className="size-3" position="top-right" />
-        <Reveal as="div" className="mb-6 text-center">
-          <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Red de aliados</span>
-          <h2 className="mt-3.5 text-2xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">Trabajamos en red.</h2>
-        </Reveal>
-        <div className="grid border" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}>
-          {allies.map((a, i) => (
-            <Reveal as="div" key={a.label} index={i} className="flex min-h-28 flex-col items-center justify-center gap-1 p-5 text-center bg-card transition-colors hover:bg-card/60" style={{ borderRight: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)" }}>
-              <span className="text-sm font-bold tracking-[0.04em] text-foreground uppercase">{a.label}</span>
-              <span className="text-[10px] tracking-[0.14em] text-muted-foreground uppercase">{a.sub}</span>
-            </Reveal>
-          ))}
-        </div>
-        <DecorIcon className="size-3" position="bottom-left" />
-        <DecorIcon className="size-3" position="bottom-right" />
-      </section>
 
       <style>{`
         @keyframes pulse-pin {

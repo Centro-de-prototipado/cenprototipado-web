@@ -108,10 +108,10 @@ export function TecnologiasClient({
       </section>
 
       {/* ── Tech grid ── */}
-      <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16">
+      <section className="relative border-b py-14 lg:py-16">
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
-        <div className="mb-6 flex items-center justify-between gap-3">
+        <div className="mb-6 flex items-center justify-between gap-3 px-8 lg:px-16">
           <span className="font-mono text-xs text-muted-foreground">
             {String(filtered.length).padStart(2, "0")} /{" "}
             {String(technologies.length).padStart(2, "0")} tecnologías
@@ -125,12 +125,7 @@ export function TecnologiasClient({
             </button>
           )}
         </div>
-        <div
-          className="grid border"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          }}
-        >
+        <div className="grid grid-cols-2 border lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((t, i) => (
             <TechCardDetail key={t.title} t={t} index={i} />
           ))}
@@ -268,7 +263,7 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex items-center justify-between border-t px-6 py-3">
+      <div className="flex flex-col gap-2 border-t px-6 py-3 sm:flex-row sm:items-center sm:justify-between">
         <span className="font-mono text-[11px] text-muted-foreground/70">
           {t.category} · {t.units} u.
         </span>

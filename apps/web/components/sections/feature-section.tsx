@@ -31,12 +31,7 @@ export function FeatureSection({
       </Reveal>
 
       {/* Tech grid */}
-      <div
-        className="grid border-t"
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        }}
-      >
+      <div className="grid grid-cols-2 border-t md:grid-cols-4">
         {shown.map((tech, i) => (
           <TechCard key={tech.title} tech={tech} index={i} />
         ))}
