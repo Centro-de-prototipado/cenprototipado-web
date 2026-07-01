@@ -8,6 +8,7 @@ import { DesktopNav } from "@/components/layout/desktop-nav"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { MessageCircleIcon } from "lucide-react"
 import Link from "next/link"
 
 export function Header() {
@@ -42,8 +43,10 @@ export function Header() {
             <Link href="/login">
               <Button variant="outline">Ingresar</Button>
             </Link>
-            <Link href="/dashboard">
-              <Button>Ir al panel</Button>
+            <Link href="/contacto">
+              <Button>
+                <MessageCircleIcon data-icon="inline-start" /> Contacto
+              </Button>
             </Link>
           </div>
           <MobileNav />
