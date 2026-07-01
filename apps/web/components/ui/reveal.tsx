@@ -63,7 +63,6 @@ export function Reveal({
     return <Comp {...props}>{children}</Comp>
   }
 
-  const initial = { opacity: 0, y: 8, filter: "blur(4px)" }
   const shown = { opacity: 1, y: 0, filter: "blur(0px)" }
   const transition = {
     type: "spring" as const,
@@ -72,16 +71,15 @@ export function Reveal({
     delay: delay + Math.min(index, 8) * 0.06,
   }
 
-  // Above-the-fold content must never depend on hydration timing to become
-  // visible — on slow mobile connections the JS can take a while to kick in,
-  // which left the page looking blank (SSR ships the pre-animation opacity:0
-  // state as inline styles). So it renders already-shown and skips the fade-in.
-  const trigger = immediate
-    ? { initial: shown }
-    : { initial, whileInView: shown, viewport: { once: true, margin: "0px 0px -12% 0px" } }
-
+  // Content must never depend on hydration timing to become visible — on slow
+  // mobile connections the JS can take a while to kick in (or never fully
+  // settle), which left whole sections below the fold looking blank forever
+  // (SSR ships the pre-animation opacity:0 state as inline styles, and it only
+  // clears once React hydrates and the scroll-into-view trigger fires). So
+  // everything renders already-shown; the fade-in is skipped in exchange for
+  // content that's always there.
   return (
-    <Comp transition={transition} {...trigger} {...props}>
+    <Comp initial={shown} transition={transition} {...props}>
       {children}
     </Comp>
   )

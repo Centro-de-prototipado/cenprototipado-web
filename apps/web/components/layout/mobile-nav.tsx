@@ -5,12 +5,22 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Portal, PortalBackdrop } from "@/components/ui/portal"
 import { Button } from "@/components/ui/button"
+import { LinkItem } from "@/components/shared/shared"
 import { centroLinks, exploreLinks } from "@/components/layout/nav-links"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
-import { XIcon, MenuIcon, ChevronRightIcon } from "lucide-react"
+import { XIcon, MenuIcon } from "lucide-react"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!open) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [open])
 
   return (
     <div className="md:hidden">
@@ -43,7 +53,7 @@ export function MobileNav() {
 
       {open && (
         <Portal className="top-14">
-          <PortalBackdrop />
+          <PortalBackdrop onClick={() => setOpen(false)} />
           <div
             className={cn(
               "size-full overflow-y-auto bg-background p-4",
@@ -51,62 +61,44 @@ export function MobileNav() {
             )}
             data-slot={open ? "open" : "closed"}
           >
-            <div className="flex w-full flex-col gap-y-4">
+            <div className="flex w-full flex-col gap-y-5">
               {/* Centro group */}
               <div>
-                <p className="mb-1 px-2 text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                <p className="mb-2 px-1 text-xs font-medium tracking-wider text-muted-foreground uppercase">
                   Centro
                 </p>
-                {centroLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-none border border-transparent px-3 py-2.5 transition-colors active:bg-muted dark:active:bg-muted/50"
-                  >
-                    <div>
-                      <p className="text-sm font-medium">{link.label}</p>
-                      {link.description && (
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          {link.description}
-                        </p>
-                      )}
-                    </div>
-                    <ChevronRightIcon className="size-4 shrink-0 text-muted-foreground" />
-                  </Link>
-                ))}
+                <div className="space-y-1 border bg-card p-2">
+                  {centroLinks.map((link, i) => (
+                    <LinkItem
+                      key={`centro-${i}`}
+                      {...link}
+                      onClick={() => setOpen(false)}
+                    />
+                  ))}
+                </div>
               </div>
 
               {/* Explorar group */}
               <div>
-                <p className="mb-1 px-2 text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                <p className="mb-2 px-1 text-xs font-medium tracking-wider text-muted-foreground uppercase">
                   Explorar
                 </p>
-                {exploreLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-none border border-transparent px-3 py-2.5 transition-colors active:bg-muted dark:active:bg-muted/50"
-                  >
-                    <div>
-                      <p className="text-sm font-medium">{link.label}</p>
-                      {link.description && (
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          {link.description}
-                        </p>
-                      )}
-                    </div>
-                    <ChevronRightIcon className="size-4 shrink-0 text-muted-foreground" />
-                  </Link>
-                ))}
+                <div className="space-y-1 border bg-card p-2">
+                  {exploreLinks.map((link, i) => (
+                    <LinkItem
+                      key={`explore-${i}`}
+                      {...link}
+                      onClick={() => setOpen(false)}
+                    />
+                  ))}
+                </div>
               </div>
 
               {/* Contacto direct */}
               <Link
                 href="/contacto"
                 onClick={() => setOpen(false)}
-                className="rounded-none border border-transparent px-3 py-2.5 text-sm font-medium transition-colors active:bg-muted dark:active:bg-muted/50"
+                className="flex items-center justify-center border px-3 py-3 text-sm font-medium transition-colors active:bg-muted dark:active:bg-muted/50"
               >
                 Contacto
               </Link>
