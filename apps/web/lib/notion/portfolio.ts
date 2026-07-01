@@ -23,6 +23,7 @@ const PUBLISHED = { property: "Publicado", checkbox: { equals: true } } as const
 const mapMeta = (page: PageObjectResponse): PortfolioProjectMeta => {
   const p = page.properties
   const partner = getRichText(p, "Aliado")
+  const link = getUrl(p, "Enlace")
   return {
     id: page.id,
     slug: getRichText(p, "Slug"),
@@ -37,6 +38,7 @@ const mapMeta = (page: PageObjectResponse): PortfolioProjectMeta => {
     outcomes: getMultilineList(p, "Resultados"),
     featured: getCheckbox(p, "Destacado"),
     ...(partner ? { partner } : {}),
+    ...(link ? { link } : {}),
   }
 }
 
@@ -47,7 +49,7 @@ export const getPortfolioProjects = async (): Promise<
   cacheTag("portafolio")
   cacheLife("max")
 
-  const projects: PortfolioProjectMeta[] = []
+  const items: { order: number | null; project: PortfolioProjectMeta }[] = []
   let cursor: string | undefined
 
   do {
@@ -57,12 +59,25 @@ export const getPortfolioProjects = async (): Promise<
       start_cursor: cursor,
     })
     for (const item of res.results) {
-      if (isFullPage(item)) projects.push(mapMeta(item))
+      if (isFullPage(item)) {
+        items.push({
+          order: getNumber(item.properties, "Orden"),
+          project: mapMeta(item),
+        })
+      }
     }
     cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
   } while (cursor)
 
-  return projects.sort((a, b) => Number(b.year) - Number(a.year))
+  // `Orden` (curado a mano) manda cuando está presente; si no, se ordena por año.
+  return items
+    .sort((a, b) => {
+      if (a.order !== null && b.order !== null) return a.order - b.order
+      if (a.order !== null) return -1
+      if (b.order !== null) return 1
+      return Number(b.project.year) - Number(a.project.year)
+    })
+    .map((i) => i.project)
 }
 
 export const getPortfolioProjectBySlug = async (

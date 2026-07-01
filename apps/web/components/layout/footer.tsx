@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Logo } from "@/components/shared/logo"
 import { getCurrentYear } from "@/components/layout/current-year"
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { getConfig } from "@/lib/notion/config"
 
 const nav = [
   { label: "El Centro", href: "/centro" },
@@ -10,18 +11,20 @@ const nav = [
   { label: "Contacto", href: "/contacto" },
 ]
 
-const contact = [
-  {
-    label: "cenprototipado_man@unal.edu.co",
-    href: "mailto:cenprototipado_man@unal.edu.co",
-  },
-  { label: "+57 (606) 887 9300", href: "tel:+576068879300" },
-  { label: "Samoga · 2do piso · Manizales", href: "/contacto#mapa" },
-  { label: "Lun–Vie · 8:00 – 17:00", href: "#" },
-]
-
 export async function Footer() {
-  const year = await getCurrentYear()
+  const [year, config] = await Promise.all([getCurrentYear(), getConfig()])
+  const contact = [
+    {
+      label: config["contacto-email"],
+      href: `mailto:${config["contacto-email"]}`,
+    },
+    {
+      label: config["contacto-telefono"],
+      href: `tel:${config["contacto-telefono"]?.replace(/\s/g, "")}`,
+    },
+    { label: config["contacto-sede"], href: "/contacto#mapa" },
+    { label: config["contacto-horario"], href: "#" },
+  ].filter((c) => c.label)
   return (
     <footer className="relative border-t">
       <DecorIcon className="size-3" position="top-left" />

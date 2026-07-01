@@ -2,6 +2,8 @@ export type TeamMember = {
   name: string
   role: string
   portrait: string
+  bio?: string
+  linkedin?: string
 }
 
 function initialsFromName(name: string) {

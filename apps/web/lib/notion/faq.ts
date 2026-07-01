@@ -4,19 +4,25 @@ import { cacheLife, cacheTag } from "next/cache"
 
 import type { FaqItem } from "@/lib/institutional-data"
 import { DATA_SOURCES, notion } from "./client"
-import { getNumber, getRichText, getTitle } from "./map"
+import { getNumber, getRichText, getSelect, getTitle } from "./map"
 
 const mapFaq = (page: PageObjectResponse): FaqItem => {
   const p = page.properties
   return { q: getTitle(p, "Pregunta"), a: getRichText(p, "Respuesta") }
 }
 
-export const getFaq = async (): Promise<FaqItem[]> => {
+// Preguntas sin `Categoría` asignada se tratan como "General" — así el
+// contenido existente sin categorizar sigue apareciendo en todas partes.
+const GENERAL = "General"
+
+// Sin `category`, devuelve todas las preguntas publicadas (comportamiento de
+// `/contacto`). Con `category`, filtra a esa categoría + "General".
+export const getFaq = async (category?: string): Promise<FaqItem[]> => {
   "use cache"
   cacheTag("faq")
   cacheLife("max")
 
-  const items: { order: number; faq: FaqItem }[] = []
+  const items: { order: number; faq: FaqItem; category: string }[] = []
   let cursor: string | undefined
 
   do {
@@ -30,11 +36,16 @@ export const getFaq = async (): Promise<FaqItem[]> => {
         items.push({
           order: getNumber(item.properties, "Orden") ?? 0,
           faq: mapFaq(item),
+          category: getSelect(item.properties, "Categoría") || GENERAL,
         })
       }
     }
     cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
   } while (cursor)
 
-  return items.sort((a, b) => a.order - b.order).map((i) => i.faq)
+  const filtered = category
+    ? items.filter((i) => i.category === category || i.category === GENERAL)
+    : items
+
+  return filtered.sort((a, b) => a.order - b.order).map((i) => i.faq)
 }

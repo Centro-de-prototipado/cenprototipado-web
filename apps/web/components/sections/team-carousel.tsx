@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Image from "next/image"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon, LinkIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Reveal } from "@/components/ui/reveal"
@@ -84,8 +84,28 @@ export function TeamCarousel({ members }: { members: TeamMember[] }) {
               />
             </div>
             <div className="border-t p-3.5">
-              <p className="m-0 text-sm font-bold text-foreground">{m.name}</p>
-              <p className="m-0 mt-1 text-xs text-muted-foreground">{m.role}</p>
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="m-0 text-sm font-bold text-foreground">{m.name}</p>
+                  <p className="m-0 mt-1 text-xs text-muted-foreground">{m.role}</p>
+                </div>
+                {m.linkedin && (
+                  <a
+                    aria-label={`LinkedIn de ${m.name}`}
+                    className="shrink-0 text-muted-foreground transition-colors hover:text-primary"
+                    href={m.linkedin}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <LinkIcon className="size-4" />
+                  </a>
+                )}
+              </div>
+              {m.bio && (
+                <p className="m-0 mt-1.5 text-xs leading-relaxed text-muted-foreground/80">
+                  {m.bio}
+                </p>
+              )}
             </div>
           </Reveal>
         ))}

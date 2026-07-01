@@ -2,7 +2,14 @@ import { revalidateTag } from "next/cache"
 import { NextResponse, type NextRequest } from "next/server"
 
 // Tags de caché de los contenidos gestionados desde Notion.
-const TAGS = ["portafolio", "tecnologias", "equipo", "faq", "metricas"] as const
+const TAGS = [
+  "portafolio",
+  "tecnologias",
+  "equipo",
+  "faq",
+  "metricas",
+  "configuracion",
+] as const
 
 // Revalidación manual on-demand: POST /api/revalidate?secret=…[&tag=…]
 // También acepta el secreto vía header `x-revalidate-secret`.

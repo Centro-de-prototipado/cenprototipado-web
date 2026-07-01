@@ -5,13 +5,14 @@ import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { HeroRobotGate } from "@/components/sections/hero-robot-gate"
 import type { Metric } from "@/lib/notion/metrics"
-import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon } from "lucide-react"
+import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon, CodeXmlIcon } from "lucide-react"
 
 const capabilities = [
   { icon: PrinterIcon,  label: "Fabricación",  detail: "3D · CNC · Láser" },
   { icon: GlassesIcon,  label: "Inmersivo",    detail: "VR · AR · MR" },
   { icon: BotIcon,      label: "Robótica",     detail: "Brazos · Sensores" },
   { icon: LayersIcon,   label: "BIM · Twin",   detail: "Unity · Revit" },
+  { icon: CodeXmlIcon,  label: "Desarrollo",   detail: "Web · Apps" },
 ]
 
 export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
@@ -131,7 +132,7 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
       </div>
 
       {/* Capability strip */}
-      <div className="relative z-1 grid grid-cols-2 border-t bg-card lg:grid-cols-4">
+      <div className="relative z-1 grid grid-cols-2 border-t bg-card lg:grid-cols-5">
         {capabilities.map((cap, i) => {
           const Icon = cap.icon
           return (
@@ -142,7 +143,7 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
               className={cn(
                 "flex items-center gap-3 px-5 py-4",
                 i < capabilities.length - 1 && "border-r",
-                i < 2 && "lg:border-b-0 border-b"
+                i < 4 && "lg:border-b-0 border-b"
               )}
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center border bg-background text-primary">

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
 }
 
 export default async function TecnologiasPage() {
-  const [technologies, faq] = await Promise.all([getTechnologies(), getFaq()])
+  const [technologies, faq] = await Promise.all([
+    getTechnologies(),
+    getFaq("Tecnologías"),
+  ])
   return <TecnologiasClient technologies={technologies} faq={faq} />
 }

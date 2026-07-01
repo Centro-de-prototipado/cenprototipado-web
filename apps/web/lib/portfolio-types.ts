@@ -15,6 +15,7 @@ export type PortfolioProjectMeta = {
   outcomes: string[]
   featured: boolean
   partner?: string
+  link?: string
 }
 
 export type PortfolioProject = PortfolioProjectMeta & {

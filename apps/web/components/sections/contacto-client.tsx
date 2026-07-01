@@ -12,18 +12,24 @@ import { Button } from "@/components/ui/button"
 import type { FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
 
-const contact = {
-  email: "cenprototipado_man@unal.edu.co",
-  phone: "+57 (606) 887 9300",
-  location: "Manizales, Museo Interactivo Samoga, segundo piso",
-  hours: "Lun–Vie · 8:00 a.m. – 5:00 p.m.",
-}
-
 const queryTypes = ["Asesoría técnica", "Reserva de equipo", "Propuesta de proyecto", "Visita guiada", "Otro"]
 
-export function ContactoClient({ faq }: { faq: FaqItem[] }) {
+export function ContactoClient({
+  faq,
+  config,
+}: {
+  faq: FaqItem[]
+  config: Record<string, string>
+}) {
   const [sent, setSent] = useState(false)
   const [queryType, setQueryType] = useState("Asesoría técnica")
+  const contact = {
+    email: config["contacto-email"] ?? "",
+    phone: config["contacto-telefono"] ?? "",
+    location: config["contacto-sede"] ?? "",
+    hours: config["contacto-horario"] ?? "",
+    coordinates: config["contacto-coordenadas"] ?? "",
+  }
 
   return (
     <>
@@ -239,7 +245,7 @@ export function ContactoClient({ faq }: { faq: FaqItem[] }) {
           <div className="flex flex-col gap-5 bg-card p-5 sm:p-7">
             {[
               { k: "Dirección",   v: "Museo Interactivo Samoga · 2do piso\nSede Manizales · Universidad Nacional\nManizales, Caldas — Colombia" },
-              { k: "Coordenadas", v: "5.0594° N · 75.4905° W" },
+              { k: "Coordenadas", v: contact.coordinates },
               { k: "Transporte",  v: "Cable Aéreo · estación Cámbulos\nBuses ruta UNAL · paradero principal" },
             ].map((r) => (
               <div key={r.k}>

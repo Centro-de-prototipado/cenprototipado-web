@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button"
 import type { TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
 import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
+import { getConfig } from "@/lib/notion/config"
 import { TeamCarousel } from "@/components/sections/team-carousel"
 
 export const metadata: Metadata = {
@@ -33,9 +34,10 @@ const stemPoints = [
 ]
 
 export default async function CentroPage() {
-  const [teamMembers, metrics] = await Promise.all([
+  const [teamMembers, metrics, config] = await Promise.all([
     getTeamMembers(),
     getMetrics(),
+    getConfig(),
   ])
   return (
     <>
@@ -47,7 +49,7 @@ export default async function CentroPage() {
           "aulas-stem",
         ])}
       />
-      <MisionVision />
+      <MisionVision mision={config["mision"]} vision={config["vision"]} />
       <TeamSection members={teamMembers} />
       <StemSection
         stats={pickMetrics(metrics, [
@@ -260,19 +262,19 @@ function CentroHero({ stats }: { stats: Metric[] }) {
 }
 
 /* ── Misión / Visión / Para quién ── */
-function MisionVision() {
+function MisionVision({ mision, vision }: { mision?: string; vision?: string }) {
   const cards = [
     {
       Icon: ZapIcon,
       eyebrow: "Misión",
-      h3: "Democratizar el acceso a tecnologías de fabricación digital y promover la innovación.",
-      p: "Mediante el aprendizaje práctico, la experimentación y la colaboración interdisciplinaria con estudiantes, docentes y comunidades.",
+      h3: mision,
+      p: null,
     },
     {
       Icon: GlobeIcon,
       eyebrow: "Visión",
-      h3: "Ser un referente en innovación y fabricación digital en el territorio.",
-      p: "Reconocido por impulsar proyectos tecnológicos y facilitar el acceso a herramientas y conocimientos para transformar ideas en soluciones con impacto educativo, social y empresarial.",
+      h3: vision,
+      p: null,
     },
     {
       Icon: UsersIcon,
@@ -307,9 +309,11 @@ function MisionVision() {
             <h3 className="m-0 text-lg leading-[1.2] font-bold tracking-[-0.01em] text-foreground lg:text-xl">
               {h3}
             </h3>
-            <p className="m-0 text-sm leading-relaxed text-muted-foreground">
-              {p}
-            </p>
+            {p && (
+              <p className="m-0 text-sm leading-relaxed text-muted-foreground">
+                {p}
+              </p>
+            )}
           </Reveal>
         ))}
       </div>

@@ -23,4 +23,7 @@ export const DATA_SOURCES = {
   metricas:
     process.env.NOTION_METRICAS_DATA_SOURCE_ID ||
     "c2162ede-be64-4dce-8799-3f53ee7b0c63",
+  configuracion:
+    process.env.NOTION_CONFIGURACION_DATA_SOURCE_ID ||
+    "a5cba8c6-4d8f-462c-af18-1b2ea3f09353",
 } as const

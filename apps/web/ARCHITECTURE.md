@@ -40,12 +40,23 @@ Todas cuelgan de la página **«CMS — Centro de Prototipado»**
 | Portafolio | `2518f455-7332-40c4-b3c7-ee0905d2391e` | proyectos (híbrido: propiedades + cuerpo markdown) | `/portafolio`, `/portafolio/[slug]`, home (Cases) |
 | Tecnologías | `9616e1e9-cb5c-4908-8bd3-987384f5ff64` | inventario de equipos | `/tecnologias` |
 | Equipo | `4692245a-0dc7-41bd-89a1-09719cf6b8e5` | personas del Centro | `/centro` |
-| FAQ | `a4fb64e7-3c81-4634-b6e3-4f3edbafef67` | preguntas frecuentes | `/tecnologias`, `/contacto` |
+| FAQ | `a4fb64e7-3c81-4634-b6e3-4f3edbafef67` | preguntas frecuentes | `/tecnologias` (filtrado por `Categoría`), `/contacto` |
+| Configuración | `a5cba8c6-4d8f-462c-af18-1b2ea3f09353` | contacto (correo/teléfono/sede/horario/coordenadas), misión, visión — clave-valor | footer, home, `/contacto`, `/centro` |
 
-**Esquema Portafolio (propiedades → tipo):** `Título` (title), `Slug`, `Código`,
-`Categoría` (select), `Año` (number), `Imagen` (url), `Resumen`, `Reto`, `Solución`,
+**Esquema Portafolio (propiedades → tipo):** `Título` (title), `Slug`,
+`Categoría` (multi-select), `Año` (number), `Imagen` (url), `Resumen`, `Reto`, `Solución`,
 `Tecnologías` (multi-select), `Resultados` (texto multilínea → lista), `Aliado`,
+`Enlace` (url, opcional), `Orden` (number, opcional — prioriza sobre `Año` al ordenar),
 `Destacado` (checkbox), `Publicado` (checkbox). **Cuerpo de página → markdown.**
+
+**Esquema Equipo:** `Nombre` (title), `Rol`, `Foto` (url), `Bio` (opcional), `LinkedIn`
+(url, opcional), `Orden`, `Publicado`.
+
+**Esquema FAQ:** `Pregunta` (title), `Respuesta`, `Categoría` (select: `General`,
+`Tecnologías`, `Contacto` — sin asignar se trata como `General`), `Orden`, `Publicado`.
+
+**Esquema Configuración:** `Etiqueta` (title, solo interno), `Clave` (identificador
+estable usado en código, ej. `contacto-email`), `Valor`, `Orden`, `Publicado`.
 
 **Modelo híbrido:** las propiedades estructuradas alimentan el layout (hero,
 reto/solución, techStack…) y el **cuerpo** de la página de Notion se lee como markdown
@@ -60,15 +71,16 @@ map.ts           ← helpers para leer propiedades (getTitle, getSelect, getMult
 portfolio.ts     ← getPortfolioProjects / …BySlug / …Featured / …Categories / …Slugs
 technologies.ts  ← getTechnologies
 team.ts          ← getTeamMembers   (foto: URL externa; si vacía → avatar SVG generado)
-faq.ts           ← getFaq
+faq.ts           ← getFaq(category?)  — sin categoría devuelve todas; con categoría filtra a esa + "General"
 metrics.ts       ← getMetrics (cifras de impacto, indexadas por `Clave`) + pickMetrics()
+config.ts        ← getConfig (contacto, misión, visión — indexado por `Clave`)
 ```
 
-Cada lectura se filtra por `Publicado = true`, se ordena (por `Año` o por `Orden`) y se
+Cada lectura se filtra por `Publicado = true`, se ordena (por `Año`, `Orden` o similar) y se
 marca con la directiva **`"use cache"`** + `cacheTag(<tag>)` + `cacheLife("max")` (requerido
 por `cacheComponents: true`; reemplaza al antiguo `unstable_cache`). El contenido se cachea
 indefinidamente y solo se refresca on-demand.
-Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`, `metricas`.
+Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`, `metricas`, `configuracion`.
 
 Las páginas/secciones son **Server Components async** que hacen `await` de estos
 fetchers. Los componentes cliente (`tecnologias-client`, `contacto-client`) reciben los
@@ -107,6 +119,7 @@ NOTION_TECNOLOGIAS_DATA_SOURCE_ID  # opcional
 NOTION_EQUIPO_DATA_SOURCE_ID       # opcional
 NOTION_FAQ_DATA_SOURCE_ID          # opcional
 NOTION_METRICAS_DATA_SOURCE_ID     # opcional
+NOTION_CONFIGURACION_DATA_SOURCE_ID # opcional
 ```
 
 > En **despliegue (Vercel)** solo hace falta `NOTION_TOKEN` (y `REVALIDATE_SECRET` para
@@ -123,15 +136,17 @@ NOTION_METRICAS_DATA_SOURCE_ID     # opcional
 
 ## Contenido que NO está en Notion (hardcodeado)
 
-Copys fijos de hero/CTA, misión/visión, los puntos STEM (`stemPoints`), los pasos de
-proceso del portafolio (`processSteps`) y el array `allies` en `lib/institutional-data.ts`
-(que también conserva los **tipos** `TeamMember`, `Technology`, `FaqItem`, `Ally` y el
-helper `createPortraitDataUri`, fallback de fotos de equipo).
+Copys puramente decorativos que cambian poco: hero/CTA de home, "capabilities" strip,
+"para quién", los puntos STEM (`stemPoints`) y los pasos de proceso del portafolio
+(`processSteps`). `lib/institutional-data.ts` conserva los **tipos** `TeamMember`,
+`Technology`, `FaqItem` y el helper `createPortraitDataUri` (fallback de fotos de equipo).
 
-> **Tecnologías y métricas son fuente única en Notion.** Las cifras de impacto se leen de
-> la DB **Métricas** (`getMetrics` + `pickMetrics` por `Clave`); el catálogo de tecnologías
-> (home: ticker + grid; /tecnologias) se lee de la DB **Tecnologías**. No duplicar estos
-> valores en código.
+> **Tecnologías, métricas, contacto y misión/visión son fuente única en Notion.** Las
+> cifras de impacto se leen de la DB **Métricas** (`getMetrics` + `pickMetrics` por
+> `Clave`); el catálogo de tecnologías (home: ticker + grid; /tecnologias) se lee de la DB
+> **Tecnologías**; los datos de contacto y misión/visión se leen de la DB
+> **Configuración** (`getConfig`, indexado por `Clave`). No duplicar estos valores en
+> código.
 
 ## Convenciones clave
 

@@ -9,11 +9,15 @@ import { getNumber, getRichText, getTitle, getUrl } from "./map"
 const mapTeamMember = (page: PageObjectResponse): TeamMember => {
   const p = page.properties
   const name = getTitle(p, "Nombre")
+  const bio = getRichText(p, "Bio")
+  const linkedin = getUrl(p, "LinkedIn")
   return {
     name,
     role: getRichText(p, "Rol"),
     // Si no hay foto, se genera un avatar SVG como respaldo.
     portrait: getUrl(p, "Foto") || createPortraitDataUri(name, "#1f3b59", "#17324b"),
+    ...(bio ? { bio } : {}),
+    ...(linkedin ? { linkedin } : {}),
   }
 }
 

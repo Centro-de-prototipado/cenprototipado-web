@@ -96,14 +96,21 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
       {/* ── Meta bar ── */}
       <section className="border-b bg-card">
         <div className="flex flex-wrap items-center justify-between gap-4 px-8 py-4 lg:px-16">
-          {/*<div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {project.techStack.map((t) => (
               <span key={t} className="border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">{t}</span>
             ))}
-          </div>*/}
-          <Link href="/contacto">
-            <Button>Replicar este proyecto <ArrowRightIcon data-icon="inline-end" /></Button>
-          </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            {project.link && (
+              <a href={project.link} target="_blank" rel="noreferrer">
+                <Button variant="outline">Ver proyecto <ArrowRightIcon data-icon="inline-end" /></Button>
+              </a>
+            )}
+            <Link href="/contacto">
+              <Button>Replicar este proyecto <ArrowRightIcon data-icon="inline-end" /></Button>
+            </Link>
+          </div>
         </div>
       </section>
 

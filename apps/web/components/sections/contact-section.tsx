@@ -3,15 +3,16 @@ import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon, ArrowRightIcon } from "luci
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
+import { getConfig } from "@/lib/notion/config"
 
-const contactItems = [
-  { Icon: MailIcon,   label: "Correo",   value: "cenprototipado_man@unal.edu.co", href: "mailto:cenprototipado_man@unal.edu.co" },
-  { Icon: PhoneIcon,  label: "Teléfono", value: "+57 (606) 887 9300",             href: "tel:+576068879300" },
-  { Icon: MapPinIcon, label: "Sede",     value: "Museo Interactivo Samoga, 2do piso · Manizales", href: "/contacto#mapa" },
-  { Icon: ClockIcon,  label: "Horario",  value: "Lun–Vie · 8:00 a.m. – 5:00 p.m.", href: "#" },
-]
-
-export function ContactSection() {
+export async function ContactSection() {
+  const config = await getConfig()
+  const contactItems = [
+    { Icon: MailIcon,   label: "Correo",   value: config["contacto-email"],    href: `mailto:${config["contacto-email"]}` },
+    { Icon: PhoneIcon,  label: "Teléfono", value: config["contacto-telefono"], href: `tel:${config["contacto-telefono"]?.replace(/\s/g, "")}` },
+    { Icon: MapPinIcon, label: "Sede",     value: config["contacto-sede"],     href: "/contacto#mapa" },
+    { Icon: ClockIcon,  label: "Horario",  value: config["contacto-horario"],  href: "#" },
+  ].filter((c) => c.value)
   return (
     <section className="relative w-full border-b" id="contacto">
       <DecorIcon className="size-3" position="top-left" />
