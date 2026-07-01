@@ -72,13 +72,16 @@ export function Reveal({
     delay: delay + Math.min(index, 8) * 0.06,
   }
 
-  // Above-the-fold content animates on mount; everything else on scroll-in.
+  // Above-the-fold content must never depend on hydration timing to become
+  // visible — on slow mobile connections the JS can take a while to kick in,
+  // which left the page looking blank (SSR ships the pre-animation opacity:0
+  // state as inline styles). So it renders already-shown and skips the fade-in.
   const trigger = immediate
-    ? { animate: shown }
-    : { whileInView: shown, viewport: { once: true, margin: "0px 0px -12% 0px" } }
+    ? { initial: shown }
+    : { initial, whileInView: shown, viewport: { once: true, margin: "0px 0px -12% 0px" } }
 
   return (
-    <Comp initial={initial} transition={transition} {...trigger} {...props}>
+    <Comp transition={transition} {...trigger} {...props}>
       {children}
     </Comp>
   )

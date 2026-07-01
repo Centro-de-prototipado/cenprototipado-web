@@ -14,7 +14,7 @@ import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 
-import { allies, type TeamMember } from "@/lib/institutional-data"
+import type { TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
 import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
 import { TeamCarousel } from "@/components/sections/team-carousel"
@@ -55,7 +55,6 @@ export default async function CentroPage() {
           "municipios",
         ])}
       />
-      <AlliesSection />
       <CentroCta />
     </>
   )
@@ -433,57 +432,6 @@ function StemSection({ stats }: { stats: Metric[] }) {
             </Reveal>
           ))}
         </ul>
-      </div>
-      <DecorIcon className="size-3" position="bottom-left" />
-      <DecorIcon className="size-3" position="bottom-right" />
-    </section>
-  )
-}
-
-/* ── Allies ── */
-function AlliesSection() {
-  return (
-    <section
-      className="relative border-b px-8 py-16 lg:px-16 lg:py-20"
-      id="aliados"
-    >
-      <DecorIcon className="size-3" position="top-left" />
-      <DecorIcon className="size-3" position="top-right" />
-      <Reveal as="div" className="mb-7 text-center">
-        <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-          Aliados
-        </span>
-        <h2 className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground md:text-4xl">
-          Una red que sostiene el Centro.
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Instancias UNAL, sector productivo y red educativa que articulan los
-          proyectos del Centro.
-        </p>
-      </Reveal>
-      <div
-        className="grid border"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))" }}
-      >
-        {allies.map((a, i) => (
-          <Reveal
-            as="div"
-            key={a.label}
-            index={i}
-            className="flex min-h-28 flex-col items-center justify-center gap-1 bg-card p-5 text-center transition-colors hover:bg-card/60"
-            style={{
-              borderRight: "1px solid var(--color-border)",
-              borderBottom: "1px solid var(--color-border)",
-            }}
-          >
-            <span className="text-sm font-bold tracking-[0.04em] text-foreground uppercase">
-              {a.label}
-            </span>
-            <span className="text-[10px] tracking-[0.14em] text-muted-foreground uppercase">
-              {a.sub}
-            </span>
-          </Reveal>
-        ))}
       </div>
       <DecorIcon className="size-3" position="bottom-left" />
       <DecorIcon className="size-3" position="bottom-right" />

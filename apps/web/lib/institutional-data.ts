@@ -51,21 +51,6 @@ export function createPortraitDataUri(
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
 }
 
-export type Ally = { label: string; sub: string }
-
-export const allies: Ally[] = [
-  { label: "UNAL Manizales", sub: "Sede" },
-  { label: "DIMA", sub: "Investigación y Extensión" },
-  { label: "Museo Samoga", sub: "Sede física" },
-  { label: "Aulas STEM Manizales", sub: "Red educativa" },
-  { label: "Aulas STEM Caldas", sub: "Red departamental" },
-  { label: "Unimedios", sub: "Comunicaciones UNAL" },
-  { label: "Fac. Arquitectura", sub: "BIM · AR" },
-  { label: "Fac. Ingeniería", sub: "Simulación · Hardware" },
-  { label: "Fac. Ciencias Salud", sub: "VR médica" },
-  { label: "Industria local", sub: "Manizales · Caldas" },
-]
-
 export type FaqItem = { q: string; a: string }
 
 export type Technology = {

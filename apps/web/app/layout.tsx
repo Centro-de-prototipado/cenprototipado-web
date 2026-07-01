@@ -25,12 +25,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", ancizarFont.variable, "font-sans")}
+      className={cn("overflow-x-hidden antialiased", ancizarFont.variable, "font-sans")}
     >
       <body>
         <ThemeProvider>
           <TooltipProvider>
-            <div className="relative min-h-screen w-full overflow-hidden bg-background">
+            <div className="relative min-h-screen w-full bg-background">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-0 dark:hidden"
