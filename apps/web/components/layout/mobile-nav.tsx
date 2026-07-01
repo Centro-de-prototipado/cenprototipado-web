@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { LinkItem } from "@/components/shared/shared"
 import { centroLinks, exploreLinks } from "@/components/layout/nav-links"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
-import { XIcon, MenuIcon } from "lucide-react"
+import { XIcon, MenuIcon, MessageCircleIcon } from "lucide-react"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -93,15 +93,6 @@ export function MobileNav() {
                   ))}
                 </div>
               </div>
-
-              {/* Contacto direct */}
-              <Link
-                href="/contacto"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center border px-3 py-3 text-sm font-medium transition-colors active:bg-muted dark:active:bg-muted/50"
-              >
-                Contacto
-              </Link>
             </div>
 
             <div className="mt-6 flex flex-col gap-2">
@@ -111,8 +102,10 @@ export function MobileNav() {
                   Ingresar
                 </Button>
               </Link>
-              <Link href="/dashboard">
-                <Button className="w-full">Ir al panel</Button>
+              <Link href="/contacto" onClick={() => setOpen(false)}>
+                <Button className="w-full">
+                  <MessageCircleIcon data-icon="inline-start" /> Contacto
+                </Button>
               </Link>
             </div>
           </div>
