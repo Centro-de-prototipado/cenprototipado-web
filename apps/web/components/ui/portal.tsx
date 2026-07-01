@@ -8,18 +8,22 @@ function Portal({ className, ...props }: React.ComponentProps<"div">) {
   React.useEffect(() => {
     setMounted(true)
 
-    const originalStyle = window.getComputedStyle(document.body).overflow
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth
+    // Lock scroll on <html> (the real scrolling element), not <body> — setting
+    // overflow:hidden on body forces its overflow-x to also become non-visible,
+    // which turns it into a scroll-clipping ancestor and silently breaks the
+    // header's position: sticky while the menu is open.
+    const html = document.documentElement
+    const originalStyle = window.getComputedStyle(html).overflow
+    const scrollbarWidth = window.innerWidth - html.clientWidth
     const originalPaddingRight = document.body.style.paddingRight
 
-    document.body.style.overflow = "hidden"
+    html.style.overflow = "hidden"
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`
     }
 
     return () => {
-      document.body.style.overflow = originalStyle
+      html.style.overflow = originalStyle
       document.body.style.paddingRight = originalPaddingRight
     }
   }, [])
