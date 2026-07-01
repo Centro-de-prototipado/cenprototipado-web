@@ -93,30 +93,32 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
           </Reveal>
 
           {/* Mini-stats */}
-          <Reveal
-            as="div"
-            immediate
-            index={4}
-            className="mt-auto grid grid-cols-2 gap-0 border-t pt-6 sm:grid-cols-4"
-            style={{ borderTop: "1px solid var(--color-border)" }}
-          >
-            {miniStats.map((stat) => (
-              <div key={stat.label} className="flex flex-col gap-0.5 pr-4 pb-3">
-                <span
-                  className="font-extrabold tracking-[-0.02em] text-foreground"
-                  style={{
-                    fontFamily: "var(--font-heading, var(--font-sans))",
-                    fontSize: "clamp(22px, 2.6vw, 30px)",
-                  }}
-                >
-                  {stat.value}
-                </span>
-                <span className="text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </Reveal>
+          {miniStats.length > 0 && (
+            <Reveal
+              as="div"
+              immediate
+              index={4}
+              className="mt-auto grid grid-cols-2 gap-0 border-t pt-6 sm:grid-cols-4"
+              style={{ borderTop: "1px solid var(--color-border)" }}
+            >
+              {miniStats.map((stat) => (
+                <div key={stat.label} className="flex flex-col gap-0.5 pr-4 pb-3">
+                  <span
+                    className="font-extrabold tracking-[-0.02em] text-foreground"
+                    style={{
+                      fontFamily: "var(--font-heading, var(--font-sans))",
+                      fontSize: "clamp(22px, 2.6vw, 30px)",
+                    }}
+                  >
+                    {stat.value}
+                  </span>
+                  <span className="text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </Reveal>
+          )}
         </div>
 
         {/* Right: 3D media slot — desktop only */}

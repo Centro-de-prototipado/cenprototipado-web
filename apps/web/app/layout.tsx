@@ -1,7 +1,9 @@
 import "./globals.css"
+import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/layout/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site-config"
 
 import localFont from "next/font/local"
 
@@ -16,6 +18,28 @@ const ancizarFont = localFont({
   variable: "--font-sans",
   display: "swap",
 })
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} | UNAL Manizales`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | UNAL Manizales`,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | UNAL Manizales`,
+    description: SITE_DESCRIPTION,
+  },
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es"
       suppressHydrationWarning
       className={cn("overflow-x-hidden antialiased", ancizarFont.variable, "font-sans")}
     >

@@ -12,6 +12,8 @@ export function FeatureSection({
 }: {
   technologies: Technology[]
 }) {
+  if (technologies.length === 0) return null
+
   const shown = technologies.slice(0, 4)
   const extra = Math.max(technologies.length - shown.length, 0)
 

@@ -60,32 +60,38 @@ export function ContactoClient({
           </div>
 
           {/* Contact info grid */}
-          <Reveal as="div" immediate index={2} delay={0.1} className="border bg-card">
-            {[
+          {(() => {
+            const rows = [
               { Icon: MailIcon,   label: "Correo",   value: contact.email,    href: `mailto:${contact.email}` },
               { Icon: PhoneIcon,  label: "Teléfono", value: contact.phone,    href: `tel:${contact.phone.replace(/\s/g, "")}` },
               { Icon: MapPinIcon, label: "Sede",     value: contact.location, href: "#mapa" },
               { Icon: ClockIcon,  label: "Horario",  value: contact.hours,    href: "#" },
-            ].map(({ Icon, label, value, href }, i) => (
-              <a
-                key={label}
-                href={href}
-                className="grid transition-colors hover:bg-muted/20"
-                style={{
-                  gridTemplateColumns: "48px 1fr",
-                  borderBottom: i < 3 ? "1px solid var(--color-border)" : undefined,
-                }}
-              >
-                <span className="flex h-13 w-12 items-center justify-center text-primary" style={{ borderRight: "1px solid var(--color-border)" }}>
-                  <Icon className="size-4" />
-                </span>
-                <span className="px-4 py-2.5">
-                  <span className="block text-[9px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">{label}</span>
-                  <span className="mt-0.5 block text-sm font-medium text-foreground">{value}</span>
-                </span>
-              </a>
-            ))}
-          </Reveal>
+            ].filter((r) => r.value)
+            if (rows.length === 0) return null
+            return (
+              <Reveal as="div" immediate index={2} delay={0.1} className="border bg-card">
+                {rows.map(({ Icon, label, value, href }, i) => (
+                  <a
+                    key={label}
+                    href={href}
+                    className="grid transition-colors hover:bg-muted/20"
+                    style={{
+                      gridTemplateColumns: "48px 1fr",
+                      borderBottom: i < rows.length - 1 ? "1px solid var(--color-border)" : undefined,
+                    }}
+                  >
+                    <span className="flex h-13 w-12 items-center justify-center text-primary" style={{ borderRight: "1px solid var(--color-border)" }}>
+                      <Icon className="size-4" />
+                    </span>
+                    <span className="px-4 py-2.5">
+                      <span className="block text-[9px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">{label}</span>
+                      <span className="mt-0.5 block text-sm font-medium text-foreground">{value}</span>
+                    </span>
+                  </a>
+                ))}
+              </Reveal>
+            )
+          })()}
         </div>
 
         <DecorIcon className="size-3" position="bottom-left" />
@@ -195,11 +201,13 @@ export function ContactoClient({
                     <GlobeIcon className="size-3.5" /> unal.edu.co
                   </Button>
                 </a>
+                {contact.email && (
                 <a href={`mailto:${contact.email}`}>
                   <Button variant="outline" className="w-full justify-start">
                     <MailIcon className="size-3.5" /> {contact.email}
                   </Button>
                 </a>
+                )}
               </div>
             </div>
           </Reveal>
@@ -247,7 +255,7 @@ export function ContactoClient({
               { k: "Dirección",   v: "Museo Interactivo Samoga · 2do piso\nSede Manizales · Universidad Nacional\nManizales, Caldas — Colombia" },
               { k: "Coordenadas", v: contact.coordinates },
               { k: "Transporte",  v: "Cable Aéreo · estación Cámbulos\nBuses ruta UNAL · paradero principal" },
-            ].map((r) => (
+            ].filter((r) => r.v).map((r) => (
               <div key={r.k}>
                 <p className="m-0 mb-1.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">{r.k}</p>
                 <p className="m-0 whitespace-pre-line text-sm leading-relaxed text-foreground">{r.v}</p>
@@ -257,9 +265,11 @@ export function ContactoClient({
               <a href="https://www.google.com/maps/search/?api=1&query=Museo+Interactivo+Samoga+Manizales" target="_blank" rel="noreferrer">
                 <Button variant="outline" size="sm">Google Maps <ArrowRightIcon data-icon="inline-end" /></Button>
               </a>
-              <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>
-                <Button variant="ghost" size="sm"><PhoneIcon className="size-3.5" /> Llamar</Button>
-              </a>
+              {contact.phone && (
+                <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>
+                  <Button variant="ghost" size="sm"><PhoneIcon className="size-3.5" /> Llamar</Button>
+                </a>
+              )}
             </div>
           </div>
         </Reveal>
@@ -327,6 +337,7 @@ function MapSVG() {
 
 function FaqSection({ faq }: { faq: FaqItem[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
+  if (faq.length === 0) return null
   return (
     <section className="relative border-b px-8 py-14 lg:px-16 lg:py-16" id="faq">
       <DecorIcon className="size-3" position="top-left" />

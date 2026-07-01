@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const project = await getPortfolioProjectBySlug(slug)
   if (!project) return {}
-  return { title: `${project.title} | Portafolio`, description: project.summary }
+  return { title: project.title, description: project.summary }
 }
 
 const processSteps = [
@@ -84,6 +84,11 @@ export default async function PortfolioProjectPage({ params }: { params: Promise
               <span className="border-2 border-border bg-card/90 px-2.5 py-0.5 text-[10px] font-bold" style={{ boxShadow: "2px 2px 0 0 var(--color-border)" }}>
                 {project.year}
               </span>
+              {project.partner && (
+                <span className="flex items-center gap-1 border-2 border-border bg-card/90 px-2.5 py-0.5 text-[10px] font-bold" style={{ boxShadow: "2px 2px 0 0 var(--color-border)" }}>
+                  <BuildingIcon className="size-3" /> {project.partner}
+                </span>
+              )}
             </div>
             <h1 className="m-0 font-extrabold leading-[1.05] tracking-[-0.025em] text-white text-balance" style={{ fontSize: "clamp(28px, 4.5vw, 56px)" }}>
               {project.title}

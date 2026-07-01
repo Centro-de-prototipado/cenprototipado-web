@@ -14,6 +14,8 @@ import { CasesCarousel } from "@/components/sections/cases-carousel"
 export async function CasesSection() {
   const projects = await getPortfolioProjects()
 
+  if (projects.length === 0) return null
+
   return (
     <section className="relative w-full border-b" id="proyectos">
       <div className="relative px-12 py-16 md:px-16 md:py-20">

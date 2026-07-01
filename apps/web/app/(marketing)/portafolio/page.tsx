@@ -6,7 +6,7 @@ import { PortfolioShowcase } from "@/components/portfolio/portfolio-showcase"
 import { Reveal } from "@/components/ui/reveal"
 
 export const metadata: Metadata = {
-  title: "Portafolio | Centro de Prototipado",
+  title: "Portafolio",
   description:
     "Proyectos desarrollados por el Centro de Prototipado: educación, industria y comunidad con metodologías de prototipado aplicado.",
 }

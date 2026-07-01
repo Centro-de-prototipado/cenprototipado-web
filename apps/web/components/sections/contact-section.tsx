@@ -4,6 +4,7 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { getConfig } from "@/lib/notion/config"
+import { cn } from "@/lib/utils"
 
 export async function ContactSection() {
   const config = await getConfig()
@@ -13,16 +14,20 @@ export async function ContactSection() {
     { Icon: MapPinIcon, label: "Sede",     value: config["contacto-sede"],     href: "/contacto#mapa" },
     { Icon: ClockIcon,  label: "Horario",  value: config["contacto-horario"],  href: "#" },
   ].filter((c) => c.value)
+  const hasContactItems = contactItems.length > 0
   return (
     <section className="relative w-full border-b" id="contacto">
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className={cn("grid grid-cols-1", hasContactItems && "lg:grid-cols-2")}>
         {/* Left: copy + CTAs */}
         <Reveal
           as="div"
-          className="flex flex-col justify-center gap-5 border-b px-8 py-14 lg:border-b-0 lg:border-r lg:px-14 lg:py-16"
+          className={cn(
+            "flex flex-col justify-center gap-5 px-8 py-14 lg:px-14 lg:py-16",
+            hasContactItems && "border-b lg:border-r lg:border-b-0"
+          )}
         >
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Hablemos</span>
           <h2 className="m-0 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-4xl">
@@ -42,6 +47,7 @@ export async function ContactSection() {
         </Reveal>
 
         {/* Right: contact info */}
+        {hasContactItems && (
         <div className="flex flex-col">
           {contactItems.map(({ Icon, label, value, href }, i) => (
             <Reveal
@@ -62,6 +68,7 @@ export async function ContactSection() {
             </Reveal>
           ))}
         </div>
+        )}
       </div>
 
       <DecorIcon className="size-3" position="bottom-left" />

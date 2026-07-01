@@ -7,8 +7,6 @@ import {
   ArrowRightIcon,
   CalendarIcon,
   PhoneIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
   PrinterIcon,
   GlassesIcon,
   BotIcon,
@@ -111,6 +109,43 @@ export function TecnologiasClient({
       <section className="relative border-b py-14 lg:py-16">
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
+
+        {/* Category filters */}
+        <div className="mb-8 flex flex-wrap gap-2 px-8 lg:px-16">
+          {categories.map((cat) => {
+            const count =
+              cat.id === "Todas"
+                ? technologies.length
+                : technologies.filter((t) => t.category === cat.id).length
+            const Icon = cat.Icon
+            const active = filter === cat.id
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                title={cat.desc}
+                className={cn(
+                  "flex items-center gap-2 border px-3.5 py-2 text-xs font-semibold transition-colors",
+                  active
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-primary hover:text-primary"
+                )}
+              >
+                <Icon className="size-3.5" />
+                {cat.id}
+                <span
+                  className={cn(
+                    "font-mono text-[10px]",
+                    active ? "opacity-80" : "opacity-55"
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
         <div className="mb-6 flex items-center justify-between gap-3 px-8 lg:px-16">
           <span className="font-mono text-xs text-muted-foreground">
             {String(filtered.length).padStart(2, "0")} /{" "}
@@ -125,11 +160,17 @@ export function TecnologiasClient({
             </button>
           )}
         </div>
-        <div className="grid grid-cols-2 border lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((t, i) => (
-            <TechCardDetail key={t.title} t={t} index={i} />
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <p className="px-8 text-sm text-muted-foreground lg:px-16">
+            No hay tecnologías publicadas en esta categoría.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 px-8 sm:grid-cols-2 lg:grid-cols-3 lg:px-16">
+            {filtered.map((t, i) => (
+              <TechCardDetail key={t.title} t={t} index={i} />
+            ))}
+          </div>
+        )}
         <DecorIcon className="size-3" position="bottom-left" />
         <DecorIcon className="size-3" position="bottom-right" />
       </section>
@@ -201,19 +242,18 @@ export function TecnologiasClient({
 }
 
 function TechCardDetail({ t, index }: { t: Technology; index: number }) {
-  const [open, setOpen] = useState(false)
+  const Icon = categories.find((c) => c.id === t.category)?.Icon ?? LayersIcon
   return (
     <Reveal
       as="article"
       index={index}
-      className="relative flex flex-col overflow-hidden border-r border-b bg-card transition-colors hover:bg-card/80"
-      style={{ margin: "-1px -1px 0 0" }}
+      className="relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-colors hover:border-primary/40 hover:bg-card/80 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
     >
       <DecorIcon className="size-2" position="top-left" />
-      <div className="flex flex-1 flex-col gap-2.5 p-6">
+      <div className="flex flex-col gap-2.5 p-6">
         <div className="flex items-start justify-between gap-3">
           <div className="flex h-10 w-10 items-center justify-center border bg-background text-primary">
-            <PrinterIcon className="size-4" />
+            <Icon className="size-4" />
           </div>
           <span
             className="font-mono text-[10px] tracking-[0.06em]"
@@ -231,58 +271,37 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
           {t.subtitle}
         </p>
         <h3 className="m-0 text-base font-bold text-foreground">{t.title}</h3>
-        <p className="m-0 flex-1 text-xs leading-relaxed text-muted-foreground">
+        <p className="m-0 text-xs leading-relaxed text-muted-foreground">
           {t.description}
         </p>
       </div>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-            className="overflow-hidden border-t bg-muted/20"
-          >
-            <div className="px-6 py-4">
-              <p className="mb-2.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                Aplicaciones
-              </p>
-              <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
-                {t.applications.map((a) => (
-                  <li
-                    key={a}
-                    className="flex items-start gap-2 text-xs text-muted-foreground"
-                  >
-                    <span className="shrink-0 text-primary">→</span>
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div className="flex flex-col gap-2 border-t px-6 py-3 sm:flex-row sm:items-center sm:justify-between">
+
+      {t.applications.length > 0 && (
+        <div className="flex-1 border-t bg-muted/20 px-6 py-4">
+          <p className="m-0 mb-2.5 text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+            Aplicaciones
+          </p>
+          <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+            {t.applications.map((a) => (
+              <li
+                key={a}
+                className="flex items-start gap-2 text-xs text-muted-foreground"
+              >
+                <span className="mt-0.5 shrink-0 text-primary">→</span>
+                {a}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="mt-auto flex flex-col gap-2 border-t px-6 py-3 sm:flex-row sm:items-center sm:justify-between">
         <span className="font-mono text-[11px] text-muted-foreground/70">
           {t.category} · {t.units} u.
         </span>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setOpen((o) => !o)}
-            className="flex items-center gap-1 text-[12px] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {open ? "Menos" : "Aplicaciones"}
-            {open ? (
-              <ChevronDownIcon className="size-3" />
-            ) : (
-              <ChevronRightIcon className="size-3" />
-            )}
-          </button>
-          <Link href="/contacto">
-            <Button size="sm">Reservar</Button>
-          </Link>
-        </div>
+        <Link href="/contacto">
+          <Button size="sm">Reservar</Button>
+        </Link>
       </div>
     </Reveal>
   )
@@ -290,6 +309,7 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
 
 function FaqSection({ faq }: { faq: FaqItem[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
+  if (faq.length === 0) return null
   return (
     <section className="relative border-b px-8 py-16 lg:px-16 lg:py-20">
       <DecorIcon className="size-3" position="top-left" />

@@ -4,7 +4,7 @@ import { getTechnologies } from "@/lib/notion/technologies"
 import { getFaq } from "@/lib/notion/faq"
 
 export const metadata: Metadata = {
-  title: "Tecnologías | Centro de Prototipado",
+  title: "Tecnologías",
   description:
     "Explora el inventario de tecnologías del Centro de Prototipado: fabricación digital, realidad virtual, robótica, BIM y más.",
 }

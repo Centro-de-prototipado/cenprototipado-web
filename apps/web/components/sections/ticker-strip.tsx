@@ -2,6 +2,8 @@ import { Reveal } from "@/components/ui/reveal"
 import type { Technology } from "@/lib/institutional-data"
 
 export function TickerStrip({ technologies }: { technologies: Technology[] }) {
+  if (technologies.length === 0) return null
+
   const names = technologies.map((t) => t.title)
   const items = [...names, ...names]
   return (

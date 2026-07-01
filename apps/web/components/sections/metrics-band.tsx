@@ -3,6 +3,8 @@ import { Reveal, CountUp } from "@/components/ui/reveal"
 import type { Metric } from "@/lib/notion/metrics"
 
 export function MetricsBand({ metrics }: { metrics: Metric[] }) {
+  if (metrics.length === 0) return null
+
   return (
     <section className="relative overflow-hidden border-b bg-card">
       {/* Grid overlay (dark only) */}

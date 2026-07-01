@@ -19,9 +19,10 @@ import { getTeamMembers } from "@/lib/notion/team"
 import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
 import { getConfig } from "@/lib/notion/config"
 import { TeamCarousel } from "@/components/sections/team-carousel"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
-  title: "Centro de Prototipado | Quiénes somos",
+  title: "Quiénes somos",
   description:
     "Conoce la misión, visión, equipo y articulación STEM del Centro de Prototipado de la Universidad Nacional sede Manizales.",
 }
@@ -229,7 +230,16 @@ function CentroHero({ stats }: { stats: Metric[] }) {
           </div>
 
           {/* Stats bar */}
-          <div className="grid grid-cols-4 border-t bg-card">
+          {stats.length > 0 && (
+          <div
+            className={cn(
+              "grid border-t bg-card",
+              stats.length === 1 && "grid-cols-1",
+              stats.length === 2 && "grid-cols-2",
+              stats.length === 3 && "grid-cols-3",
+              stats.length >= 4 && "grid-cols-4"
+            )}
+          >
             {stats.map((s, i) => (
               <Reveal
                 as="div"
@@ -252,6 +262,7 @@ function CentroHero({ stats }: { stats: Metric[] }) {
               </Reveal>
             ))}
           </div>
+          )}
         </div>
       </div>
 
@@ -283,13 +294,19 @@ function MisionVision({ mision, vision }: { mision?: string; vision?: string }) 
       p: "El acceso es abierto para la comunidad UNAL Manizales. Empresas y organizaciones pueden vincularse mediante convenios y programas de extensión.",
 
     },
-  ]
+  ].filter((c) => c.h3)
 
   return (
     <section className="relative border-b">
       <DecorIcon className="size-3" position="top-left" />
       <DecorIcon className="size-3" position="top-right" />
-      <div className="grid grid-cols-1 md:grid-cols-3">
+      <div
+        className={cn(
+          "grid grid-cols-1",
+          cards.length === 2 && "md:grid-cols-2",
+          cards.length >= 3 && "md:grid-cols-3"
+        )}
+      >
         {cards.map(({ Icon, eyebrow, h3, p }, i) => (
           <Reveal
             as="article"
@@ -297,7 +314,8 @@ function MisionVision({ mision, vision }: { mision?: string; vision?: string }) 
             index={i}
             className="relative flex flex-col gap-3.5 p-8 transition-colors hover:bg-muted/20 lg:p-10"
             style={{
-              borderRight: i < 2 ? "1px solid var(--color-border)" : undefined,
+              borderRight:
+                i < cards.length - 1 ? "1px solid var(--color-border)" : undefined,
             }}
           >
             <div className="flex h-11 w-11 items-center justify-center border bg-background text-primary">
@@ -325,6 +343,8 @@ function MisionVision({ mision, vision }: { mision?: string; vision?: string }) 
 
 /* ── Team ── */
 function TeamSection({ members }: { members: TeamMember[] }) {
+  if (members.length === 0) return null
+
   return (
     <section
       className="relative overflow-hidden border-b bg-muted/30 px-8 py-16 lg:px-16 lg:py-20"
@@ -390,7 +410,13 @@ function StemSection({ stats }: { stats: Metric[] }) {
             Esta colaboración genera ecosistemas que conectan educación,
             tecnología y desarrollo de soluciones.
           </p>
-          <div className="mt-6 grid grid-cols-2 border bg-card">
+          {stats.length > 0 && (
+          <div
+            className={cn(
+              "mt-6 grid border bg-card",
+              stats.length === 1 ? "grid-cols-1" : "grid-cols-2"
+            )}
+          >
             {stats.map((s, i) => (
               <div
                 key={s.key}
@@ -411,6 +437,7 @@ function StemSection({ stats }: { stats: Metric[] }) {
               </div>
             ))}
           </div>
+          )}
         </Reveal>
 
         <ul className="m-0 list-none border bg-card p-0">
