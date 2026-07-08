@@ -40,6 +40,15 @@ export const getUrl = (props: Props, name: string): string => {
   return p?.type === "url" ? (p.url ?? "") : ""
 }
 
+// Propiedad Files & Media → lista de URLs (archivos subidos a Notion o enlaces externos).
+export const getFiles = (props: Props, name: string): string[] => {
+  const p = props[name]
+  if (p?.type !== "files") return []
+  return p.files
+    .map((f) => (f.type === "file" ? f.file.url : f.type === "external" ? f.external.url : ""))
+    .filter(Boolean)
+}
+
 // Texto multilínea → lista (una entrada por línea no vacía).
 export const getMultilineList = (props: Props, name: string): string[] =>
   getRichText(props, name)

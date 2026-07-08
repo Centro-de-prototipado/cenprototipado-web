@@ -1,6 +1,14 @@
 import { revalidateTag } from "next/cache"
 import { NextResponse, type NextRequest } from "next/server"
 
+import {
+  syncPortfolioImages,
+  type SyncResult,
+} from "@/lib/cloudinary/portfolio-images"
+
+// La sincronización de imágenes descarga/sube archivos: amplía el límite de ejecución.
+export const maxDuration = 60
+
 // Tags de caché de los contenidos gestionados desde Notion.
 const TAGS = [
   "portafolio",
@@ -31,7 +39,18 @@ export async function POST(request: NextRequest) {
       ? [tagParam]
       : [...TAGS]
 
+  // Al revalidar el Portafolio, primero sube a Cloudinary las imágenes recién subidas
+  // en Notion y escribe sus URLs permanentes; luego se invalida la caché para releerlas.
+  let imageSync: SyncResult | { error: string } | undefined
+  if (tags.includes("portafolio")) {
+    try {
+      imageSync = await syncPortfolioImages()
+    } catch (err) {
+      imageSync = { error: err instanceof Error ? err.message : String(err) }
+    }
+  }
+
   for (const tag of tags) revalidateTag(tag, "max")
 
-  return NextResponse.json({ revalidated: true, tags, now: Date.now() })
+  return NextResponse.json({ revalidated: true, tags, imageSync, now: Date.now() })
 }

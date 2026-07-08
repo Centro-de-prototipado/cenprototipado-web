@@ -44,7 +44,9 @@ Todas cuelgan de la página **«CMS — Centro de Prototipado»**
 | Configuración | `a5cba8c6-4d8f-462c-af18-1b2ea3f09353` | contacto (correo/teléfono/sede/horario/coordenadas), misión, visión — clave-valor | footer, home, `/contacto`, `/centro` |
 
 **Esquema Portafolio (propiedades → tipo):** `Título` (title), `Slug`,
-`Categoría` (multi-select), `Año` (number), `Imagen` (url), `Resumen`, `Reto`, `Solución`,
+`Categoría` (multi-select), `Año` (number), `Imagen` (url — destino final),
+`Imagen (subir aquí)` (file — el editor sube aquí; el sync la envía a Cloudinary y
+escribe la URL en `Imagen`), `Resumen`, `Reto`, `Solución`,
 `Tecnologías` (multi-select), `Resultados` (texto multilínea → lista), `Aliado`,
 `Enlace` (url, opcional), `Orden` (number, opcional — prioriza sobre `Año` al ordenar),
 `Destacado` (checkbox), `Publicado` (checkbox). **Cuerpo de página → markdown.**
@@ -94,9 +96,13 @@ datos por **props** desde su page server.
 - Ejecuta `revalidateTag(tag, "max")` (firma de Next 16) → las páginas estáticas se
   regeneran en la siguiente petición.
 - Sin `tag` revalida los cinco; con `tag` solo ese.
+- **Portafolio:** cuando los tags incluyen `portafolio` (o sin `tag`), antes de revalidar
+  ejecuta `syncPortfolioImages()` (`lib/cloudinary/portfolio-images.ts`) — sube a
+  Cloudinary las imágenes recién puestas en `Imagen (subir aquí)` y escribe su URL
+  permanente en `Imagen`. `maxDuration = 60`. El resumen va en la respuesta (`imageSync`).
 
-Es **manual** por ahora (curl/bookmark). Siguiente paso natural: una automatización de
-Notion («al editar → enviar webhook») que golpee ese endpoint al guardar.
+Cada tab de la base en Notion tiene un botón «Actualizar» con webhook a este endpoint
+(header `x-revalidate-secret`), así que subir una imagen + pulsar «Actualizar» la publica.
 
 ```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:3000/api/revalidate?secret=<REVALIDATE_SECRET>&tag=portafolio"
@@ -104,16 +110,23 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/api/revalidate?secret
 
 ### Imágenes
 
-La propiedad **`Imagen`** guarda una **URL pública permanente** (no se suben a Notion,
-cuyas URLs expiran a ~1h). En `next.config.mjs`, `images.remotePatterns` debe listar los
-hosts permitidos — **no usar `**`** (riesgo de SSRF vía el optimizador de imágenes). Las
-imágenes locales en `/public` (`/taller.jpg`) no requieren patrón.
+La propiedad **`Imagen`** guarda una **URL pública permanente** (las URLs de archivos
+subidos a Notion expiran a ~1h, por eso no se leen directo). El editor sube el archivo en
+**`Imagen (subir aquí)`** y, al pulsar «Actualizar», `syncPortfolioImages()` lo sube a
+Cloudinary (carpeta `cenprototipado/portafolio`) y escribe la `secure_url` en `Imagen`.
+El `public_id` incluye un hash del archivo de origen, así que el sync solo re-sube cuando
+cambia el archivo (idempotente). En `next.config.mjs`, `images.remotePatterns` lista los
+hosts permitidos (incl. `res.cloudinary.com`) — **no usar `**`** (riesgo de SSRF vía el
+optimizador de imágenes). Las imágenes locales en `/public` (`/taller.jpg`) no requieren patrón.
 
 ### Variables de entorno (`.env.local`)
 
 ```
-NOTION_TOKEN                       # imprescindible — integración interna (ntn_…), con la página compartida
+NOTION_TOKEN                       # imprescindible — integración interna (ntn_…), con la página compartida (con permiso de escritura)
 REVALIDATE_SECRET                  # protege POST /api/revalidate (necesario para revalidar)
+CLOUDINARY_CLOUD_NAME              # sync de imágenes del Portafolio → Cloudinary
+CLOUDINARY_API_KEY                 # ídem (subidas firmadas)
+CLOUDINARY_API_SECRET              # ídem (subidas firmadas)
 NOTION_PORTFOLIO_DATA_SOURCE_ID    # opcional — override; por defecto van hardcodeados en lib/notion/client.ts
 NOTION_TECNOLOGIAS_DATA_SOURCE_ID  # opcional
 NOTION_EQUIPO_DATA_SOURCE_ID       # opcional
