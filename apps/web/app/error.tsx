@@ -36,7 +36,7 @@ export default function Error({
 
         <div className="relative z-1 flex flex-col items-center">
           <Link href="/" className="mb-6 w-fit">
-            <Logo className="h-7" />
+            <Logo className="h-10" />
           </Link>
           <Reveal
             as="span"

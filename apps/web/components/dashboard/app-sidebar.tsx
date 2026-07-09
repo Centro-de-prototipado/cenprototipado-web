@@ -125,7 +125,7 @@ export function AppSidebar() {
           className="rounded-none-none flex h-11 w-max items-center justify-center px-3 hover:bg-muted dark:hover:bg-muted/50"
           href="#link"
         >
-          <Logo className="h-7" />
+          <Logo className="h-10" />
           <span className="sr-only">Centro de Prototipado</span>
         </a>
       </SidebarHeader>

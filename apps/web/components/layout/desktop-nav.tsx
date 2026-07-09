@@ -1,3 +1,6 @@
+import Link from "next/link"
+import { UsersIcon, CpuIcon, FolderKanbanIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -5,17 +8,19 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { centroLinks, exploreLinks } from "./nav-links"
+import { centroLinks } from "./nav-links"
 import { LinkItem } from "@/components/shared/shared"
 
 export function DesktopNav() {
   return (
-    <NavigationMenu className="hidden md:flex">
+    <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
         {/* Centro dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent">
+          <NavigationMenuTrigger className="gap-1.5 bg-transparent">
+            <UsersIcon className="size-4" />
             Nosotros
           </NavigationMenuTrigger>
           <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
@@ -41,21 +46,24 @@ export function DesktopNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Explorar dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent">
-            Explorar
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="p-1 pr-1.5 pb-1.5">
-            <div className="w-sm space-y-1 rounded-none border bg-card p-2 shadow">
-              {exploreLinks.map((item, i) => (
-                <NavigationMenuLink
-                  key={`explore-${i}`}
-                  render={<LinkItem {...item} />}
-                />
-              ))}
-            </div>
-          </NavigationMenuContent>
+          <NavigationMenuLink
+            render={<Link href="/tecnologias" />}
+            className={cn(navigationMenuTriggerStyle(), "gap-1.5")}
+          >
+            <CpuIcon className="size-4" />
+            Tecnologías
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<Link href="/portafolio" />}
+            className={cn(navigationMenuTriggerStyle(), "gap-1.5")}
+          >
+            <FolderKanbanIcon className="size-4" />
+            Portafolio
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

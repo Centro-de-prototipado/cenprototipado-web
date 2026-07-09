@@ -36,7 +36,7 @@ export async function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <Link href="/" className="w-fit">
-              <Logo className="h-7" />
+              <Logo className="h-10" />
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               Donde otros ven ideas, aquí las convertimos en prototipos.
