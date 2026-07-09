@@ -51,7 +51,15 @@ escribe la URL en `Imagen`), `Resumen`, `Reto`, `Solución`,
 `Enlace` (url, opcional), `Orden` (number, opcional — prioriza sobre `Año` al ordenar),
 `Destacado` (checkbox), `Publicado` (checkbox). **Cuerpo de página → markdown.**
 
-**Esquema Equipo:** `Nombre` (title), `Rol`, `Foto` (url), `Bio` (opcional), `LinkedIn`
+**Esquema Tecnologías:** `Título` (title), `Subtítulo`, `Descripción`,
+`Aplicaciones` (texto multilínea → lista), `Estado` (select: `Disponible`/`Reservada`),
+`Unidades` (number), `Categoría` (select), `Imagen` (url — destino final, opcional),
+`Imagen (subir aquí)` (file — el editor sube aquí; el sync la envía a Cloudinary y escribe
+la URL en `Imagen`), `Orden`, `Publicado`.
+
+**Esquema Equipo:** `Nombre` (title), `Rol`, `Foto` (url — destino final),
+`Foto (subir aquí)` (file — el editor sube aquí; el sync la envía a Cloudinary y escribe la
+URL en `Foto`; si `Foto` queda vacía → avatar SVG generado), `Bio` (opcional), `LinkedIn`
 (url, opcional), `Orden`, `Publicado`.
 
 **Esquema FAQ:** `Pregunta` (title), `Respuesta`, `Categoría` (select: `General`,
@@ -72,7 +80,7 @@ client.ts        ← cliente @notionhq/client + IDs de data sources (env)
 map.ts           ← helpers para leer propiedades (getTitle, getSelect, getMultiSelect, getMultilineList…)
 portfolio.ts     ← getPortfolioProjects / …BySlug / …Featured / …Categories / …Slugs
 technologies.ts  ← getTechnologies
-team.ts          ← getTeamMembers   (foto: URL externa; si vacía → avatar SVG generado)
+team.ts          ← getTeamMembers   (foto: URL en `Foto` sincronizada a Cloudinary; si vacía → avatar SVG generado)
 faq.ts           ← getFaq(category?)  — sin categoría devuelve todas; con categoría filtra a esa + "General"
 metrics.ts       ← getMetrics (cifras de impacto, indexadas por `Clave`) + pickMetrics()
 config.ts        ← getConfig (contacto, misión, visión — indexado por `Clave`)
@@ -96,10 +104,12 @@ datos por **props** desde su page server.
 - Ejecuta `revalidateTag(tag, "max")` (firma de Next 16) → las páginas estáticas se
   regeneran en la siguiente petición.
 - Sin `tag` revalida los cinco; con `tag` solo ese.
-- **Portafolio:** cuando los tags incluyen `portafolio` (o sin `tag`), antes de revalidar
-  ejecuta `syncPortfolioImages()` (`lib/cloudinary/portfolio-images.ts`) — sube a
-  Cloudinary las imágenes recién puestas en `Imagen (subir aquí)` y escribe su URL
-  permanente en `Imagen`. `maxDuration = 60`. El resumen va en la respuesta (`imageSync`).
+- **Sync de imágenes:** cuando los tags incluyen `portafolio`, `equipo` y/o `tecnologias`
+  (o sin `tag`, los tres), antes de revalidar ejecuta el sync correspondiente de
+  `lib/cloudinary/sync.ts` (`syncPortfolioImages` / `syncTeamImages` / `syncTechnologyImages`)
+  — sube a Cloudinary las imágenes recién puestas en la propiedad file y escribe su URL
+  permanente en la propiedad url destino. `maxDuration = 60`. El resumen (por tag) va en la
+  respuesta (`imageSync`).
 
 Cada tab de la base en Notion tiene un botón «Actualizar» con webhook a este endpoint
 (header `x-revalidate-secret`), así que subir una imagen + pulsar «Actualizar» la publica.
@@ -110,12 +120,13 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/api/revalidate?secret
 
 ### Imágenes
 
-La propiedad **`Imagen`** guarda una **URL pública permanente** (las URLs de archivos
-subidos a Notion expiran a ~1h, por eso no se leen directo). El editor sube el archivo en
-**`Imagen (subir aquí)`** y, al pulsar «Actualizar», `syncPortfolioImages()` lo sube a
-Cloudinary (carpeta `cenprototipado/portafolio`) y escribe la `secure_url` en `Imagen`.
-El `public_id` incluye un hash del archivo de origen, así que el sync solo re-sube cuando
-cambia el archivo (idempotente). En `next.config.mjs`, `images.remotePatterns` lista los
+La propiedad url destino (`Imagen` en Portafolio/Tecnologías, `Foto` en Equipo) guarda una
+**URL pública permanente** (las URLs de archivos subidos a Notion expiran a ~1h, por eso no
+se leen directo). El editor sube el archivo en la propiedad file («subir aquí») y, al pulsar
+«Actualizar», el sync de `lib/cloudinary/sync.ts` lo sube a Cloudinary
+(carpetas `cenprototipado/portafolio`, `cenprototipado/equipo`, `cenprototipado/tecnologias`)
+y escribe la `secure_url` en la propiedad url. El `public_id` incluye un hash del archivo de
+origen, así que el sync solo re-sube cuando cambia el archivo (idempotente). En `next.config.mjs`, `images.remotePatterns` lista los
 hosts permitidos (incl. `res.cloudinary.com`) — **no usar `**`** (riesgo de SSRF vía el
 optimizador de imágenes). Las imágenes locales en `/public` (`/taller.jpg`) no requieren patrón.
 
@@ -124,7 +135,7 @@ optimizador de imágenes). Las imágenes locales en `/public` (`/taller.jpg`) no
 ```
 NOTION_TOKEN                       # imprescindible — integración interna (ntn_…), con la página compartida (con permiso de escritura)
 REVALIDATE_SECRET                  # protege POST /api/revalidate (necesario para revalidar)
-CLOUDINARY_CLOUD_NAME              # sync de imágenes del Portafolio → Cloudinary
+CLOUDINARY_CLOUD_NAME              # sync de imágenes (Portafolio, Equipo, Tecnologías) → Cloudinary
 CLOUDINARY_API_KEY                 # ídem (subidas firmadas)
 CLOUDINARY_API_SECRET              # ídem (subidas firmadas)
 NOTION_PORTFOLIO_DATA_SOURCE_ID    # opcional — override; por defecto van hardcodeados en lib/notion/client.ts

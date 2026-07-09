@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
 import {
@@ -243,29 +244,64 @@ export function TecnologiasClient({
 
 function TechCardDetail({ t, index }: { t: Technology; index: number }) {
   const Icon = categories.find((c) => c.id === t.category)?.Icon ?? LayersIcon
+  const available = t.status === "disponible"
+  const statusColor = available
+    ? "var(--color-primary)"
+    : "var(--color-muted-foreground)"
   return (
     <Reveal
       as="article"
       index={index}
-      className="relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-colors hover:border-primary/40 hover:bg-card/80 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
+      className="group relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/50 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
     >
       <DecorIcon className="size-2" position="top-left" />
-      <div className="flex flex-col gap-2.5 p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex h-10 w-10 items-center justify-center border bg-background text-primary">
-            <Icon className="size-4" />
-          </div>
-          <span
-            className="font-mono text-[10px] tracking-[0.06em]"
+
+      {/* Banner de imagen con degradado inferior que la funde con la card */}
+      {t.image && (
+        <div className="relative aspect-[4/3] overflow-hidden border-b bg-muted">
+          <Image
+            src={t.image}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
             style={{
-              color:
-                t.status === "disponible"
-                  ? "var(--color-primary)"
-                  : "var(--color-muted-foreground)",
+              backgroundImage:
+                "linear-gradient(to top, var(--color-card), transparent)",
             }}
+          />
+          <span
+            className="absolute top-3 right-3 flex items-center border bg-background/85 px-2 py-1 font-mono text-[10px] tracking-[0.06em] backdrop-blur-sm"
+            style={{ color: statusColor }}
           >
-            {t.status === "disponible" ? "● Disponible" : "○ En uso"}
+            {available ? "● Disponible" : "○ En uso"}
           </span>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2.5 px-6 pb-6">
+        {/* Chip del ícono: se solapa sobre el borde inferior de la imagen */}
+        <div
+          className={cn(
+            "flex items-center justify-between gap-3",
+            t.image ? "-mt-6" : "pt-6"
+          )}
+        >
+          <div className="relative z-10 flex h-12 w-12 items-center justify-center border bg-background text-primary shadow-[3px_3px_0_0_rgba(0,0,0,0.05)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,0.06)]">
+            <Icon className="size-5" />
+          </div>
+          {!t.image && (
+            <span
+              className="font-mono text-[10px] tracking-[0.06em]"
+              style={{ color: statusColor }}
+            >
+              {available ? "● Disponible" : "○ En uso"}
+            </span>
+          )}
         </div>
         <p className="m-0 text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
           {t.subtitle}

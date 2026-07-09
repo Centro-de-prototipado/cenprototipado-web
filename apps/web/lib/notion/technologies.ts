@@ -10,10 +10,12 @@ import {
   getRichText,
   getSelect,
   getTitle,
+  getUrl,
 } from "./map"
 
 const mapTechnology = (page: PageObjectResponse): Technology => {
   const p = page.properties
+  const image = getUrl(p, "Imagen")
   return {
     title: getTitle(p, "Título"),
     subtitle: getRichText(p, "Subtítulo"),
@@ -22,6 +24,7 @@ const mapTechnology = (page: PageObjectResponse): Technology => {
     status: getSelect(p, "Estado") === "Reservada" ? "reservada" : "disponible",
     units: getNumber(p, "Unidades") ?? 0,
     category: getSelect(p, "Categoría"),
+    ...(image ? { image } : {}),
   }
 }
 

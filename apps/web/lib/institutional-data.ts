@@ -63,4 +63,5 @@ export type Technology = {
   status: "disponible" | "reservada"
   units: number
   category: string
+  image?: string
 }

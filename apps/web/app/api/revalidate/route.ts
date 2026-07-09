@@ -3,8 +3,10 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import {
   syncPortfolioImages,
+  syncTeamImages,
+  syncTechnologyImages,
   type SyncResult,
-} from "@/lib/cloudinary/portfolio-images"
+} from "@/lib/cloudinary/sync"
 
 // La sincronización de imágenes descarga/sube archivos: amplía el límite de ejecución.
 export const maxDuration = 60
@@ -39,14 +41,20 @@ export async function POST(request: NextRequest) {
       ? [tagParam]
       : [...TAGS]
 
-  // Al revalidar el Portafolio, primero sube a Cloudinary las imágenes recién subidas
-  // en Notion y escribe sus URLs permanentes; luego se invalida la caché para releerlas.
-  let imageSync: SyncResult | { error: string } | undefined
-  if (tags.includes("portafolio")) {
+  // Antes de invalidar la caché, sube a Cloudinary las imágenes recién subidas en Notion
+  // y escribe sus URLs permanentes; luego se relee el contenido ya con las URLs estables.
+  const syncers: Record<string, () => Promise<SyncResult>> = {
+    portafolio: syncPortfolioImages,
+    equipo: syncTeamImages,
+    tecnologias: syncTechnologyImages,
+  }
+  const imageSync: Record<string, SyncResult | { error: string }> = {}
+  for (const [tag, sync] of Object.entries(syncers)) {
+    if (!tags.includes(tag)) continue
     try {
-      imageSync = await syncPortfolioImages()
+      imageSync[tag] = await sync()
     } catch (err) {
-      imageSync = { error: err instanceof Error ? err.message : String(err) }
+      imageSync[tag] = { error: err instanceof Error ? err.message : String(err) }
     }
   }
 
