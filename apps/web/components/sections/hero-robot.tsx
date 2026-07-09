@@ -47,6 +47,12 @@ export function HeroRobot({ className }: HeroRobotProps) {
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.45
+    // setSize(..., false) skips canvas CSS sizing, so without this the canvas
+    // renders at clientSize × devicePixelRatio CSS px and overflows the card
+    // on displays with OS scaling (dpr > 1). Pin it to the mount instead.
+    renderer.domElement.style.display = "block"
+    renderer.domElement.style.width = "100%"
+    renderer.domElement.style.height = "100%"
     mount.appendChild(renderer.domElement)
 
     const ambient = new THREE.AmbientLight(0xffffff, 2.25)
@@ -322,6 +328,9 @@ export function HeroRobot({ className }: HeroRobotProps) {
       camera.aspect = clientWidth / clientHeight
       fitCameraToModel()
       camera.updateProjectionMatrix()
+      // Re-read dpr: it changes when the window moves between monitors with
+      // different OS scaling. setSize applies it to the drawing buffer.
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.setSize(clientWidth, clientHeight, false)
 
       // No animation loop in reduced-motion mode — repaint on resize instead.
