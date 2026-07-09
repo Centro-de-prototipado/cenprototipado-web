@@ -13,8 +13,12 @@ const BLINK_MAX_MS = 4200
 const BLINK_DOUBLE_CHANCE = 0.14
 const AUTO_HEAD_YAW_SPEED = 0.0007
 const AUTO_HEAD_PITCH_SPEED = 0.00045
-const MOUSE_INFLUENCE_X = 0.85
-const MOUSE_INFLUENCE_Y = 0.65
+// Idle drift amplitude — kept small so the mouse (below) clearly dominates the
+// gaze instead of the head wandering on its own.
+const AUTO_HEAD_YAW_AMPLITUDE = 0.18
+const AUTO_HEAD_PITCH_AMPLITUDE = 0.12
+const MOUSE_INFLUENCE_X = 1
+const MOUSE_INFLUENCE_Y = 0.85
 const CLICK_BURST_MS = 850
 const ENTRANCE_MS = 1000
 const IDLE_BREATH_AMPLITUDE = 0.02
@@ -53,7 +57,19 @@ export function HeroRobot({ className }: HeroRobotProps) {
     renderer.domElement.style.display = "block"
     renderer.domElement.style.width = "100%"
     renderer.domElement.style.height = "100%"
+    // Keep the canvas invisible until the first real frame is drawn. The GLB
+    // loads async, so the canvas exists (and some GPUs composite its blank
+    // backing store as a white flash) before anything is rendered.
+    renderer.domElement.style.opacity = "0"
+    renderer.domElement.style.transition = "opacity 0.5s ease"
     mount.appendChild(renderer.domElement)
+
+    let canvasRevealed = false
+    const revealCanvas = () => {
+      if (canvasRevealed) return
+      canvasRevealed = true
+      renderer.domElement.style.opacity = "1"
+    }
 
     const ambient = new THREE.AmbientLight(0xffffff, 2.25)
     const key = new THREE.DirectionalLight(0xdff3ff, 1)
@@ -67,9 +83,13 @@ export function HeroRobot({ className }: HeroRobotProps) {
 
     let robot: THREE.Object3D | null = null
     let head: THREE.Object3D | null = null
-    let headBaseRotation: THREE.Euler | null = null
     let headBasePosition: THREE.Vector3 | null = null
     let robotBaseY = 0
+
+    // Gaze is applied to this pivot (world-aligned axes), NOT to the robot/head
+    // directly: the model root is rotated -90° on Y for front alignment, which
+    // would otherwise turn head pitch (X) into a sideways roll.
+    const gazePivot = new THREE.Group()
 
     // Frame the model to the current viewport, fitting BOTH axes so it is never
     // cropped on narrow/tall aspect ratios. Re-runs on every resize.
@@ -232,23 +252,23 @@ export function HeroRobot({ className }: HeroRobotProps) {
         // Front-face alignment for this specific robot asset.
         robot.rotation.y = -Math.PI / 2
 
-        // If no dedicated head node exists, rotate the full robot as fallback.
+        // Head node drives the subtle position bob; if none exists, fall back to
+        // the robot root. Gaze rotation is handled by gazePivot, not this node.
         if (!head) {
           head = robot
         }
+        headBasePosition = head.position.clone()
 
-        if (head) {
-          headBaseRotation = head.rotation.clone()
-          headBasePosition = head.position.clone()
-        }
-
-        scene.add(robot)
+        // Parent the aligned robot under the world-aligned gaze pivot.
+        gazePivot.add(robot)
+        scene.add(gazePivot)
 
         if (prefersReducedMotion) {
           // No entrance, no loop — show a calm, static robot and render once.
           robot.scale.setScalar(1)
           robot.position.y = robotBaseY
           renderer.render(scene, camera)
+          revealCanvas()
           return
         }
 
@@ -334,7 +354,10 @@ export function HeroRobot({ className }: HeroRobotProps) {
       renderer.setSize(clientWidth, clientHeight, false)
 
       // No animation loop in reduced-motion mode — repaint on resize instead.
-      if (prefersReducedMotion) renderer.render(scene, camera)
+      if (prefersReducedMotion) {
+        renderer.render(scene, camera)
+        revealCanvas()
+      }
     }
 
     const resizeObserver = new ResizeObserver(updateSize)
@@ -410,36 +433,35 @@ export function HeroRobot({ className }: HeroRobotProps) {
       const hoverJitterY =
         Math.cos(time * 0.0025 + 1.3) * interaction.hoverMix * 0.15
 
-      const autoX = Math.sin(time * AUTO_HEAD_YAW_SPEED)
-      const autoY = Math.cos(time * AUTO_HEAD_PITCH_SPEED + 0.9) * 0.65
+      // Mouse drives the gaze; the idle drift is just a subtle sign of life.
+      const idleX = Math.sin(time * AUTO_HEAD_YAW_SPEED) * AUTO_HEAD_YAW_AMPLITUDE
+      const idleY =
+        Math.cos(time * AUTO_HEAD_PITCH_SPEED + 0.9) * AUTO_HEAD_PITCH_AMPLITUDE
 
       lookTarget.x = THREE.MathUtils.clamp(
-        autoX +
-          pointerTarget.x * MOUSE_INFLUENCE_X +
+        pointerTarget.x * MOUSE_INFLUENCE_X +
+          idleX +
           hoverJitterX +
           clickWiggle * 0.5,
         -1,
         1
       )
       lookTarget.y = THREE.MathUtils.clamp(
-        autoY + pointerTarget.y * MOUSE_INFLUENCE_Y + hoverJitterY,
+        pointerTarget.y * MOUSE_INFLUENCE_Y + idleY + hoverJitterY,
         -1,
         1
       )
 
-      lookCurrent.lerp(lookTarget, 0.08)
+      lookCurrent.lerp(lookTarget, 0.1)
 
-      if (head && headBaseRotation) {
-        const yawRange = 0.42 + interaction.hoverMix * 0.12
-        const pitchRange = 0.24 + interaction.hoverMix * 0.08
-        head.rotation.y =
-          headBaseRotation.y + lookCurrent.x * yawRange + clickSpin
-        head.rotation.x = headBaseRotation.x + lookCurrent.y * pitchRange
-        head.rotation.z =
-          headBaseRotation.z +
-          clickWiggle * 0.18 +
-          Math.sin(time * 0.0045) * interaction.hoverMix * 0.03
-      }
+      // Gaze on the world-aligned pivot: yaw (Y) and pitch (X) stay independent.
+      const yawRange = 0.55 + interaction.hoverMix * 0.12
+      const pitchRange = 0.32 + interaction.hoverMix * 0.08
+      gazePivot.rotation.y = lookCurrent.x * yawRange + clickSpin
+      // Negated so the head looks UP when the cursor is up (screen Y is inverted).
+      gazePivot.rotation.x = -lookCurrent.y * pitchRange
+      gazePivot.rotation.z =
+        clickWiggle * 0.18 + Math.sin(time * 0.0045) * interaction.hoverMix * 0.03
 
       if (head && headBasePosition) {
         const hoverBob =
@@ -514,6 +536,10 @@ export function HeroRobot({ className }: HeroRobotProps) {
       }
 
       renderer.render(scene, camera)
+
+      // Reveal only once the robot has actually been added (avoids showing an
+      // empty transparent canvas as "done"); entrance fade handles the rest.
+      if (robot) revealCanvas()
     }
 
     // Pause rendering while the robot is scrolled out of view (saves CPU/GPU).
