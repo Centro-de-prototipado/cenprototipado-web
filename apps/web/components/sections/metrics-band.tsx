@@ -1,5 +1,6 @@
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal, CountUp } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import type { Metric } from "@/lib/notion/metrics"
 
 export function MetricsBand({ metrics }: { metrics: Metric[] }) {
@@ -10,7 +11,7 @@ export function MetricsBand({ metrics }: { metrics: Metric[] }) {
       {/* Grid overlay (dark only) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
+        className="fx-grid-drift pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
@@ -29,15 +30,15 @@ export function MetricsBand({ metrics }: { metrics: Metric[] }) {
           className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between"
         >
           <div>
-            <span className="text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
+            <span className="fx-accent text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
               Impacto
             </span>
-            <h2
+            <TechHeading
+              as="h2"
+              text="Resultados que se construyen, no se prometen."
               className="mt-2 leading-[1.05] font-extrabold tracking-[-0.02em] text-foreground dark:text-white"
               style={{ fontSize: "clamp(22px, 3vw, 36px)", maxWidth: "18ch" }}
-            >
-              Resultados que se construyen, no se prometen.
-            </h2>
+            />
           </div>
           <p className="max-w-xs text-[13px] leading-relaxed text-muted-foreground">
             Cifras del Centro a 2026 — proyectos, equipo y articulación con la
@@ -57,7 +58,7 @@ export function MetricsBand({ metrics }: { metrics: Metric[] }) {
               as="div"
               index={i}
               key={m.key}
-              className="group relative flex flex-col gap-1 border-r border-b border-border p-5 transition-colors hover:bg-muted/40 dark:border-white/8 dark:hover:bg-white/5"
+              className="fx-card group relative flex flex-col gap-1 border-r border-b border-border p-5 transition-colors hover:bg-muted/40 dark:border-white/8 dark:hover:bg-white/5"
               style={{ margin: "-1px -1px 0 0" }}
             >
               <DecorIcon

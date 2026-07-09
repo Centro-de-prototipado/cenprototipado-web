@@ -2,6 +2,7 @@ import Link from "next/link"
 import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon, ArrowRightIcon } from "lucide-react"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { Button } from "@/components/ui/button"
 import { getConfig } from "@/lib/notion/config"
 import { cn } from "@/lib/utils"
@@ -30,9 +31,11 @@ export async function ContactSection() {
           )}
         >
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Hablemos</span>
-          <h2 className="m-0 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-4xl">
-            ¿Tienes una idea o proyecto?
-          </h2>
+          <TechHeading
+            as="h2"
+            text="¿Tienes una idea o proyecto?"
+            className="m-0 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-4xl"
+          />
           <p className="m-0 max-w-md text-sm leading-relaxed text-muted-foreground">
             Coordinamos asesoría técnica, talleres, reservas de equipo y proyectos colaborativos con la comunidad académica y aliados externos.
           </p>
@@ -58,7 +61,7 @@ export async function ContactSection() {
               className="group grid items-center gap-4 border-b px-8 py-5 transition-colors last:border-b-0 hover:bg-muted/30 lg:px-10"
               style={{ gridTemplateColumns: "40px 1fr" }}
             >
-              <div className="flex h-10 w-10 items-center justify-center border bg-background text-primary transition-colors group-hover:border-primary">
+              <div className="fx-icon flex h-10 w-10 items-center justify-center border bg-background text-primary group-hover:border-primary">
                 <Icon className="size-4" />
               </div>
               <div>

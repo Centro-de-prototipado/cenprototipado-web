@@ -19,6 +19,7 @@ import {
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { Button } from "@/components/ui/button"
 import type { Technology, FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
@@ -66,7 +67,7 @@ export function TecnologiasClient({
             />
           </div>
           <div
-            className="absolute top-0 right-0 h-full w-1/2 opacity-0 blur-[70px] dark:opacity-15"
+            className="fx-aurora absolute top-0 right-0 h-full w-1/2 opacity-0 blur-[70px] dark:opacity-15"
             style={{
               background:
                 "radial-gradient(ellipse at top right, var(--color-cyan-400), transparent 65%)",
@@ -81,7 +82,8 @@ export function TecnologiasClient({
           </Reveal>
           <Reveal as="h1" immediate index={1} className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
             Tecnologías para{" "}
-            <span className="text-primary">construir, probar</span> y mostrar.
+            <span className="fx-accent text-primary">construir, probar</span> y
+            mostrar.
           </Reveal>
           <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
             Hardware, software y experiencias de fabricación digital al servicio
@@ -180,7 +182,7 @@ export function TecnologiasClient({
       <section className="relative overflow-hidden border-b bg-muted/30">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
+          className="fx-grid-drift pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
@@ -193,15 +195,15 @@ export function TecnologiasClient({
         />
         <div className="relative z-1 grid grid-cols-1 gap-8 px-8 py-16 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-16">
           <Reveal as="div">
-            <span className="text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
+            <span className="fx-accent text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
               Reservar
             </span>
-            <h2
+            <TechHeading
+              as="h2"
+              text="Agenda tu sesión en el Centro."
               className="mt-2.5 leading-[1.05] font-extrabold tracking-[-0.02em] text-foreground dark:text-white"
               style={{ fontSize: "clamp(26px,3.6vw,46px)" }}
-            >
-              Agenda tu sesión en el Centro.
-            </h2>
+            />
             <p className="mt-3.5 max-w-md text-sm leading-relaxed text-muted-foreground">
               Sin costo para la comunidad UNAL. Confirmación en máximo 2 días
               hábiles.
@@ -252,7 +254,7 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
     <Reveal
       as="article"
       index={index}
-      className="group relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/50 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
+      className="fx-card group relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/50 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
     >
       <DecorIcon className="size-2" position="top-left" />
 
@@ -291,7 +293,7 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
             t.image ? "-mt-6" : "pt-6"
           )}
         >
-          <div className="relative z-10 flex h-12 w-12 items-center justify-center border bg-background text-primary shadow-[3px_3px_0_0_rgba(0,0,0,0.05)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,0.06)]">
+          <div className="fx-icon relative z-10 flex h-12 w-12 items-center justify-center border bg-background text-primary shadow-[3px_3px_0_0_rgba(0,0,0,0.05)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,0.06)]">
             <Icon className="size-5" />
           </div>
           {!t.image && (
@@ -355,9 +357,11 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Preguntas frecuentes
           </span>
-          <h2 className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground">
-            Antes de reservar.
-          </h2>
+          <TechHeading
+            as="h2"
+            text="Antes de reservar."
+            className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground"
+          />
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Todo lo que sueles preguntarte. Si no está aquí, escríbenos.
           </p>

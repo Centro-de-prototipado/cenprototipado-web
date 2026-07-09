@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { buttonVariants } from "@/components/ui/button"
 import { getPortfolioProjects } from "@/lib/notion/portfolio"
 import type { PortfolioProjectMeta } from "@/lib/portfolio-types"
@@ -30,9 +31,12 @@ export async function CasesSection() {
             <p className="inline-flex w-fit items-center rounded-none border bg-card px-3 py-1 text-xs tracking-[0.24em] text-muted-foreground uppercase">
               Portafolio
             </p>
-            <h2 className="max-w-2xl text-3xl font-bold text-balance md:text-5xl lg:font-black">
-              Proyectos que ya cambiaron la forma de aprender y crear.
-            </h2>
+            <TechHeading
+              as="h2"
+              text="Proyectos que ya cambiaron la forma de aprender y crear."
+              accent="aprender y crear"
+              className="max-w-2xl text-3xl font-bold text-balance md:text-5xl lg:font-black"
+            />
             <p className="max-w-xl text-sm text-muted-foreground md:text-base">
               Realidad aumentada, gemelos digitales, realidad virtual, BIM,
               robótica y más — desarrollados desde el Centro de Prototipado.

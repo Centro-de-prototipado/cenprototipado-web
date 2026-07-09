@@ -12,6 +12,7 @@ import type { Metadata } from "next"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { Button } from "@/components/ui/button"
 
 import type { TeamMember } from "@/lib/institutional-data"
@@ -84,7 +85,7 @@ function CentroHero({ stats }: { stats: Metric[] }) {
           />
         </div>
         <div
-          className="absolute -top-1/5 right-0 h-4/5 w-1/2 opacity-0 blur-[70px] dark:opacity-15"
+          className="fx-aurora absolute -top-1/5 right-0 h-4/5 w-1/2 opacity-0 blur-[70px] dark:opacity-15"
           style={{
             background:
               "radial-gradient(ellipse at top right, var(--color-cyan-400), transparent 65%)",
@@ -99,7 +100,8 @@ function CentroHero({ stats }: { stats: Metric[] }) {
             Institucional · DIMA · UNAL Manizales
           </Reveal>
           <Reveal as="h1" immediate index={1} className="m-0 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance text-foreground lg:text-[clamp(36px,5vw,72px)]">
-            El Centro de <span className="text-primary">Prototipado</span>.
+            El Centro de{" "}
+            <span className="fx-accent text-primary">Prototipado</span>.
           </Reveal>
           <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
             Un espacio de innovación abierto donde estudiantes, docentes y
@@ -312,13 +314,13 @@ function MisionVision({ mision, vision }: { mision?: string; vision?: string }) 
             as="article"
             key={eyebrow}
             index={i}
-            className="relative flex flex-col gap-3.5 p-8 transition-colors hover:bg-muted/20 lg:p-10"
+            className="group relative flex flex-col gap-3.5 p-8 transition-colors hover:bg-muted/20 lg:p-10"
             style={{
               borderRight:
                 i < cards.length - 1 ? "1px solid var(--color-border)" : undefined,
             }}
           >
-            <div className="flex h-11 w-11 items-center justify-center border bg-background text-primary">
+            <div className="fx-icon flex h-11 w-11 items-center justify-center border bg-background text-primary">
               <Icon className="size-5" />
             </div>
             <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
@@ -353,7 +355,7 @@ function TeamSection({ members }: { members: TeamMember[] }) {
       {/* Grid overlay (dark only) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
+        className="fx-grid-drift pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
@@ -367,12 +369,14 @@ function TeamSection({ members }: { members: TeamMember[] }) {
       <div className="relative z-1">
         <Reveal as="div" className="mb-7 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <span className="text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
+            <span className="fx-accent text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
               Equipo
             </span>
-            <h2 className="mt-2.5 text-2xl leading-[1.05] font-extrabold tracking-[-0.02em] text-foreground md:text-3xl dark:text-white">
-              Las personas detrás del Centro.
-            </h2>
+            <TechHeading
+              as="h2"
+              text="Las personas detrás del Centro."
+              className="mt-2.5 text-2xl leading-[1.05] font-extrabold tracking-[-0.02em] text-foreground md:text-3xl dark:text-white"
+            />
             <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
               Equipo interdisciplinario que lidera innovación, formación y
               acompañamiento técnico.
@@ -401,9 +405,12 @@ function StemSection({ stats }: { stats: Metric[] }) {
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
             Articulación
           </span>
-          <h2 className="mt-3.5 text-3xl leading-[1.1] font-extrabold tracking-[-0.015em] text-foreground">
-            Trabajo articulado con las Aulas STEM.
-          </h2>
+          <TechHeading
+            as="h2"
+            text="Trabajo articulado con las Aulas STEM."
+            accent="Aulas STEM"
+            className="mt-3.5 text-3xl leading-[1.1] font-extrabold tracking-[-0.015em] text-foreground"
+          />
           <p className="mt-3.5 max-w-md text-sm leading-relaxed text-muted-foreground">
             Las Aulas STEM y el Centro de Prototipado trabajan de manera
             articulada para fortalecer formación, investigación e innovación.
@@ -487,13 +494,23 @@ function CentroCta() {
           x={0}
         />
       </div>
+      <div
+        aria-hidden="true"
+        className="fx-aurora pointer-events-none absolute left-1/2 top-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] blur-[90px] dark:opacity-20"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, var(--color-cyan-400), transparent 65%)",
+        }}
+      />
       <Reveal as="div" className="relative z-1 flex max-w-2xl flex-col items-center gap-5">
         <span className="inline-flex border bg-card px-3 py-1.5 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
           ¿Listo para crear?
         </span>
-        <h2 className="m-0 text-3xl leading-[1.05] font-extrabold tracking-[-0.02em] text-balance text-foreground md:text-5xl">
-          Agenda tu primera sesión o escríbenos hoy.
-        </h2>
+        <TechHeading
+          as="h2"
+          text="Agenda tu primera sesión o escríbenos hoy."
+          className="m-0 text-3xl leading-[1.05] font-extrabold tracking-[-0.02em] text-balance text-foreground md:text-5xl"
+        />
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="/contacto">
             <Button size="lg">

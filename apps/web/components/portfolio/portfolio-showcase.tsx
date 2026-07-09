@@ -153,7 +153,7 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
 
 function ProjectCard({ project, index }: { project: PortfolioProjectMeta; index: number }) {
   return (
-    <Reveal as="article" index={index} className="group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80 hover:border-border/80">
+    <Reveal as="article" index={index} className="fx-card group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80">
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="top-left" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="bottom-right" />
 

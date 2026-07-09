@@ -3,6 +3,7 @@ import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Button } from "@/components/ui/button"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { ArrowRightIcon } from "lucide-react"
 
 export function CallToAction() {
@@ -31,6 +32,14 @@ export function CallToAction() {
             "radial-gradient(ellipse at center, color-mix(in srgb, var(--color-background) 0%, transparent), var(--color-background) 70%)",
         }}
       />
+      <div
+        aria-hidden="true"
+        className="fx-aurora pointer-events-none absolute left-1/2 top-1/2 z-0 h-2/3 w-2/3 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] blur-[90px] dark:opacity-20"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, var(--color-cyan-400), transparent 65%)",
+        }}
+      />
 
       {/* Content */}
       <Reveal
@@ -41,9 +50,12 @@ export function CallToAction() {
           Descubre el Centro de Prototipado
         </span>
 
-        <h2 className="m-0 font-extrabold leading-[1.05] tracking-[-0.02em] text-balance text-foreground text-3xl md:text-5xl lg:text-[clamp(28px,4.5vw,56px)]">
-          Un espacio para explorar, aprender y crear sin límites.
-        </h2>
+        <TechHeading
+          as="h2"
+          text="Un espacio para explorar, aprender y crear sin límites."
+          accent="explorar, aprender y crear"
+          className="m-0 font-extrabold leading-[1.05] tracking-[-0.02em] text-balance text-foreground text-3xl md:text-5xl lg:text-[clamp(28px,4.5vw,56px)]"
+        />
 
         <p className="m-0 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
           Tecnologías que convierten ideas en soluciones reales — para

@@ -8,6 +8,7 @@ import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon, ArrowRightIcon, GlobeIcon }
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { Button } from "@/components/ui/button"
 import type { FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
@@ -42,7 +43,7 @@ export function ContactoClient({
           <div className="absolute inset-0 opacity-40">
             <GridPattern className="size-full stroke-foreground/8" height={40} width={40} x={0} />
           </div>
-          <div className="absolute -top-1/5 left-1/3 h-4/5 w-1/2 opacity-0 blur-[70px] dark:opacity-15"
+          <div className="fx-aurora absolute -top-1/5 left-1/3 h-4/5 w-1/2 opacity-0 blur-[70px] dark:opacity-15"
             style={{ background: "radial-gradient(ellipse, var(--color-cyan-400), transparent 65%)" }} />
         </div>
 
@@ -115,9 +116,11 @@ export function ContactoClient({
 
             <div>
               <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Escríbenos</span>
-              <h2 className="mt-2.5 text-2xl font-extrabold leading-[1.1] tracking-[-0.015em] text-foreground">
-                Cuéntanos en qué podemos ayudarte.
-              </h2>
+              <TechHeading
+                as="h2"
+                text="Cuéntanos en qué podemos ayudarte."
+                className="mt-2.5 text-2xl font-extrabold leading-[1.1] tracking-[-0.015em] text-foreground"
+              />
             </div>
 
             {/* Query type */}
@@ -224,9 +227,11 @@ export function ContactoClient({
 
         <Reveal as="div" className="mb-6 px-8 lg:px-0">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Cómo llegar</span>
-          <h2 className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">
-            Museo Interactivo Samoga, segundo piso.
-          </h2>
+          <TechHeading
+            as="h2"
+            text="Museo Interactivo Samoga, segundo piso."
+            className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground"
+          />
           <p className="mt-2 text-sm text-muted-foreground">Entrada por la portería principal del museo, Sede Manizales de la UNAL.</p>
         </Reveal>
 
@@ -345,7 +350,11 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.6fr]">
         <Reveal as="div">
           <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">FAQ</span>
-          <h2 className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground">Preguntas frecuentes.</h2>
+          <TechHeading
+            as="h2"
+            text="Preguntas frecuentes."
+            className="mt-3.5 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-foreground"
+          />
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Todo lo que sueles preguntarte antes de contactarnos.</p>
         </Reveal>
         <Reveal as="div" index={1} className="border bg-card">

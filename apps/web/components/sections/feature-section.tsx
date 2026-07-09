@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "lucide-react"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { buttonVariants } from "@/components/ui/button"
 import type { Technology } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
@@ -27,9 +28,12 @@ export function FeatureSection({
         <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
           Tecnologías del centro
         </span>
-        <h2 className="mt-3.5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-5xl">
-          Equipamiento real para construir, probar y mostrar.
-        </h2>
+        <TechHeading
+          as="h2"
+          text="Equipamiento real para construir, probar y mostrar."
+          accent="construir, probar"
+          className="mt-3.5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-5xl"
+        />
       </Reveal>
 
       {/* Tech grid */}
@@ -78,11 +82,12 @@ function TechCard({
       as="article"
       index={index}
       className={cn(
-        "group relative flex flex-col gap-3 overflow-hidden border-r border-b bg-card p-6",
+        "fx-card group relative flex flex-col gap-3 overflow-hidden border-r border-b bg-card p-6",
         "transition-colors hover:bg-card/80"
       )}
       style={{ margin: "-1px -1px 0 0" }}
     >
+      <span className="fx-sweep" aria-hidden="true" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="top-left" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="top-right" />
 

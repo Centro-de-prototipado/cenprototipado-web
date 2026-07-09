@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
+import { TechHeading } from "@/components/ui/tech-heading"
 import { cn } from "@/lib/utils"
 
 const photos = [
@@ -22,9 +23,11 @@ export function GallerySection() {
         <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
           Galería
         </span>
-        <h2 className="mt-3.5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-5xl">
-          El Centro por dentro.
-        </h2>
+        <TechHeading
+          as="h2"
+          text="El Centro por dentro."
+          className="mt-3.5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-5xl"
+        />
         <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
           Una mirada al laboratorio donde estudiantes, docentes y comunidades
           aterrizan proyectos reales.

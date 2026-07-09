@@ -10,7 +10,13 @@ export function TickerStrip({ technologies }: { technologies: Technology[] }) {
     <Reveal
       as="div"
       className="relative overflow-hidden border-b bg-muted/40 dark:bg-card"
-      style={{ padding: "10px 0" }}
+      style={{
+        padding: "10px 0",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent, black 6%, black 94%, transparent)",
+        maskImage:
+          "linear-gradient(90deg, transparent, black 6%, black 94%, transparent)",
+      }}
       aria-hidden="true"
     >
       <div

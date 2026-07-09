@@ -301,6 +301,132 @@
       grid-row: span 1;
     }
   }
+
+  /* ──────────────────────────────────────────────────────────────
+     Tech FX — shared "premium tech" motion primitives.
+     The global prefers-reduced-motion reset above neutralizes all of
+     these automatically, so no per-rule guards are needed here.
+     ────────────────────────────────────────────────────────────── */
+
+  /* Ambient: grid overlays drift slowly to keep backgrounds alive. */
+  .fx-grid-drift {
+    animation: fx-grid-drift 34s linear infinite;
+  }
+  @keyframes fx-grid-drift {
+    to {
+      background-position: 40px 40px;
+    }
+  }
+
+  /* Ambient: a glow blob that breathes and drifts. */
+  .fx-aurora {
+    animation: fx-aurora 16s ease-in-out infinite alternate;
+  }
+  @keyframes fx-aurora {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(6%, -5%, 0) scale(1.18);
+    }
+  }
+
+  /* Accent: a soft brightness/glow pulse for primary-colored words. */
+  .fx-accent {
+    animation: fx-accent 4.8s ease-in-out infinite;
+  }
+  @keyframes fx-accent {
+    0%,
+    100% {
+      filter: brightness(1);
+    }
+    50% {
+      filter: brightness(1.22)
+        drop-shadow(0 0 10px color-mix(in oklch, var(--primary) 38%, transparent));
+    }
+  }
+
+  /* Card: border lights to primary + soft glow + a thin top beam on hover. */
+  .fx-card {
+    position: relative;
+    transition:
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .fx-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .fx-card:hover {
+    border-color: color-mix(in oklch, var(--primary) 45%, var(--border));
+    box-shadow: 0 20px 44px -32px
+      color-mix(in oklch, var(--primary) 65%, transparent);
+  }
+  .fx-card:hover::after {
+    opacity: 0.8;
+  }
+
+  /* Icon chip that lights up when its .group card is hovered. */
+  .fx-icon {
+    transition:
+      border-color 0.35s ease,
+      box-shadow 0.35s ease,
+      color 0.35s ease;
+  }
+  .group:hover .fx-icon {
+    border-color: color-mix(in oklch, var(--primary) 60%, var(--border));
+    box-shadow: 0 0 18px -5px var(--primary);
+  }
+
+  /* Diagonal light sweep — drop <span class="fx-sweep" aria-hidden> in a
+     .group card that clips overflow. */
+  .fx-sweep {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      color-mix(in oklch, var(--primary) 14%, transparent) 50%,
+      transparent 65%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.8s ease;
+  }
+  .group:hover .fx-sweep {
+    transform: translateX(120%);
+  }
+
+  /* Word-by-word heading reveal (TechHeading). Default (no JS) is visible;
+     JS "arms" it, then it animates in when scrolled into view. */
+  .fx-word {
+    display: inline-block;
+  }
+  .fx-word[data-armed="true"] {
+    opacity: 0;
+    transform: translateY(0.5em);
+    filter: blur(6px);
+  }
+  .fx-word[data-armed="true"][data-in="true"] {
+    animation: fx-word-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--wi) * 55ms);
+  }
+  @keyframes fx-word-in {
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
 }
 
 /* Accesibilidad: respeta prefers-reduced-motion en toda animación/transición CSS.
