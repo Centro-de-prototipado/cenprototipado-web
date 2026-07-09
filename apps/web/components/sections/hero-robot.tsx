@@ -50,7 +50,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMappingExposure = 1.45
+    renderer.toneMappingExposure = 1.6
     // setSize(..., false) skips canvas CSS sizing, so without this the canvas
     // renders at clientSize × devicePixelRatio CSS px and overflows the card
     // on displays with OS scaling (dpr > 1). Pin it to the mount instead.
@@ -71,13 +71,17 @@ export function HeroRobot({ className }: HeroRobotProps) {
       renderer.domElement.style.opacity = "1"
     }
 
-    const ambient = new THREE.AmbientLight(0xffffff, 2.25)
-    const key = new THREE.DirectionalLight(0xdff3ff, 1)
+    const ambient = new THREE.AmbientLight(0xffffff, 2.6)
+    const key = new THREE.DirectionalLight(0xdff3ff, 1.3)
     key.position.set(10, 25, 3.6)
+    // Front fill from the camera side so the helmet crown (which the high key
+    // light leaves in shadow) reads brighter.
+    const frontFill = new THREE.DirectionalLight(0xeaf7ff, 1.35)
+    frontFill.position.set(0, 3.5, 8)
     const rim = new THREE.DirectionalLight(0x88d3ff, 1.5)
     rim.position.set(-2.4, 1, -2.2)
-    const hemi = new THREE.HemisphereLight(0xeaf7ff, 0x1f2c3d, 1.15)
-    scene.add(ambient, key, rim, hemi)
+    const hemi = new THREE.HemisphereLight(0xeaf7ff, 0x1f2c3d, 1.4)
+    scene.add(ambient, key, frontFill, rim, hemi)
 
     const loader = new GLTFLoader()
 
