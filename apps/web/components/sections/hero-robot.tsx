@@ -65,6 +65,25 @@ export function HeroRobot({ className }: HeroRobotProps) {
     let headBasePosition: THREE.Vector3 | null = null
     let robotBaseY = 0
 
+    // Frame the model to the current viewport, fitting BOTH axes so it is never
+    // cropped on narrow/tall aspect ratios. Re-runs on every resize.
+    let fitMaxDim = 0
+    let fitOffsetY = 0
+    let modelReady = false
+
+    const fitCameraToModel = () => {
+      if (!modelReady) return
+      const halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5)
+      const fitHeightDistance = fitMaxDim * 0.5 / Math.tan(halfFovY)
+      const fitWidthDistance = fitHeightDistance / camera.aspect
+      const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.45
+      camera.position.set(0, fitOffsetY, distance)
+      camera.near = Math.max(0.01, distance / 100)
+      camera.far = distance * 100
+      camera.lookAt(0, 0, 0)
+      camera.updateProjectionMatrix()
+    }
+
     // Entrance: the model "materializes" once loaded (scale + fade + settle).
     const entrance = { startedAt: 0, done: false }
     const entranceMaterials: Array<{
@@ -194,19 +213,14 @@ export function HeroRobot({ className }: HeroRobotProps) {
         if (!box.isEmpty()) {
           const center = box.getCenter(new THREE.Vector3())
           const size = box.getSize(new THREE.Vector3())
-          const maxDim = Math.max(size.x, size.y, size.z)
 
           robot.position.sub(center)
           robotBaseY = robot.position.y
 
-          const fov = THREE.MathUtils.degToRad(camera.fov)
-          const fitDistance = (maxDim * 0.5) / Math.tan(fov * 0.5)
-
-          camera.position.set(0, size.y * 0.06, fitDistance * 1.45)
-          camera.near = Math.max(0.01, fitDistance / 100)
-          camera.far = fitDistance * 100
-          camera.lookAt(0, 0, 0)
-          camera.updateProjectionMatrix()
+          fitMaxDim = Math.max(size.x, size.y, size.z)
+          fitOffsetY = size.y * 0.06
+          modelReady = true
+          fitCameraToModel()
         }
 
         // Front-face alignment for this specific robot asset.
@@ -306,6 +320,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
       if (clientWidth === 0 || clientHeight === 0) return
 
       camera.aspect = clientWidth / clientHeight
+      fitCameraToModel()
       camera.updateProjectionMatrix()
       renderer.setSize(clientWidth, clientHeight, false)
 
