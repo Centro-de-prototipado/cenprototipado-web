@@ -304,17 +304,20 @@ export function HeroRobot({ className }: HeroRobotProps) {
     )
 
     const handleMouseMove = (event: MouseEvent) => {
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
-      if (viewportWidth === 0 || viewportHeight === 0) return
+      // Measure the cursor relative to the robot's own canvas (its center is the
+      // robot), NOT the whole window — otherwise the gaze is only accurate at the
+      // screen edges and points forward when the cursor is right next to it.
+      // Values past ±1 (cursor outside the canvas) clamp to the max turn.
+      const rect = mount.getBoundingClientRect()
+      if (rect.width === 0 || rect.height === 0) return
 
       pointerTarget.x = THREE.MathUtils.clamp(
-        (event.clientX / viewportWidth) * 2 - 1,
+        ((event.clientX - rect.left) / rect.width) * 2 - 1,
         -1,
         1
       )
       pointerTarget.y = THREE.MathUtils.clamp(
-        -((event.clientY / viewportHeight) * 2 - 1),
+        -(((event.clientY - rect.top) / rect.height) * 2 - 1),
         -1,
         1
       )
