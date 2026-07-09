@@ -369,6 +369,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
 
     let frameId = 0
     let visible = true
+    let lastTime = 0
 
     const animate = (time: number) => {
       // Stop the loop while off-screen; resumes seamlessly (motion uses absolute time).
@@ -377,6 +378,13 @@ export function HeroRobot({ className }: HeroRobotProps) {
         return
       }
       frameId = window.requestAnimationFrame(animate)
+
+      // Frame-rate independent smoothing: a fixed per-frame lerp moves faster on
+      // high-refresh displays. `damp(λ)` gives the same easing at any FPS.
+      const dt =
+        lastTime === 0 ? 1 / 60 : Math.min((time - lastTime) / 1000, 0.05)
+      lastTime = time
+      const damp = (lambda: number) => 1 - Math.exp(-lambda * dt)
 
       // Entrance: scale 0.9 → 1, rise into place, fade materials in.
       if (robot && entrance.startedAt > 0 && !entrance.done) {
@@ -408,7 +416,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
       interaction.hoverMix = THREE.MathUtils.lerp(
         interaction.hoverMix,
         interaction.hoverTarget,
-        0.12
+        damp(7)
       )
 
       let clickProgress = 1
@@ -455,7 +463,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
         1
       )
 
-      lookCurrent.lerp(lookTarget, 0.1)
+      lookCurrent.lerp(lookTarget, damp(9))
 
       // Gaze on the world-aligned pivot: yaw (Y) and pitch (X) stay independent.
       const yawRange = 0.55 + interaction.hoverMix * 0.12
@@ -486,22 +494,30 @@ export function HeroRobot({ className }: HeroRobotProps) {
         startBlink(time, true)
       }
 
+      let blinkScale = 1
       if (blink.startedAt > 0) {
         const progress = (time - blink.startedAt) / blink.duration
-
         if (progress >= 1) {
           blink.startedAt = 0
-          for (const eye of eyes) {
-            eye.node.scale.y = eye.baseScale.y
-          }
         } else {
-          const openness = Math.abs(Math.cos(progress * Math.PI))
-          const blinkScale = blink.minScale + openness * (1 - blink.minScale)
-
-          for (const eye of eyes) {
-            eye.node.scale.y = eye.baseScale.y * blinkScale
-          }
+          // Asymmetric lid: the eye snaps shut in the first ~35% and reopens more
+          // gently over the rest — reads far more natural than a symmetric blink.
+          const closeFrac = 0.35
+          const phase =
+            progress < closeFrac
+              ? (progress / closeFrac) * 0.5
+              : 0.5 + ((progress - closeFrac) / (1 - closeFrac)) * 0.5
+          const openness = Math.abs(Math.cos(phase * Math.PI))
+          blinkScale = blink.minScale + openness * (1 - blink.minScale)
         }
+      }
+
+      // Eyes widen slightly while the pointer hovers — a subtle "perk up".
+      const eyeWiden = 1 + interaction.hoverMix * 0.06
+      for (const eye of eyes) {
+        eye.node.scale.x = eye.baseScale.x * eyeWiden
+        eye.node.scale.y = eye.baseScale.y * blinkScale * eyeWiden
+        eye.node.scale.z = eye.baseScale.z * eyeWiden
       }
 
       if (mouths.length > 0) {
@@ -512,29 +528,24 @@ export function HeroRobot({ className }: HeroRobotProps) {
           0,
           1
         )
-        const talkBase = Math.max(
-          0,
-          Math.sin(
-            time * (0.013 + interaction.hoverMix * 0.005) + clickEnvelope
-          )
-        )
-        const talk =
-          talkBase * (1 + interaction.hoverMix * 0.45 + clickEnvelope * 0.8)
+        // Equalizer energy: always a gentle idle breathing, ramping up while the
+        // robot "talks" (hover/click). Speed rises a touch when engaged.
+        const energy = 0.35 + interaction.hoverMix * 0.5 + clickEnvelope * 0.9
+        const speed = 0.006 + interaction.hoverMix * 0.004
 
         mouths.forEach((mouth, index) => {
-          const spread =
-            mouths.length <= 1 ? 0 : index / (mouths.length - 1) - 0.5
-          const phase = index * 0.55
-          const flutter = Math.max(0, Math.sin(time * 0.016 + phase))
-          const lift = talk * 0.024 + flutter * 0.009
-          const smileShift = smile * 0.014
+          const t = mouths.length <= 1 ? 0.5 : index / (mouths.length - 1)
+          // Two smooth traveling waves across the bars — no rectified sine, so the
+          // motion flows instead of snapping. Stays within [0,1].
+          const wave =
+            (0.5 + 0.5 * Math.sin(time * speed + t * Math.PI * 2.2)) * 0.65 +
+            (0.5 + 0.5 * Math.sin(time * speed * 1.7 + t * Math.PI * 3.5)) * 0.35
+          const open = wave * energy
 
-          mouth.node.position.y = mouth.basePosition.y - lift
-          mouth.node.position.x = mouth.basePosition.x + spread * smileShift * 2
-
-          mouth.node.scale.y =
-            mouth.baseScale.y * (1 + talk * 0.28 + flutter * 0.08)
+          mouth.node.scale.y = mouth.baseScale.y * (1 + open * 0.5)
           mouth.node.scale.x = mouth.baseScale.x * (1 + smile * 0.06)
+          mouth.node.position.y = mouth.basePosition.y - open * 0.02
+          mouth.node.position.x = mouth.basePosition.x + (t - 0.5) * smile * 0.028
         })
       }
 
