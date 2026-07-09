@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { DecorIcon } from "@/components/ui/decor-icon"
-import { Reveal } from "@/components/ui/reveal"
+import { Reveal, CountUp } from "@/components/ui/reveal"
 import { Button } from "@/components/ui/button"
 import { HeroRobotGate } from "@/components/sections/hero-robot-gate"
+import { HeroTilt } from "@/components/sections/hero-tilt"
 import type { Metric } from "@/lib/notion/metrics"
 import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon, CodeXmlIcon } from "lucide-react"
 
@@ -20,7 +21,7 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
     <section className="relative overflow-hidden border-b">
       {/* Background glow */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 opacity-20 dark:opacity-50"
+        <div className="hero-grid-drift absolute inset-0 opacity-20 dark:opacity-50"
           style={{
             backgroundImage:
               "linear-gradient(to right, color-mix(in srgb, var(--border) 80%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--border) 80%, transparent) 1px, transparent 1px)",
@@ -32,6 +33,10 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
         <div
           className="absolute -top-1/4 -right-1/4 h-full w-3/4 opacity-0 blur-[80px] dark:opacity-20"
           style={{ background: "radial-gradient(ellipse at center, var(--color-cyan-400), transparent 65%)" }}
+        />
+        <div
+          className="hero-aurora absolute -bottom-1/3 -left-1/5 h-3/4 w-2/3 opacity-[0.06] blur-[90px] dark:opacity-15"
+          style={{ background: "radial-gradient(ellipse at center, var(--color-cyan-300), transparent 65%)" }}
         />
       </div>
 
@@ -61,9 +66,11 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
               "sm:text-5xl lg:text-[clamp(38px,5vw,72px)]"
             )}
           >
-            Donde otros ven ideas,{" "}
-            <span className="italic text-primary">aquí las convertimos</span>{" "}
-            en prototipos.
+            <TitleWords from={0} text="Donde otros ven ideas," />
+            <span className="hero-glow italic text-primary">
+              <TitleWords from={4} text="aquí las convertimos" />
+            </span>{" "}
+            <TitleWords from={7} text="en prototipos." />
           </Reveal>
 
           {/* Subtitle */}
@@ -103,15 +110,14 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
             >
               {miniStats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-0.5 pr-4 pb-3">
-                  <span
+                  <CountUp
+                    value={stat.value}
                     className="font-extrabold tracking-[-0.02em] text-foreground"
                     style={{
                       fontFamily: "var(--font-heading, var(--font-sans))",
                       fontSize: "clamp(22px, 2.6vw, 30px)",
                     }}
-                  >
-                    {stat.value}
-                  </span>
+                  />
                   <span className="text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
                     {stat.label}
                   </span>
@@ -129,7 +135,9 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
           delay={0.1}
           className="relative hidden items-stretch px-8 py-10 lg:flex lg:px-10"
         >
-          <HeroMediaFrame />
+          <HeroTilt className="flex flex-1">
+            <HeroMediaFrame />
+          </HeroTilt>
         </Reveal>
       </div>
 
@@ -143,16 +151,21 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
               index={i}
               key={cap.label}
               className={cn(
-                "flex items-center gap-3 px-5 py-4",
+                "group relative flex items-center gap-3 overflow-hidden px-5 py-4 transition-colors duration-300 hover:bg-muted/40",
                 i < capabilities.length - 1 && "border-r",
                 i < 4 && "lg:border-b-0 border-b"
               )}
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center border bg-background text-primary">
+              {/* Light sweep on hover */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-primary/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center border bg-background text-primary transition-all duration-300 group-hover:border-primary/60 group-hover:shadow-[0_0_16px_-4px_var(--color-primary)]">
                 <Icon className="size-4" />
               </div>
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                <p className="text-[10px] font-semibold tracking-[0.2em] text-muted-foreground uppercase transition-colors duration-300 group-hover:text-foreground">
                   {cap.label}
                 </p>
                 <p className="font-mono text-xs text-muted-foreground/70">
@@ -166,19 +179,88 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
 
       <DecorIcon className="size-3" position="bottom-left" />
       <DecorIcon className="size-3" position="bottom-right" />
+
+      <style>{`
+        .hero-word {
+          display: inline-block;
+          animation: hero-word-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+          animation-delay: calc(var(--wi) * 70ms + 120ms);
+        }
+        @keyframes hero-word-in {
+          from { opacity: 0; transform: translateY(14px); filter: blur(8px); }
+          to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+        }
+        .hero-glow {
+          animation: hero-glow-pulse 4.5s ease-in-out 1.4s infinite;
+        }
+        @keyframes hero-glow-pulse {
+          0%, 100% { filter: brightness(1); }
+          50% {
+            filter: brightness(1.25)
+              drop-shadow(0 0 14px color-mix(in srgb, var(--color-primary) 40%, transparent));
+          }
+        }
+        .hero-grid-drift { animation: hero-grid-drift 30s linear infinite; }
+        @keyframes hero-grid-drift {
+          to { background-position: 36px 36px; }
+        }
+        .hero-aurora { animation: hero-aurora-drift 16s ease-in-out infinite alternate; }
+        @keyframes hero-aurora-drift {
+          from { transform: translate3d(0, 0, 0) scale(1); }
+          to   { transform: translate3d(8%, -5%, 0) scale(1.18); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-word, .hero-glow, .hero-grid-drift, .hero-aurora {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </section>
+  )
+}
+
+/** Server-side word splitter: each word enters with its own blur→focus delay. */
+function TitleWords({ text, from }: { text: string; from: number }) {
+  return (
+    <>
+      {text.split(" ").map((word, i) => (
+        // Outer inline span keeps a real breaking space; inner inline-block animates.
+        <span key={`${word}-${i}`}>
+          <span
+            className="hero-word"
+            style={{ "--wi": from + i } as React.CSSProperties}
+          >
+            {word}
+          </span>{" "}
+        </span>
+      ))}
+    </>
   )
 }
 
 function HeroMediaFrame() {
   return (
     <figure
-      className="relative flex flex-1 flex-col overflow-hidden border bg-card"
+      className="group relative flex flex-1 flex-col overflow-hidden border bg-card"
       style={{
         minHeight: 420,
         boxShadow: "8px 8px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent)",
       }}
     >
+      {/* Cursor-tracking border glow (--mx/--my set by HeroTilt) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-30 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-primary) 60%, transparent), transparent 70%)",
+          padding: 1,
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+        }}
+      />
       <DecorIcon className="size-2" position="top-left" />
       <DecorIcon className="size-2" position="top-right" />
       <DecorIcon className="size-2" position="bottom-left" />
@@ -198,7 +280,10 @@ function HeroMediaFrame() {
       />
 
       {/* Topbar */}
-      <div className="relative z-10 flex items-center justify-between border-b bg-card/80 px-4 py-3 backdrop-blur-sm">
+      <div
+        className="proto-boot relative z-10 flex items-center justify-between border-b bg-card/80 px-4 py-3 backdrop-blur-sm"
+        style={{ "--boot": "0.15s" } as React.CSSProperties}
+      >
         <span className="font-mono text-[10px] tracking-[0.16em] text-muted-foreground uppercase">
           P.R.O.T.O · UNIDAD 01
         </span>
@@ -227,21 +312,22 @@ function HeroMediaFrame() {
         {/* Rotating radar sweep */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 md:size-80 dark:opacity-70"
+          className="proto-boot pointer-events-none absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 md:size-80 dark:opacity-70"
           style={{
+            "--boot": "0.5s",
             background:
               "conic-gradient(from 0deg, transparent 0deg, color-mix(in srgb, var(--color-primary) 38%, transparent) 38deg, transparent 75deg)",
             WebkitMaskImage: "radial-gradient(circle at center, black 30%, transparent 72%)",
             maskImage: "radial-gradient(circle at center, black 30%, transparent 72%)",
             animation: "proto-sweep 4.5s linear infinite",
-          }}
+          } as React.CSSProperties}
         />
 
         {/* Concentric targeting reticle */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 opacity-40 md:size-80"
-          style={{ animation: "proto-spin 36s linear infinite" }}
+          className="proto-boot pointer-events-none absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 opacity-40 md:size-80"
+          style={{ "--boot": "0.65s", animation: "proto-spin 36s linear infinite" } as React.CSSProperties}
         >
           <div className="absolute inset-0 rounded-full border border-dashed border-primary/40" />
           <div className="absolute inset-[14%] rounded-full border border-primary/25" />
@@ -252,21 +338,12 @@ function HeroMediaFrame() {
           <span className="absolute top-1/2 right-0 h-px w-3 -translate-y-1/2 bg-primary/50" />
         </div>
 
-        {/* Counter-rotating inner ring with orbiting node */}
+        {/* Floating particles drifting upward */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 size-52 -translate-x-1/2 -translate-y-1/2 opacity-50 md:size-56"
-          style={{ animation: "proto-spin-rev 22s linear infinite" }}
+          className="proto-boot pointer-events-none absolute inset-0 z-10 overflow-hidden"
+          style={{ "--boot": "1.2s" } as React.CSSProperties}
         >
-          <div className="absolute inset-0 rounded-full border border-primary/20" />
-          <span
-            className="absolute left-1/2 top-0 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
-            style={{ boxShadow: "0 0 8px color-mix(in srgb, var(--color-primary) 80%, transparent)" }}
-          />
-        </div>
-
-        {/* Floating particles drifting upward */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
           {[
             { left: "18%", delay: "0s", dur: "6.5s", size: 3 },
             { left: "32%", delay: "2.1s", dur: "7.8s", size: 2 },
@@ -288,14 +365,12 @@ function HeroMediaFrame() {
           ))}
         </div>
 
-        {/* Crosshair guides */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/15 to-transparent" />
-          <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
-        </div>
-
         {/* Corner HUD brackets */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-5 z-10 md:inset-7">
+        <div
+          aria-hidden="true"
+          className="proto-boot pointer-events-none absolute inset-5 z-10 md:inset-7"
+          style={{ "--boot": "0.35s" } as React.CSSProperties}
+        >
           <span className="absolute left-0 top-0 size-4 border-l border-t border-primary/50" />
           <span className="absolute right-0 top-0 size-4 border-r border-t border-primary/50" />
           <span className="absolute left-0 bottom-0 size-4 border-l border-b border-primary/50" />
@@ -310,7 +385,9 @@ function HeroMediaFrame() {
             background:
               "linear-gradient(to right, transparent, color-mix(in srgb, var(--color-primary) 80%, transparent), transparent)",
             boxShadow: "0 0 8px color-mix(in srgb, var(--color-primary) 60%, transparent)",
-            animation: "proto-scan 4.5s ease-in-out infinite",
+            // Base opacity 0 keeps the line hidden during the boot delay.
+            opacity: 0,
+            animation: "proto-scan 4.5s ease-in-out 1.4s infinite",
           }}
         />
 
@@ -320,26 +397,37 @@ function HeroMediaFrame() {
         {/* Pedestal glow under the robot */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-6 left-1/2 z-10 h-10 w-44 -translate-x-1/2 rounded-[50%] opacity-70"
+          className="proto-boot pointer-events-none absolute bottom-6 left-1/2 z-10 h-10 w-44 -translate-x-1/2 rounded-[50%] opacity-70"
           style={{
+            "--boot": "0.8s",
             background:
               "radial-gradient(ellipse at center, color-mix(in srgb, var(--color-primary) 30%, transparent), transparent 70%)",
             filter: "blur(6px)",
-          }}
+          } as React.CSSProperties}
         />
 
         {/* Telemetry annotations */}
-        <div className="absolute left-4 top-4 z-20 flex flex-col gap-1.5">
+        <div
+          className="proto-boot absolute left-4 top-4 z-20 flex flex-col gap-1.5"
+          style={{ "--boot": "0.85s" } as React.CSSProperties}
+        >
           <span className="font-mono text-[9px] tracking-[0.12em] text-muted-foreground/70">SCAN · ACTIVE</span>
           <span className="font-mono text-[9px] tracking-[0.12em] text-muted-foreground/70">ROT · 30°/s</span>
         </div>
-        <div className="absolute right-4 top-4 z-20 flex flex-col items-end gap-1.5">
+        <div
+          className="proto-boot absolute right-4 top-4 z-20 flex flex-col items-end gap-1.5"
+          style={{ "--boot": "0.95s" } as React.CSSProperties}
+        >
           <span className="font-mono text-[9px] tracking-[0.12em] text-primary/80">● TRACKING</span>
           <span className="font-mono text-[9px] tracking-[0.12em] text-muted-foreground/70">GLB · 3D</span>
         </div>
 
         {/* Side ruler ticks */}
-        <div aria-hidden="true" className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5">
+        <div
+          aria-hidden="true"
+          className="proto-boot absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5"
+          style={{ "--boot": "1.05s" } as React.CSSProperties}
+        >
           {Array.from({ length: 7 }).map((_, i) => (
             <span
               key={i}
@@ -351,7 +439,10 @@ function HeroMediaFrame() {
       </div>
 
       {/* Coordinates bar */}
-      <figcaption className="relative z-10 flex items-center justify-between border-t bg-card/80 px-4 py-2.5 backdrop-blur-sm">
+      <figcaption
+        className="proto-boot relative z-10 flex items-center justify-between border-t bg-card/80 px-4 py-2.5 backdrop-blur-sm"
+        style={{ "--boot": "1.15s" } as React.CSSProperties}
+      >
         <span className="font-mono text-[10px] text-muted-foreground/60">5.06° N</span>
         <span className="font-mono text-[10px] text-muted-foreground/60">SAMOGA · P2</span>
         <span className="font-mono text-[10px] text-muted-foreground/60">75.49° W</span>
@@ -367,10 +458,6 @@ function HeroMediaFrame() {
         @keyframes proto-spin {
           from { transform: translate(-50%, -50%) rotate(0deg); }
           to   { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        @keyframes proto-spin-rev {
-          from { transform: translate(-50%, -50%) rotate(360deg); }
-          to   { transform: translate(-50%, -50%) rotate(0deg); }
         }
         @keyframes proto-sweep {
           from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -390,9 +477,23 @@ function HeroMediaFrame() {
           80%  { opacity: 0.8; }
           100% { transform: translateY(-220px); opacity: 0; }
         }
+        /* Boot sequence: HUD layers power on in cadence. "backwards" holds each
+           layer dark through its --boot delay, then it flickers up to its OWN
+           base opacity (the 100% frame is intentionally omitted so the browser
+           interpolates to the element's computed value). */
+        .proto-boot {
+          animation: proto-boot-in 0.55s ease-out var(--boot, 0s) backwards;
+        }
+        @keyframes proto-boot-in {
+          0%  { opacity: 0; }
+          45% { opacity: 0; }
+          60% { opacity: 0.85; }
+          75% { opacity: 0.25; }
+        }
         @media (prefers-reduced-motion: reduce) {
           [style*="proto-scan"], [style*="proto-spin"], [style*="proto-blink"],
           [style*="proto-sweep"], [style*="proto-glow"], [style*="proto-float"] { animation: none !important; }
+          .proto-boot { animation: none !important; }
         }
       `}</style>
     </figure>
