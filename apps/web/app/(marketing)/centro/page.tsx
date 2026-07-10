@@ -19,7 +19,7 @@ import type { TeamMember } from "@/lib/institutional-data"
 import { getTeamMembers } from "@/lib/notion/team"
 import { getMetrics, pickMetrics, type Metric } from "@/lib/notion/metrics"
 import { getConfig } from "@/lib/notion/config"
-import { TeamCarousel } from "@/components/sections/team-carousel"
+import { TeamGrid } from "@/components/sections/team-grid"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -384,8 +384,7 @@ function TeamSection({ members }: { members: TeamMember[] }) {
           </div>
         </Reveal>
 
-        {/* Scroll carousel */}
-        <TeamCarousel members={members} />
+        <TeamGrid members={members} />
       </div>
     </section>
   )

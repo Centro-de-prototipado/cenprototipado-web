@@ -18,7 +18,7 @@ const AUTO_HEAD_PITCH_SPEED = 0.00045
 const AUTO_HEAD_YAW_AMPLITUDE = 0.18
 const AUTO_HEAD_PITCH_AMPLITUDE = 0.12
 const MOUSE_INFLUENCE_X = 1
-const MOUSE_INFLUENCE_Y = 0.85
+const MOUSE_INFLUENCE_Y = 1
 const CLICK_BURST_MS = 850
 const ENTRANCE_MS = 1000
 const IDLE_BREATH_AMPLITUDE = 0.02
@@ -471,7 +471,7 @@ export function HeroRobot({ className }: HeroRobotProps) {
 
       // Gaze on the world-aligned pivot: yaw (Y) and pitch (X) stay independent.
       const yawRange = 0.55 + interaction.hoverMix * 0.12
-      const pitchRange = 0.32 + interaction.hoverMix * 0.08
+      const pitchRange = 0.52 + interaction.hoverMix * 0.12
       gazePivot.rotation.y = lookCurrent.x * yawRange + clickSpin
       // Negated so the head looks UP when the cursor is up (screen Y is inverted).
       gazePivot.rotation.x = -lookCurrent.y * pitchRange

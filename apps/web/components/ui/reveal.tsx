@@ -112,13 +112,11 @@ export function CountUp({
   const animatable = !Number.isNaN(target) && !reduceMotion
 
   useEffect(() => {
-    if (!animatable || !ref.current) return
-    // Reset to 0 only on the client, just before animating, so SSR keeps the real value.
+    if (!animatable || !inView || !ref.current) return
+    // Reset to 0 only here — the instant the animation actually starts. If the
+    // in-view observer never fires (an intermittent edge case that left counters
+    // frozen at "0"), the real SSR value stays on screen instead.
     ref.current.textContent = `0${suffix}`
-  }, [animatable, suffix])
-
-  useEffect(() => {
-    if (!animatable || !inView) return
     const unsubscribe = count.on("change", (v) => {
       if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`
     })
