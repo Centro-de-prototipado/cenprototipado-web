@@ -135,7 +135,7 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
                 <Image src={p.image} alt={p.title} fill className="object-cover" sizes="80px" />
               </div>
               <div className="min-w-0">
-                <p className="m-0 text-sm font-bold text-foreground group-hover:text-primary transition-colors">{p.title}</p>
+                <p className="m-0 truncate text-sm font-bold text-foreground group-hover:text-primary transition-colors" title={p.title}>{p.title}</p>
                 <p className="m-0 mt-1 text-xs text-muted-foreground line-clamp-1">{p.summary}</p>
               </div>
               <div className="hidden flex-wrap gap-1.5 sm:flex">
@@ -153,7 +153,7 @@ function ListView({ projects }: { projects: PortfolioProjectMeta[] }) {
 
 function ProjectCard({ project, index }: { project: PortfolioProjectMeta; index: number }) {
   return (
-    <Reveal as="article" index={index} className="fx-card group relative flex flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80">
+    <Reveal as="article" index={index} className="fx-card group relative flex min-w-0 flex-col overflow-hidden border bg-card transition-colors hover:bg-card/80">
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="top-left" />
       <DecorIcon className="size-2 opacity-0 transition-opacity group-hover:opacity-100" position="bottom-right" />
 
@@ -186,7 +186,10 @@ function ProjectCard({ project, index }: { project: PortfolioProjectMeta; index:
         <div className="flex flex-1 flex-col gap-2 p-5">
 
           <div className="flex items-center justify-between gap-2">
-            <h3 className="m-0 text-base font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+            <h3
+              className="m-0 min-w-0 truncate text-base font-bold leading-tight text-foreground transition-colors group-hover:text-primary"
+              title={project.title}
+            >
               {project.title}
             </h3>
             <span className="font-mono text-[10px] text-muted-foreground">{project.year}</span>

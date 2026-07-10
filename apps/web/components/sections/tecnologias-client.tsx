@@ -254,7 +254,7 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
     <Reveal
       as="article"
       index={index}
-      className="fx-card group relative flex flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/50 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
+      className="fx-card group relative flex min-w-0 flex-col overflow-hidden border bg-card shadow-[4px_4px_0_0_rgba(0,0,0,0.06)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/50 dark:shadow-[4px_4px_0_0_rgba(255,255,255,0.06)]"
     >
       <DecorIcon className="size-2" position="top-left" />
 
@@ -308,7 +308,9 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
         <p className="m-0 text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
           {t.subtitle}
         </p>
-        <h3 className="m-0 text-base font-bold text-foreground">{t.title}</h3>
+        <h3 className="m-0 truncate text-base font-bold text-foreground" title={t.title}>
+          {t.title}
+        </h3>
         <p className="m-0 text-xs leading-relaxed text-muted-foreground">
           {t.description}
         </p>

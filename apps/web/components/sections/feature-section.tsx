@@ -82,7 +82,7 @@ function TechCard({
       as="article"
       index={index}
       className={cn(
-        "fx-card group relative flex flex-col gap-3 overflow-hidden border-r border-b bg-card p-6",
+        "fx-card group relative flex min-w-0 flex-col gap-3 overflow-hidden border-r border-b bg-card p-6",
         "transition-colors hover:bg-card/80"
       )}
       style={{ margin: "-1px -1px 0 0" }}
@@ -104,7 +104,10 @@ function TechCard({
       <p className="relative text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
         {tech.subtitle}
       </p>
-      <h3 className="relative text-base font-bold text-foreground leading-tight">
+      <h3
+        className="relative truncate text-base font-bold text-foreground leading-tight"
+        title={tech.title}
+      >
         {tech.title}
       </h3>
       <p className="relative text-xs leading-relaxed text-muted-foreground flex-1">

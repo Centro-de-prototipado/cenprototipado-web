@@ -1,24 +1,20 @@
 "use client"
 
-import { useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { Reveal } from "@/components/ui/reveal"
-import { buttonVariants } from "@/components/ui/button"
 import type { PortfolioProjectMeta } from "@/lib/portfolio-types"
-import { cn } from "@/lib/utils"
 
 export function CasesCarousel({
   projects,
 }: {
   projects: PortfolioProjectMeta[]
 }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     {
       loop: true,
       align: "start",
@@ -31,9 +27,6 @@ export function CasesCarousel({
       }),
     ]
   )
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
 
   return (
     <Reveal as="div" className="relative">
@@ -48,30 +41,6 @@ export function CasesCarousel({
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Navigation */}
-      <div className="flex items-center justify-end gap-2 border-t px-6 py-4 md:px-8">
-        <button
-          onClick={scrollPrev}
-          className={cn(
-            buttonVariants({ variant: "outline", size: "icon" }),
-            "size-9"
-          )}
-          aria-label="Anterior"
-        >
-          <ChevronLeftIcon className="size-4" />
-        </button>
-        <button
-          onClick={scrollNext}
-          className={cn(
-            buttonVariants({ variant: "outline", size: "icon" }),
-            "size-9"
-          )}
-          aria-label="Siguiente"
-        >
-          <ChevronRightIcon className="size-4" />
-        </button>
       </div>
     </Reveal>
   )
@@ -110,7 +79,10 @@ function ProjectCard({ project }: { project: PortfolioProjectMeta }) {
             className="size-2 opacity-0 transition-opacity group-hover:opacity-100"
             position="top-right"
           />
-          <h3 className="text-base font-bold tracking-tight text-balance uppercase transition-colors group-hover:text-primary md:text-lg">
+          <h3
+            className="truncate text-base font-bold tracking-tight uppercase transition-colors group-hover:text-primary md:text-lg"
+            title={project.title}
+          >
             {project.title}
           </h3>
           <p className="mt-2 line-clamp-2 text-xs text-muted-foreground md:text-sm">
