@@ -144,10 +144,16 @@ NOTION_EQUIPO_DATA_SOURCE_ID       # opcional
 NOTION_FAQ_DATA_SOURCE_ID          # opcional
 NOTION_METRICAS_DATA_SOURCE_ID     # opcional
 NOTION_CONFIGURACION_DATA_SOURCE_ID # opcional
+RESEND_API_KEY                     # formularios de contacto — envío de solicitudes por email
+RESEND_FROM                        # remitente verificado (ej. "Centro de Prototipado <noreply@dominio-verificado>")
+CONTACT_TO_EMAIL                   # correo del Centro que recibe las solicitudes
+NOTION_SOLICITUDES_DATA_SOURCE_ID  # data source de la DB "Solicitudes" (registro de formularios)
 ```
 
 > En **despliegue (Vercel)** solo hace falta `NOTION_TOKEN` (y `REVALIDATE_SECRET` para
-> revalidar). Los data source IDs tienen valor por defecto en el código.
+> revalidar) para el CMS; los formularios de contacto requieren además `RESEND_API_KEY`,
+> `RESEND_FROM`, `CONTACT_TO_EMAIL` y `NOTION_SOLICITUDES_DATA_SOURCE_ID`. Los data source
+> IDs del CMS tienen valor por defecto en el código.
 
 > **Setup imprescindible:** la integración interna debe tener compartida la página «CMS —
 > Centro de Prototipado» (UI de Notion → Conexiones), o las queries dan `object_not_found`.
@@ -171,6 +177,63 @@ Copys puramente decorativos que cambian poco: hero/CTA de home, "capabilities" s
 > **Tecnologías**; los datos de contacto y misión/visión se leen de la DB
 > **Configuración** (`getConfig`, indexado por `Clave`). No duplicar estos valores en
 > código.
+
+## Formularios de contacto (`/contacto`)
+
+A diferencia del CMS (solo lectura), `/contacto` **escribe** solicitudes. El formulario
+(`components/sections/contacto-client.tsx`, client component con `react-hook-form` + `zod`)
+maneja **4 tipos** vía un selector que cambia los campos:
+
+| Tipo (`FormType`) | Firma | Roster | Campos propios |
+|---|---|---|---|
+| `general` | no | no | mensaje libre |
+| `servicios` | sí | no | tipo de usuario, checklist de maquinaria, materiales |
+| `visita-docente` | sí | sí | asignatura/SIA, nivel, fecha, logística |
+| `visita-externo` | sí | sí | institución, ciudad, fecha, estadísticas |
+
+- **Fuente de verdad de los campos:** `lib/forms/schemas.ts` (schemas zod por tipo, tipos
+  inferidos y constantes `MAQUINARIA`/`TIPO_USUARIO`/`NIVEL_FORMACION`) + `lib/forms/config.ts`
+  (`FORM_TYPES`, `LABEL_BY_TYPE`). El resolver del formulario elige el schema según el tipo
+  activo en cada validación (resolver dinámico vía ref).
+- **Roster de estudiantes** (visitas): tabla dinámica (`useFieldArray`) con
+  Nombre/Documento/Correo — el docente/líder registra por adelantado quién asistirá.
+- **Firma**: `components/ui/signature-pad.tsx` (canvas), capturada como dataURL PNG.
+
+### Pipeline de envío
+
+Server Action `app/(marketing)/contacto/actions.ts` → `submitSolicitud(raw)`:
+
+1. Valida `raw` con `schemaFor(type)` (rechaza tipos inválidos; nunca lanza al cliente).
+2. Genera un **PDF** (`lib/pdf/solicitud-pdf.tsx`, `@react-pdf/renderer`) con datos + roster +
+   firma — salvo `general`, que no lleva PDF.
+3. En paralelo (`Promise.all`):
+   - **Email (Resend)** `lib/email/client.tsx` → correo al Centro (`CONTACT_TO_EMAIL`) con el
+     PDF adjunto y `replyTo` = correo del solicitante (para responder desde Gmail). Plantilla
+     en `lib/email/solicitud-email.tsx` (`@react-email/components`).
+   - **Notion** `lib/notion/solicitudes.ts` → fila en la DB `Solicitudes` (sin PDF): `Nombre`,
+     `Tipo`, `Correo` (`mailto:`), `Teléfono`, `Estado`="Nuevo", `Detalle`, `Roster` (resumen).
+4. Devuelve `{ ok }` / `{ ok: false, error }` para feedback en el cliente.
+
+> El PDF firmado vive en el hilo de Gmail (artefacto formal + respuesta); Notion es el
+> registro consultable (CRM). Riesgo conocido v1: si un destino falla tras el otro (email OK /
+> Notion falla), no hay compensación — se reporta error genérico al usuario.
+
+### DB `Solicitudes` (Notion, escritura)
+
+Cuelga de la página «CMS — Centro de Prototipado». Propiedades: `Nombre` (title),
+`Tipo` (select: Contacto general · Solicitud de Servicios · Visita Docente UNAL · Visita
+Externo (STEM)), `Correo` (url `mailto:`), `Teléfono` (phone), `Estado` (select: Nuevo · En
+proceso · Atendido), `Detalle` (rich text), `Roster` (rich text), `Creado` (created time).
+Requiere que el integration de `NOTION_TOKEN` tenga **permiso de escritura** sobre la DB. Una
+**automatización de Notion** (configurada en la UI, no por API) notifica al Gmail del Centro al
+crearse una fila; la app no depende de ella (Resend es el canal primario).
+
+### Futuro (dashboard interno)
+
+La **asistencia firmada en sitio** el día de la visita y las actas de cierre
+(Participación en Proyectos, Vinculación Externo) son documentos internos que irán al
+dashboard con auth; se relacionarán con estas solicitudes (DB `Asistencias` con *Relation* a
+`Solicitudes`). Fuera de alcance de esta feature.
 
 ## Convenciones clave
 
