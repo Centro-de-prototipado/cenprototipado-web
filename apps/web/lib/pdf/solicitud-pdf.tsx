@@ -17,20 +17,43 @@ const s = StyleSheet.create({
   row: { flexDirection: "row", marginBottom: 3 },
   key: { width: 140, fontFamily: "Helvetica-Bold" },
   val: { flex: 1 },
-  sectionTitle: { marginTop: 12, marginBottom: 4, fontFamily: "Helvetica-Bold", fontSize: 11 },
-  th: { flexDirection: "row", borderBottom: 1, paddingBottom: 2, fontFamily: "Helvetica-Bold" },
-  td: { flexDirection: "row", paddingVertical: 2, borderBottom: 0.5, borderColor: "#ccc" },
+  sectionTitle: {
+    marginTop: 12,
+    marginBottom: 4,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 11,
+  },
+  th: {
+    flexDirection: "row",
+    borderBottom: 1,
+    paddingBottom: 2,
+    fontFamily: "Helvetica-Bold",
+  },
+  td: {
+    flexDirection: "row",
+    paddingVertical: 2,
+    borderBottom: 0.5,
+    borderColor: "#ccc",
+  },
   cell: { flex: 1, paddingRight: 4 },
   firma: { width: 180, height: 70, marginTop: 6, borderTop: 1, paddingTop: 4 },
 })
 
 function entries(data: SolicitudData): [string, string][] {
-  const base: [string, string][] = [["Nombre", data.nombre], ["Correo", data.correo]]
+  const base: [string, string][] = [
+    ["Nombre", data.nombre],
+    ["Correo", data.correo],
+  ]
   if ("documento" in data) base.push(["Documento", data.documento])
-  if ("telefono" in data && data.telefono) base.push(["Teléfono", data.telefono])
+  if ("telefono" in data && data.telefono)
+    base.push(["Teléfono", data.telefono])
   switch (data.type) {
     case "general":
-      return [...base, ["Afiliación", data.afiliacion], ["Mensaje", data.mensaje]]
+      return [
+        ...base,
+        ["Afiliación", data.afiliacion],
+        ["Mensaje", data.mensaje],
+      ]
     case "servicios":
       return [
         ...base,
@@ -73,13 +96,17 @@ function entries(data: SolicitudData): [string, string][] {
 
 export async function renderSolicitudPdf(data: SolicitudData): Promise<Buffer> {
   const roster =
-    data.type === "visita-docente" || data.type === "visita-externo" ? data.estudiantes : []
+    data.type === "visita-docente" || data.type === "visita-externo"
+      ? data.estudiantes
+      : []
   const firma = "firma" in data ? data.firma : ""
   const doc = (
     <Document>
       <Page size="A4" style={s.page}>
         <Text style={s.h1}>{LABEL_BY_TYPE[data.type]}</Text>
-        <Text style={s.sub}>Centro de Prototipado — UNAL · {new Date().toLocaleString("es-CO")}</Text>
+        <Text style={s.sub}>
+          Centro de Prototipado — UNAL · {new Date().toLocaleString("es-CO")}
+        </Text>
         {entries(data)
           .filter(([, v]) => v)
           .map(([k, v]) => (

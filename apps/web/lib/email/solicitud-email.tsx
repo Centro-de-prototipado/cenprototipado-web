@@ -1,4 +1,11 @@
-import { Html, Body, Container, Heading, Text, Hr } from "@react-email/components"
+import {
+  Html,
+  Body,
+  Container,
+  Heading,
+  Text,
+  Hr,
+} from "@react-email/components"
 import { LABEL_BY_TYPE } from "@/lib/forms/config"
 import type { SolicitudData } from "@/lib/forms/schemas"
 
@@ -20,7 +27,8 @@ export function SolicitudEmail({ data }: { data: SolicitudData }) {
     ["Nombre", data.nombre],
     ["Correo", data.correo],
   ]
-  if ("telefono" in data && data.telefono) rows.push(["Teléfono", data.telefono])
+  if ("telefono" in data && data.telefono)
+    rows.push(["Teléfono", data.telefono])
   return (
     <Html>
       <Body style={{ fontFamily: "sans-serif", color: "#111" }}>

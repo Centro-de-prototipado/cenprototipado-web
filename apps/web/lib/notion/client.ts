@@ -26,6 +26,5 @@ export const DATA_SOURCES = {
   configuracion:
     process.env.NOTION_CONFIGURACION_DATA_SOURCE_ID ||
     "a5cba8c6-4d8f-462c-af18-1b2ea3f09353",
-  solicitudes:
-    process.env.NOTION_SOLICITUDES_DATA_SOURCE_ID || "",
+  solicitudes: process.env.NOTION_SOLICITUDES_DATA_SOURCE_ID || "",
 } as const

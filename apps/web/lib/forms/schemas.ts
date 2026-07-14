@@ -1,6 +1,10 @@
 import { z } from "zod"
 
-export type FormType = "general" | "servicios" | "visita-docente" | "visita-externo"
+export type FormType =
+  | "general"
+  | "servicios"
+  | "visita-docente"
+  | "visita-externo"
 
 export const MAQUINARIA = [
   "Impresora 3D FDM",
@@ -64,7 +68,9 @@ export const serviciosSchema = z.object({
   liderResponsable: z.string().trim().optional().default(""),
   asignatura: z.string().trim().optional().default(""),
   descripcion: z.string().trim().optional().default(""),
-  maquinaria: z.array(z.enum(MAQUINARIA)).min(1, "Selecciona al menos un equipo"),
+  maquinaria: z
+    .array(z.enum(MAQUINARIA))
+    .min(1, "Selecciona al menos un equipo"),
   materiales: z.string().trim().optional().default(""),
   firma,
 })
