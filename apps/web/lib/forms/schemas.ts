@@ -36,6 +36,14 @@ const email = z.string().trim().email("Correo inválido")
 // Firma: dataURL PNG no vacío.
 const firma = z.string().min(1, "La firma es obligatoria")
 
+// Number("") === 0, así que un <input type="number"> vacío coercería a 0 en
+// vez de quedar sin definir. Se normaliza "" (y null/undefined) a undefined
+// antes de coercionar, para que estos campos queden realmente opcionales.
+const optionalNonNegativeInt = z.preprocess(
+  (v) => (v === "" || v === undefined || v === null ? undefined : v),
+  z.coerce.number().int().nonnegative().optional()
+)
+
 const studentRow = z.object({
   nombre: requiredText,
   documento: requiredText,
@@ -84,9 +92,9 @@ export const visitaDocenteSchema = z.object({
   nivel: z.enum(NIVEL_FORMACION),
   fecha: requiredText,
   horario: z.string().trim().optional().default(""),
-  estudiantesPrevistos: z.coerce.number().int().nonnegative().optional(),
-  numeroGrupos: z.coerce.number().int().nonnegative().optional(),
-  acompanantes: z.coerce.number().int().nonnegative().optional(),
+  estudiantesPrevistos: optionalNonNegativeInt,
+  numeroGrupos: optionalNonNegativeInt,
+  acompanantes: optionalNonNegativeInt,
   descripcion: z.string().trim().optional().default(""),
   equipos: z.string().trim().optional().default(""),
   firma,
@@ -102,8 +110,8 @@ export const visitaExternoSchema = z.object({
   ciudad: z.string().trim().optional().default(""),
   fecha: requiredText,
   horario: z.string().trim().optional().default(""),
-  numeroEstudiantes: z.coerce.number().int().nonnegative().optional(),
-  numeroGrupos: z.coerce.number().int().nonnegative().optional(),
+  numeroEstudiantes: optionalNonNegativeInt,
+  numeroGrupos: optionalNonNegativeInt,
   descripcion: z.string().trim().optional().default(""),
   observaciones: z.string().trim().optional().default(""),
   firma,

@@ -631,7 +631,6 @@ function Select({
 function FormFields({
   formType,
   register,
-  control,
   roster,
   errors,
 }: FieldsProps & {
@@ -730,10 +729,9 @@ function FormFields({
         <VisitaExternoFields register={register} errors={errors} />
       )}
 
-      {(formType === "visita-docente" || formType === "visita-externo") &&
-        control && (
-          <RosterField roster={roster} register={register} errors={errors} />
-        )}
+      {(formType === "visita-docente" || formType === "visita-externo") && (
+        <RosterField roster={roster} register={register} errors={errors} />
+      )}
     </>
   )
 }
@@ -846,7 +844,7 @@ function VisitaDocenteFields({ register, errors }: FieldsProps) {
           errors={errors}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Text
           label="Fecha propuesta"
           name="fecha"
@@ -860,9 +858,25 @@ function VisitaDocenteFields({ register, errors }: FieldsProps) {
           register={register}
           errors={errors}
         />
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Text
           label="Estudiantes previstos"
           name="estudiantesPrevistos"
+          type="number"
+          register={register}
+          errors={errors}
+        />
+        <Text
+          label="Número de grupos"
+          name="numeroGrupos"
+          type="number"
+          register={register}
+          errors={errors}
+        />
+        <Text
+          label="Acompañantes adicionales"
+          name="acompanantes"
           type="number"
           register={register}
           errors={errors}
@@ -915,7 +929,7 @@ function VisitaExternoFields({ register, errors }: FieldsProps) {
           errors={errors}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Text
           label="Fecha de la visita"
           name="fecha"
@@ -929,9 +943,18 @@ function VisitaExternoFields({ register, errors }: FieldsProps) {
           register={register}
           errors={errors}
         />
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Text
           label="N.º de estudiantes"
           name="numeroEstudiantes"
+          type="number"
+          register={register}
+          errors={errors}
+        />
+        <Text
+          label="Número de grupos"
+          name="numeroGrupos"
           type="number"
           register={register}
           errors={errors}

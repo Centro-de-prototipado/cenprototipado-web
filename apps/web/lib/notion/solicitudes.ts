@@ -24,14 +24,14 @@ function detalle(data: SolicitudData): string {
     case "visita-docente":
       return `Asignatura: ${data.asignatura}\nNivel: ${data.nivel}\nFecha: ${data.fecha} ${data.horario}\n${data.descripcion}`
     case "visita-externo":
-      return `Institución: ${data.institucion} (${data.ciudad})\nFecha: ${data.fecha} ${data.horario}\n${data.descripcion}\n${data.observaciones}`
+      return `Institución: ${data.institucion} (${data.ciudad})\nCódigo asignatura: ${data.codigoAsignatura}\nFecha: ${data.fecha} ${data.horario}\n${data.descripcion}\n${data.observaciones}`
   }
 }
 
 export function buildSolicitudProperties(
   data: SolicitudData
 ): Record<string, unknown> {
-  const telefono = "telefono" in data ? data.telefono : ""
+  const telefono = data.telefono
   return {
     Nombre: { title: [{ text: { content: data.nombre } }] },
     Tipo: { select: { name: LABEL_BY_TYPE[data.type] } },

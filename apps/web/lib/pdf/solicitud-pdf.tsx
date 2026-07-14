@@ -76,6 +76,7 @@ function entries(data: SolicitudData): [string, string][] {
         ["Fecha", `${data.fecha} ${data.horario}`],
         ["Estudiantes previstos", String(data.estudiantesPrevistos ?? "")],
         ["Grupos", String(data.numeroGrupos ?? "")],
+        ["Acompañantes", String(data.acompanantes ?? "")],
         ["Descripción", data.descripcion],
         ["Equipos", data.equipos],
       ]
@@ -83,6 +84,7 @@ function entries(data: SolicitudData): [string, string][] {
       return [
         ...base,
         ["Asignatura", data.asignatura],
+        ["Código asignatura", data.codigoAsignatura],
         ["Institución", data.institucion],
         ["Ciudad", data.ciudad],
         ["Fecha", `${data.fecha} ${data.horario}`],
