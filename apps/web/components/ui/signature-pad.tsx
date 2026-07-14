@@ -26,9 +26,21 @@ export function SignaturePad({
     ctx.lineCap = "round"
   }, [])
 
+  useEffect(() => {
+    if (value !== "") return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height)
+    setHasInk(false)
+  }, [value])
+
   const pos = (e: React.PointerEvent) => {
-    const rect = canvasRef.current!.getBoundingClientRect()
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top }
+    const canvas = canvasRef.current!
+    const rect = canvas.getBoundingClientRect()
+    return {
+      x: (e.clientX - rect.left) * (canvas.width / rect.width),
+      y: (e.clientY - rect.top) * (canvas.height / rect.height),
+    }
   }
 
   const start = (e: React.PointerEvent) => {
@@ -69,6 +81,7 @@ export function SignaturePad({
         onPointerMove={move}
         onPointerUp={end}
         onPointerLeave={end}
+        onPointerCancel={end}
         className="w-full touch-none border bg-muted/20"
       />
       <div className="flex items-center justify-between">
