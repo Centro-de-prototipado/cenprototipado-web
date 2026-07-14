@@ -75,7 +75,11 @@ export function SignaturePad({
         <span className="text-xs text-muted-foreground">
           {hasInk ? "Firma capturada" : "Dibuja tu firma en el recuadro"}
         </span>
-        <button type="button" onClick={clear} className="text-xs text-primary underline">
+        <button
+          type="button"
+          onClick={clear}
+          className="text-xs text-primary underline"
+        >
           Limpiar
         </button>
       </div>
