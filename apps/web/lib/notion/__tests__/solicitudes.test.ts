@@ -3,7 +3,7 @@ import { buildSolicitudProperties } from "@/lib/notion/solicitudes"
 import type { SolicitudData } from "@/lib/forms/schemas"
 
 describe("buildSolicitudProperties", () => {
-  test("general mapea título, tipo, correo como mailto y estado inicial", () => {
+  test("general mapea título, tipo, correo como link de Gmail y estado inicial", () => {
     const props = buildSolicitudProperties({
       type: "general",
       nombre: "María Gómez",
@@ -14,7 +14,9 @@ describe("buildSolicitudProperties", () => {
     }) as any
     expect(props.Nombre.title[0].text.content).toBe("María Gómez")
     expect(props.Tipo.select.name).toBe("Contacto general")
-    expect(props.Correo.url).toBe("mailto:maria@correo.com")
+    expect(props.Correo.url).toBe(
+      "https://mail.google.com/mail/?view=cm&fs=1&to=maria%40correo.com"
+    )
     expect(props.Estado.select.name).toBe("Nuevo")
   })
 

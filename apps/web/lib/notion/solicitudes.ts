@@ -35,7 +35,9 @@ export function buildSolicitudProperties(
   return {
     Nombre: { title: [{ text: { content: data.nombre } }] },
     Tipo: { select: { name: LABEL_BY_TYPE[data.type] } },
-    Correo: { url: `mailto:${data.correo}` },
+    Correo: {
+      url: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(data.correo)}`,
+    },
     Teléfono: telefono ? { phone_number: telefono } : { phone_number: null },
     Estado: { select: { name: "Nuevo" } },
     Detalle: richText(detalle(data)),
