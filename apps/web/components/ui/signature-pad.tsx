@@ -82,7 +82,7 @@ export function SignaturePad({
         onPointerUp={end}
         onPointerLeave={end}
         onPointerCancel={end}
-        className="w-full touch-none border bg-muted/20"
+        className="w-full touch-none border bg-white"
       />
       <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground">
