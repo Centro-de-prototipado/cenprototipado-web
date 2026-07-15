@@ -199,24 +199,33 @@ export function DatosComunes({ register, errors }: FieldsProps) {
   )
 }
 
-export function ServiciosFields({ register, errors }: FieldsProps) {
+// Extras del paso «Tus datos» de Solicitud de Servicios (programa + tipo de
+// usuario). Se separan de `ServiciosDetalles` porque el wizard reparte estos
+// campos en pasos distintos; `ServiciosFields` los recompone para la vista de
+// una sola pantalla.
+export function ServiciosDatosExtra({ register, errors }: FieldsProps) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <Text
+        label="Programa / Dependencia"
+        name="programa"
+        register={register}
+        errors={errors}
+      />
+      <Select
+        label="Tipo de usuario"
+        name="tipoUsuario"
+        options={TIPO_USUARIO}
+        register={register}
+        errors={errors}
+      />
+    </div>
+  )
+}
+
+export function ServiciosDetalles({ register, errors }: FieldsProps) {
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Text
-          label="Programa / Dependencia"
-          name="programa"
-          register={register}
-          errors={errors}
-        />
-        <Select
-          label="Tipo de usuario"
-          name="tipoUsuario"
-          options={TIPO_USUARIO}
-          register={register}
-          errors={errors}
-        />
-      </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Text
           label="Proyecto / Práctica"
@@ -271,6 +280,15 @@ export function ServiciosFields({ register, errors }: FieldsProps) {
         register={register}
         errors={errors}
       />
+    </>
+  )
+}
+
+export function ServiciosFields({ register, errors }: FieldsProps) {
+  return (
+    <>
+      <ServiciosDatosExtra register={register} errors={errors} />
+      <ServiciosDetalles register={register} errors={errors} />
     </>
   )
 }
