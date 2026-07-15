@@ -170,6 +170,7 @@ export function ContactWizard() {
 
   const reduce = useReducedMotion()
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const firstFocus = useRef(true)
 
   // Restaurar borrador al montar (en microtask para no hidratar desde el
   // render SSR y evitar setState síncrono en el efecto).
@@ -186,6 +187,17 @@ export function ContactWizard() {
       setPhase("form")
     })
   }, [reset])
+
+  // Mover el foco al encabezado del paso al navegar (lectores de pantalla y
+  // teclado siguen el flujo). Se salta el primer render para no robar el foco
+  // al cargar; `preventScroll` evita saltos bruscos de viewport.
+  useEffect(() => {
+    if (firstFocus.current) {
+      firstFocus.current = false
+      return
+    }
+    if (phase === "form") headingRef.current?.focus({ preventScroll: true })
+  }, [stepIndex, phase])
 
   // Persistir borrador (debounced) cuando cambian valores o paso.
   useEffect(() => {

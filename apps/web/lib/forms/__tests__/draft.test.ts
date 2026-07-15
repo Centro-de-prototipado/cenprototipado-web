@@ -7,19 +7,31 @@ beforeEach(() => {
   vi.stubGlobal("window", {})
   vi.stubGlobal("localStorage", {
     getItem: (k: string) => store[k] ?? null,
-    setItem: (k: string, v: string) => { store[k] = v },
-    removeItem: (k: string) => { delete store[k] },
+    setItem: (k: string, v: string) => {
+      store[k] = v
+    },
+    removeItem: (k: string) => {
+      delete store[k]
+    },
   })
 })
 
 describe("draft", () => {
   test("save + load round-trip", () => {
     saveDraft({ type: "servicios", step: 2, values: { nombre: "Ana" } })
-    expect(loadDraft()).toEqual({ type: "servicios", step: 2, values: { nombre: "Ana" } })
+    expect(loadDraft()).toEqual({
+      type: "servicios",
+      step: 2,
+      values: { nombre: "Ana" },
+    })
   })
 
   test("save excluye la firma", () => {
-    saveDraft({ type: "servicios", step: 1, values: { nombre: "Ana", firma: "data:image/png;base64,AAA" } })
+    saveDraft({
+      type: "servicios",
+      step: 1,
+      values: { nombre: "Ana", firma: "data:image/png;base64,AAA" },
+    })
     const d = loadDraft()
     expect(d?.values.firma).toBeUndefined()
     expect(d?.values.nombre).toBe("Ana")

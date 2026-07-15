@@ -11,14 +11,25 @@ describe("stepsFor", () => {
 
   test("servicios: datos, detalles, firma, revisar (4 pasos)", () => {
     const s = stepsFor("servicios")
-    expect(s.map((x) => x.kind)).toEqual(["fields", "fields", "signature", "review"])
+    expect(s.map((x) => x.kind)).toEqual([
+      "fields",
+      "fields",
+      "signature",
+      "review",
+    ])
     expect(s[0].fields).toContain("tipoUsuario")
     expect(s[1].fields).toContain("maquinaria")
   })
 
   test("visita-docente: datos, detalles, roster, firma, revisar (5 pasos)", () => {
     const s = stepsFor("visita-docente")
-    expect(s.map((x) => x.kind)).toEqual(["fields", "fields", "roster", "signature", "review"])
+    expect(s.map((x) => x.kind)).toEqual([
+      "fields",
+      "fields",
+      "roster",
+      "signature",
+      "review",
+    ])
     expect(s[2].fields).toContain("estudiantes")
   })
 
