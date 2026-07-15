@@ -174,34 +174,39 @@ export function ContactoClient({
         <DecorIcon className="size-3" position="top-left" />
         <DecorIcon className="size-3" position="top-right" />
 
-        <div className="grid grid-cols-1 border lg:grid-cols-[1.5fr_1fr]">
-          {/* Form (wizard por pasos) */}
+        <div className="mx-auto flex max-w-3xl flex-col gap-6 px-5 sm:px-8 lg:px-0">
+          {/* Form principal (wizard por pasos) — pieza destacada */}
           <Reveal
             as="div"
-            className="relative flex flex-col gap-5 p-5 sm:p-8 lg:border-r lg:p-9"
+            className="relative flex flex-col gap-5 border-2 border-primary/40 bg-card p-6 sm:p-9 lg:p-10"
+            style={{
+              boxShadow:
+                "10px 10px 0 0 color-mix(in srgb, var(--color-primary) 20%, transparent)",
+            }}
           >
             <DecorIcon className="size-2" position="top-left" />
             <DecorIcon className="size-2" position="bottom-right" />
 
             <div>
-              <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+              <span className="inline-flex w-fit items-center gap-2 border border-primary/50 bg-primary/10 px-3 py-1 text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
+                <span className="h-1.5 w-1.5 bg-primary" />
                 Escríbenos
               </span>
               <TechHeading
                 as="h2"
                 text="Cuéntanos en qué podemos ayudarte."
-                className="mt-2.5 text-2xl leading-[1.1] font-extrabold tracking-[-0.015em] text-foreground"
+                className="mt-3 text-2xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground sm:text-3xl"
               />
             </div>
 
             <ContactWizard />
           </Reveal>
 
-          {/* Sidebar */}
+          {/* Info secundaria — debajo del formulario, en fila */}
           <Reveal
             as="aside"
             index={1}
-            className="flex flex-col gap-6 bg-background p-5 sm:p-7 lg:p-8"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2"
           >
             <div
               className="border bg-card p-5"
@@ -220,7 +225,7 @@ export function ContactoClient({
                 correo institucional. Reservas confirmadas en ≤ 2 días hábiles.
               </p>
             </div>
-            <div>
+            <div className="border bg-card p-5">
               <span className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
                 También puedes
               </span>
