@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
 import {
@@ -11,37 +11,15 @@ import {
   ArrowRightIcon,
   GlobeIcon,
 } from "lucide-react"
-import {
-  useForm,
-  useFieldArray,
-  Controller,
-  type Resolver,
-  type UseFieldArrayReturn,
-} from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
 import { GridPattern } from "@/components/ui/grid-pattern"
 import { Reveal } from "@/components/ui/reveal"
 import { TechHeading } from "@/components/ui/tech-heading"
 import { Button } from "@/components/ui/button"
-import { SignaturePad } from "@/components/ui/signature-pad"
-import { FORM_TYPES } from "@/lib/forms/config"
-import { schemaFor, type FormType } from "@/lib/forms/schemas"
-import { submitSolicitud } from "@/app/(marketing)/contacto/actions"
 import type { FaqItem } from "@/lib/institutional-data"
 import { cn } from "@/lib/utils"
-import {
-  DatosComunes,
-  FieldError,
-  GeneralFields,
-  RosterField,
-  ServiciosFields,
-  VisitaDocenteFields,
-  VisitaExternoFields,
-  type FieldsProps,
-  type FormValues,
-} from "@/components/sections/contacto/fields"
+import { ContactWizard } from "@/components/sections/contacto/contact-wizard"
 
 export function ContactoClient({
   faq,
@@ -50,48 +28,6 @@ export function ContactoClient({
   faq: FaqItem[]
   config: Record<string, string>
 }) {
-  const [formType, setFormType] = useState<FormType>("general")
-  const [sent, setSent] = useState(false)
-  const [serverError, setServerError] = useState("")
-
-  // El resolver de zodResolver se captura en el primer render de useForm y no
-  // se re-crea al cambiar `formType`; por eso se envuelve en una función que
-  // lee el tipo actual desde un ref (actualizado en `changeType`) y resuelve
-  // contra el schema correspondiente en cada validación.
-  const currentTypeRef = useRef<FormType>(formType)
-  const resolver = ((values: FormValues, context: unknown, options: unknown) =>
-    (
-      zodResolver(schemaFor(currentTypeRef.current) as never) as (
-        ...args: unknown[]
-      ) => unknown
-    )(values, context, options)) as unknown as Resolver<FormValues>
-
-  const form = useForm<FormValues>({
-    resolver,
-    defaultValues: { type: formType },
-  })
-  const { register, handleSubmit, control, reset, formState } = form
-  const roster = useFieldArray({ control, name: "estudiantes" })
-
-  const activeMeta = FORM_TYPES.find((f) => f.value === formType)!
-
-  const changeType = (t: FormType) => {
-    currentTypeRef.current = t
-    setFormType(t)
-    setServerError("")
-    reset({ type: t })
-  }
-
-  const onSubmit = handleSubmit(async (values) => {
-    const res = await submitSolicitud({ ...values, type: formType })
-    if (res.ok) {
-      setSent(true)
-      reset({ type: formType })
-    } else {
-      setServerError(res.error)
-    }
-  })
-
   const contact = {
     email: config["contacto-email"] ?? "",
     phone: config["contacto-telefono"] ?? "",
@@ -239,10 +175,9 @@ export function ContactoClient({
         <DecorIcon className="size-3" position="top-right" />
 
         <div className="grid grid-cols-1 border lg:grid-cols-[1.5fr_1fr]">
-          {/* Form */}
+          {/* Form (wizard por pasos) */}
           <Reveal
-            as="form"
-            onSubmit={onSubmit}
+            as="div"
             className="relative flex flex-col gap-5 p-5 sm:p-8 lg:border-r lg:p-9"
           >
             <DecorIcon className="size-2" position="top-left" />
@@ -259,87 +194,7 @@ export function ContactoClient({
               />
             </div>
 
-            {/* Selector de tipo */}
-            <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold text-foreground">
-                Tipo de trámite
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {FORM_TYPES.map((t) => (
-                  <button
-                    type="button"
-                    key={t.value}
-                    onClick={() => changeType(t.value)}
-                    className={cn(
-                      "h-8 border px-3 text-xs font-medium transition-colors",
-                      formType === t.value
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-transparent text-foreground hover:border-primary"
-                    )}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Campos por tipo */}
-            <FormFields
-              formType={formType}
-              register={register}
-              control={control}
-              roster={roster}
-              errors={formState.errors}
-            />
-
-            {/* Firma */}
-            {activeMeta.hasSignature && (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-foreground">
-                  Firma
-                </label>
-                <Controller
-                  control={control}
-                  name="firma"
-                  render={({ field }) => (
-                    <SignaturePad
-                      value={field.value ?? ""}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-                <FieldError error={formState.errors.firma} />
-              </div>
-            )}
-
-            {formState.isSubmitted && !formState.isValid && (
-              <p className="text-sm text-red-500">
-                Revisa los campos marcados antes de enviar.
-              </p>
-            )}
-            {serverError && (
-              <p className="text-sm text-red-500">{serverError}</p>
-            )}
-
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-              <label className="flex items-center gap-2 text-xs text-muted-foreground">
-                <input
-                  type="checkbox"
-                  required
-                  defaultChecked
-                  className="accent-primary"
-                />
-                Acepto el tratamiento de datos según la política UNAL.
-              </label>
-              <Button type="submit" size="lg" disabled={formState.isSubmitting}>
-                {sent
-                  ? "¡Enviado ✓"
-                  : formState.isSubmitting
-                    ? "Enviando…"
-                    : "Enviar"}{" "}
-                <ArrowRightIcon data-icon="inline-end" />
-              </Button>
-            </div>
+            <ContactWizard />
           </Reveal>
 
           {/* Sidebar */}
@@ -524,39 +379,6 @@ export function ContactoClient({
           50% { box-shadow: 0 0 0 6px transparent; }
         }
       `}</style>
-    </>
-  )
-}
-
-function FormFields({
-  formType,
-  register,
-  roster,
-  errors,
-}: FieldsProps & {
-  formType: FormType
-  roster: UseFieldArrayReturn<FormValues, "estudiantes">
-}) {
-  if (formType === "general") {
-    return <GeneralFields register={register} errors={errors} />
-  }
-  return (
-    <>
-      <DatosComunes register={register} errors={errors} />
-
-      {formType === "servicios" && (
-        <ServiciosFields register={register} errors={errors} />
-      )}
-      {formType === "visita-docente" && (
-        <VisitaDocenteFields register={register} errors={errors} />
-      )}
-      {formType === "visita-externo" && (
-        <VisitaExternoFields register={register} errors={errors} />
-      )}
-
-      {(formType === "visita-docente" || formType === "visita-externo") && (
-        <RosterField roster={roster} register={register} errors={errors} />
-      )}
     </>
   )
 }
