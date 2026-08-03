@@ -10,7 +10,7 @@ renderiza estático/SSR.
 
 | Grupo | Rutas | Propósito |
 |-------|-------|-----------|
-| `(marketing)` | `/`, `/centro`, `/portafolio`, `/portafolio/[slug]`, `/tecnologias`, `/contacto` | sitio público con Header/Footer |
+| `(marketing)` | `/`, `/centro`, `/portafolio`, `/portafolio/[slug]`, `/tecnologias`, `/aprende`, `/contacto` | sitio público con Header/Footer |
 | `(auth)` | `/login` | páginas de auth |
 | `dashboard/` | `/dashboard` | dashboard interno (placeholder) |
 | `api/` | `/api/revalidate` | revalidación on-demand del CMS |
@@ -41,7 +41,8 @@ Todas cuelgan de la página **«CMS — Centro de Prototipado»**
 | Tecnologías | `9616e1e9-cb5c-4908-8bd3-987384f5ff64` | inventario de equipos | `/tecnologias` |
 | Equipo | `4692245a-0dc7-41bd-89a1-09719cf6b8e5` | personas del Centro | `/centro` |
 | FAQ | `a4fb64e7-3c81-4634-b6e3-4f3edbafef67` | preguntas frecuentes | `/tecnologias` (filtrado por `Categoría`), `/contacto` |
-| Configuración | `a5cba8c6-4d8f-462c-af18-1b2ea3f09353` | contacto (correo/teléfono/sede/horario/coordenadas), misión, visión — clave-valor | footer, home, `/contacto`, `/centro` |
+| Configuración | `a5cba8c6-4d8f-462c-af18-1b2ea3f09353` | contacto (correo/teléfono/sede/horario/coordenadas), misión, visión, usuario de Instagram — clave-valor | footer, home, `/contacto`, `/centro` |
+| Instagram | `8cbb9e37-18b7-45bc-8747-2ad302e2e893` | posts destacados curados a mano | home (franja «Lo último del Centro») |
 
 **Esquema Portafolio (propiedades → tipo):** `Título` (title), `Slug`,
 `Categoría` (multi-select), `Año` (number), `Imagen` (url — destino final),
@@ -52,7 +53,7 @@ escribe la URL en `Imagen`), `Resumen`, `Reto`, `Solución`,
 `Destacado` (checkbox), `Publicado` (checkbox). **Cuerpo de página → markdown.**
 
 **Esquema Tecnologías:** `Título` (title), `Subtítulo`, `Descripción`,
-`Aplicaciones` (texto multilínea → lista), `Estado` (select: `Disponible`/`Reservada`),
+`Aplicaciones` (texto multilínea → lista),
 `Unidades` (number), `Categoría` (select), `Imagen` (url — destino final, opcional),
 `Imagen (subir aquí)` (file — el editor sube aquí; el sync la envía a Cloudinary y escribe
 la URL en `Imagen`), `Orden`, `Publicado`.
@@ -68,10 +69,55 @@ URL en `Foto`; si `Foto` queda vacía → avatar SVG generado), `Bio` (opcional)
 **Esquema Configuración:** `Etiqueta` (title, solo interno), `Clave` (identificador
 estable usado en código, ej. `contacto-email`), `Valor`, `Orden`, `Publicado`.
 
+**Esquema Instagram:** `Caption` (title), `URL del post` (url — enlace público al
+post o reel), `Imagen` (url — portada, la rellena el sync), `Imagen (subir aquí)`
+(file — vía manual de respaldo), `Tipo` (select: `Post`/`Reel`), `Orden`,
+`Publicado`. Sin `URL del post` o sin `Imagen` la fila se descarta al mapear.
+
+**Flujo propio:** a diferencia del resto de bases, aquí el editor **solo pega la
+URL del post**. `syncInstagramMedia` (en `lib/cloudinary/sync.ts`) resuelve la
+portada con `lib/instagram/media.ts` y la rehospeda en Cloudinary, porque las URLs
+del CDN de Instagram van firmadas y caducan. Solo procesa las filas sin `Imagen`,
+así que revalidar es idempotente y no pisa una portada puesta a mano. **El video no
+se rehospeda**: lo sirve el embed oficial.
+
+`lib/instagram/media.ts` lee los datos públicos del permalink con un User-Agent de
+rastreador (Instagram sirve muro de login a peticiones normales, pero entrega el
+JSON del post a los crawlers — es lo que alimenta las previsualizaciones de
+enlaces). Se ancla en la **última** aparición de `"code":"<shortcode>"`, que es el
+nodo del propio media; las anteriores son el timeline de posts relacionados y
+llevan al caption equivocado. Es una fuente no documentada: ante cualquier
+imprevisto devuelve `null` y el sync conserva lo ya guardado en vez de borrarlo.
+
+Los reels se reproducen **dentro del sitio** con `components/ui/reel-player.tsx`:
+la tarjeta muestra portada y botón de play propios, y al pulsar abre el **embed
+oficial** (`instagram.com/reel/<code>/embed/`) en un modal. Va en modal, y no
+dentro de la tarjeta, porque el embed trae su propio chrome y un ancho mínimo de
+~326px que no cabe en el carrusel. Cargarlo solo al abrir evita que la home
+arrastre el iframe de Meta —y sus cookies— en cada visita.
+
+Verificado en navegador con contexto aislado (sin sesión de Instagram): los tres
+reels renderizan y reproducen. El embed **no requiere token**, a diferencia del
+oEmbed oficial, que lo exige desde 2020.
+
 **Modelo híbrido:** las propiedades estructuradas alimentan el layout (hero,
 reto/solución, techStack…) y el **cuerpo** de la página de Notion se lee como markdown
 vía `notion.pages.retrieveMarkdown()` → se renderiza con `react-markdown` + `remark-gfm`
 (componente `components/ui/markdown.tsx`) en la sección «Detalle».
+
+## Aprende con nosotros (YouTube Data API v3)
+
+`/aprende` **no** usa Notion: `lib/youtube/videos.ts` lee el canal con la YouTube
+Data API v3 (`YOUTUBE_API_KEY` + `YOUTUBE_CHANNEL_ID`, ambas server-side). Trae los
+videos de la playlist de subidas y convierte cada **playlist pública del canal** en
+un filtro de categoría, de modo que la organización se hace en YouTube y la web se
+actualiza sola. Cacheado con tag `tutoriales` y `cacheLife("hours")`; sin credenciales
+devuelve listas vacías y la página muestra su estado vacío.
+
+Los videos se renderizan con `components/ui/youtube-facade.tsx`: miniatura propia +
+botón de play, y el iframe (`youtube-nocookie.com`) solo se monta al hacer clic. Se
+evitó `lite-youtube-embed` / `@next/third-parties` porque sirven su script y su CSS
+desde un CDN externo sin versión fijada y traen chrome visual no tematizable.
 
 ### Capa de datos (`lib/notion/`)
 
@@ -90,7 +136,9 @@ Cada lectura se filtra por `Publicado = true`, se ordena (por `Año`, `Orden` o 
 marca con la directiva **`"use cache"`** + `cacheTag(<tag>)` + `cacheLife("max")` (requerido
 por `cacheComponents: true`; reemplaza al antiguo `unstable_cache`). El contenido se cachea
 indefinidamente y solo se refresca on-demand.
-Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`, `metricas`, `configuracion`.
+Tags de caché: `portafolio`, `tecnologias`, `equipo`, `faq`, `metricas`, `configuracion`,
+`instagram`, `tutoriales` (este último cachea la API de YouTube, no Notion, y usa
+`cacheLife("hours")`).
 
 Las páginas/secciones son **Server Components async** que hacen `await` de estos
 fetchers. Los componentes cliente (`tecnologias-client`, `contacto-client`) reciben los
@@ -103,10 +151,11 @@ datos por **props** desde su page server.
 - Valida el secreto (`?secret=` o header `x-revalidate-secret`).
 - Ejecuta `revalidateTag(tag, "max")` (firma de Next 16) → las páginas estáticas se
   regeneran en la siguiente petición.
-- Sin `tag` revalida los cinco; con `tag` solo ese.
-- **Sync de imágenes:** cuando los tags incluyen `portafolio`, `equipo` y/o `tecnologias`
-  (o sin `tag`, los tres), antes de revalidar ejecuta el sync correspondiente de
-  `lib/cloudinary/sync.ts` (`syncPortfolioImages` / `syncTeamImages` / `syncTechnologyImages`)
+- Sin `tag` revalida todos; con `tag` solo ese.
+- **Sync de imágenes:** cuando los tags incluyen `portafolio`, `equipo`, `tecnologias`
+  y/o `instagram` (o sin `tag`, los cuatro), antes de revalidar ejecuta el sync
+  correspondiente de `lib/cloudinary/sync.ts` (`syncPortfolioImages` / `syncTeamImages` /
+  `syncTechnologyImages` / `syncInstagramMedia`)
   — sube a Cloudinary las imágenes recién puestas en la propiedad file y escribe su URL
   permanente en la propiedad url destino. `maxDuration = 60`. El resumen (por tag) va en la
   respuesta (`imageSync`).

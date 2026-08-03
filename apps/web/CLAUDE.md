@@ -4,7 +4,9 @@ Guidance specific to `@cen/web` (the Next.js marketing app). See the root [CLAUD
 
 ### Data Flow (Notion CMS)
 
-Editorial content (Portfolio, Technologies, Team, FAQ) lives in **Notion data sources**, read server-side via `@notionhq/client` in **`lib/notion/*`** (`portfolio.ts`, `technologies.ts`, `team.ts`, `faq.ts`). Reads are filtered by `Publicado = true`, mapped to domain types, and wrapped in `unstable_cache` with tags (`portafolio`, `tecnologias`, `equipo`, `faq`). Pages are async Server Components; client sections receive data as props.
+Editorial content (Portfolio, Technologies, Team, FAQ, Instagram) lives in **Notion data sources**, read server-side via `@notionhq/client` in **`lib/notion/*`** (`portfolio.ts`, `technologies.ts`, `team.ts`, `faq.ts`, `instagram.ts`). Reads are filtered by `Publicado = true`, mapped to domain types, and wrapped in `unstable_cache` with tags (`portafolio`, `tecnologias`, `equipo`, `faq`, `instagram`). Pages are async Server Components; client sections receive data as props.
+
+**Tutorials are the exception**: `/aprende` reads the YouTube Data API v3 from `lib/youtube/*` (channel uploads + public playlists as category filters), cached under the `tutoriales` tag. Needs `YOUTUBE_API_KEY` and `YOUTUBE_CHANNEL_ID`; without them it degrades to an empty state rather than failing.
 
 Portfolio uses a **hybrid** model: structured Notion properties feed the layout, and the page body is fetched as markdown (`pages.retrieveMarkdown()`) and rendered with `react-markdown`. Update after editing Notion via `POST /api/revalidate?secret=…[&tag=…]`. Notion property/DB details and data-source IDs live in [ARCHITECTURE.md](./ARCHITECTURE.md).
 
