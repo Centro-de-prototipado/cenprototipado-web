@@ -32,7 +32,6 @@
     "react-dom": "catalog:",
     "react-hook-form": "^7.81.0",
     "react-markdown": "^10.1.0",
-    "react-social-media-embed": "^2.5.18",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.1",
