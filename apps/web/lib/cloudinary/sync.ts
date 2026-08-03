@@ -2,8 +2,13 @@ import { createHash } from "node:crypto"
 
 import { isFullPage } from "@notionhq/client"
 import type { PageObjectResponse } from "@notionhq/client"
-import { v2 as cloudinary, type UploadApiOptions, type UploadApiResponse } from "cloudinary"
+import {
+  v2 as cloudinary,
+  type UploadApiOptions,
+  type UploadApiResponse,
+} from "cloudinary"
 
+import { fetchInstagramMedia } from "@/lib/instagram/media"
 import { DATA_SOURCES, notion } from "@/lib/notion/client"
 import { getFiles, getTitle, getUrl } from "@/lib/notion/map"
 
@@ -123,7 +128,9 @@ const syncImages = async (config: SyncConfig): Promise<SyncResult> => {
       // Cloudinary para que la baje él re-codifica la query y rompe la firma → 403.
       const res = await fetch(source)
       if (!res.ok) {
-        throw new Error(`No se pudo descargar el archivo de Notion (HTTP ${res.status})`)
+        throw new Error(
+          `No se pudo descargar el archivo de Notion (HTTP ${res.status})`
+        )
       }
       const buffer = Buffer.from(await res.arrayBuffer())
       const uploaded = await uploadBuffer(buffer, {
@@ -171,3 +178,81 @@ export const syncTechnologyImages = (): Promise<SyncResult> =>
     sourceProp: "Imagen (subir aquí)",
     destProp: "Imagen",
   })
+
+// Instagram no sigue el patrón de las demás bases: el editor solo pega la URL
+// del post y aquí se resuelve la portada desde los datos públicos y se rehospeda
+// en Cloudinary, porque las URLs del CDN de Instagram van firmadas y caducan.
+// El video no se descarga: lo sirve el embed oficial al abrir el reel.
+//
+// Solo se procesan las filas sin `Imagen`, para no reprocesar en cada
+// revalidación ni pisar una portada que el editor haya puesto a mano.
+export const syncInstagramMedia = async (): Promise<SyncResult> => {
+  ensureConfig()
+  const result: SyncResult = { synced: [], skipped: 0, errors: [] }
+
+  const pages: PageObjectResponse[] = []
+  let cursor: string | undefined
+  do {
+    const res = await notion.dataSources.query({
+      data_source_id: DATA_SOURCES.instagram,
+      start_cursor: cursor,
+    })
+    for (const item of res.results) if (isFullPage(item)) pages.push(item)
+    cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
+  } while (cursor)
+
+  for (const page of pages) {
+    const props = page.properties
+    const permalink = getUrl(props, "URL del post")
+    const title = getTitle(props, "Caption") || permalink || page.id
+
+    if (!permalink) {
+      result.skipped++
+      continue
+    }
+    if (getUrl(props, "Imagen")) {
+      result.skipped++
+      continue
+    }
+
+    try {
+      const media = await fetchInstagramMedia(permalink)
+      if (!media) {
+        throw new Error("no se pudieron leer los datos públicos del post")
+      }
+
+      const cover = await uploadCover(
+        media.cover,
+        `ig_${page.id.replace(/-/g, "")}`
+      )
+      await notion.pages.update({
+        page_id: page.id,
+        properties: { Imagen: { url: cover } },
+      })
+      result.synced.push({ title, url: cover })
+    } catch (err) {
+      result.errors.push({ title, error: errMessage(err) })
+    }
+  }
+
+  return result
+}
+
+// Descarga la portada del CDN de Instagram y la sube a Cloudinary. Solo la
+// portada: el video lo sirve el propio embed de Instagram, no se rehospeda.
+const uploadCover = async (src: string, publicId: string): Promise<string> => {
+  const res = await fetch(src, {
+    headers: { Referer: "https://www.instagram.com/" },
+  })
+  if (!res.ok) {
+    throw new Error(`no se pudo descargar la portada (HTTP ${res.status})`)
+  }
+  const buffer = Buffer.from(await res.arrayBuffer())
+  const uploaded = await uploadBuffer(buffer, {
+    folder: "cenprototipado/instagram",
+    public_id: publicId,
+    overwrite: true,
+    resource_type: "image",
+  })
+  return uploaded.secure_url
+}

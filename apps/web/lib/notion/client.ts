@@ -29,4 +29,7 @@ export const DATA_SOURCES = {
   solicitudes:
     process.env.NOTION_SOLICITUDES_DATA_SOURCE_ID ||
     "fb38a8ec-a40e-405b-905f-383950663b10",
+  instagram:
+    process.env.NOTION_INSTAGRAM_DATA_SOURCE_ID ||
+    "8cbb9e37-18b7-45bc-8747-2ad302e2e893",
 } as const

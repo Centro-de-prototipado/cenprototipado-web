@@ -2,6 +2,7 @@ import { revalidateTag } from "next/cache"
 import { NextResponse, type NextRequest } from "next/server"
 
 import {
+  syncInstagramMedia,
   syncPortfolioImages,
   syncTeamImages,
   syncTechnologyImages,
@@ -19,6 +20,8 @@ const TAGS = [
   "faq",
   "metricas",
   "configuracion",
+  "instagram",
+  "tutoriales",
 ] as const
 
 // Revalidación manual on-demand: POST /api/revalidate?secret=…[&tag=…]
@@ -47,6 +50,7 @@ export async function POST(request: NextRequest) {
     portafolio: syncPortfolioImages,
     equipo: syncTeamImages,
     tecnologias: syncTechnologyImages,
+    instagram: syncInstagramMedia,
   }
   const imageSync: Record<string, SyncResult | { error: string }> = {}
   for (const [tag, sync] of Object.entries(syncers)) {

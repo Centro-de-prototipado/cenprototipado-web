@@ -6,8 +6,11 @@ import { FeatureSection } from "@/components/sections/feature-section"
 import { GallerySection } from "@/components/sections/gallery-section"
 import { CasesSection } from "@/components/sections/cases-section"
 import { ContactSection } from "@/components/sections/contact-section"
+import { InstagramStrip } from "@/components/sections/instagram-strip"
 import { CallToAction } from "@/components/sections/cta"
 import { getTechnologies } from "@/lib/notion/technologies"
+import { getInstagramPosts } from "@/lib/notion/instagram"
+import { getConfig } from "@/lib/notion/config"
 import { getMetrics, pickMetrics } from "@/lib/notion/metrics"
 
 export const metadata: Metadata = {
@@ -17,9 +20,11 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [technologies, metrics] = await Promise.all([
+  const [technologies, metrics, instagramPosts, config] = await Promise.all([
     getTechnologies(),
     getMetrics(),
+    getInstagramPosts(),
+    getConfig(),
   ])
 
   return (
@@ -45,6 +50,10 @@ export default async function HomePage() {
       <GallerySection />
       <CasesSection />
       <ContactSection />
+      <InstagramStrip
+        posts={instagramPosts}
+        handle={config["instagram-usuario"] ?? ""}
+      />
       <CallToAction />
     </div>
   )
