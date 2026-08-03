@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { HeroRobotGate } from "@/components/sections/hero-robot-gate"
 import { HeroTilt } from "@/components/sections/hero-tilt"
 import type { Metric } from "@/lib/notion/metrics"
-import { ArrowRightIcon, CalendarIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon, CodeXmlIcon } from "lucide-react"
+import { ArrowRightIcon, MailIcon, LayersIcon, BotIcon, PrinterIcon, GlassesIcon, CodeXmlIcon } from "lucide-react"
 
 const capabilities = [
   { icon: PrinterIcon,  label: "Fabricación",  detail: "3D · CNC · Láser" },
@@ -94,7 +94,7 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
             </Link>
             <Link href="/contacto">
               <Button variant="outline" size="lg">
-                <CalendarIcon data-icon="inline-start" /> Reservar un equipo
+                <MailIcon data-icon="inline-start" /> Escríbenos
               </Button>
             </Link>
           </Reveal>

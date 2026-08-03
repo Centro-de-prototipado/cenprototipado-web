@@ -37,14 +37,14 @@ export async function ContactSection() {
             className="m-0 text-3xl font-extrabold leading-[1.05] tracking-[-0.015em] text-balance text-foreground md:text-4xl"
           />
           <p className="m-0 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Coordinamos asesoría técnica, talleres, reservas de equipo y proyectos colaborativos con la comunidad académica y aliados externos.
+            Coordinamos asesoría técnica, talleres y proyectos colaborativos con la comunidad académica y aliados externos.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/contacto">
               <Button size="lg">Contactar al Centro <ArrowRightIcon data-icon="inline-end" /></Button>
             </Link>
             <Link href="/contacto">
-              <Button variant="outline" size="lg">Reservar equipo</Button>
+              <Button variant="outline" size="lg">Solicitar asesoría</Button>
             </Link>
           </div>
         </Reveal>

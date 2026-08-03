@@ -60,8 +60,31 @@ export type Technology = {
   subtitle: string
   description: string
   applications: string[]
-  status: "disponible" | "reservada"
   units: number
   category: string
   image?: string
+}
+
+// Tutoriales: vienen de la YouTube Data API, no de Notion. `playlistIds` permite
+// filtrar en cliente sin volver a llamar a la API.
+export type YouTubeVideo = {
+  id: string
+  title: string
+  description: string
+  publishedAt: string
+  playlistIds: string[]
+}
+
+export type YouTubePlaylist = {
+  id: string
+  title: string
+  count: number
+}
+
+// Posts destacados de Instagram, curados en Notion.
+export type InstagramPost = {
+  caption: string
+  url: string
+  image: string
+  type: "post" | "reel"
 }

@@ -21,7 +21,6 @@ const mapTechnology = (page: PageObjectResponse): Technology => {
     subtitle: getRichText(p, "Subtítulo"),
     description: getRichText(p, "Descripción"),
     applications: getMultilineList(p, "Aplicaciones"),
-    status: getSelect(p, "Estado") === "Reservada" ? "reservada" : "disponible",
     units: getNumber(p, "Unidades") ?? 0,
     category: getSelect(p, "Categoría"),
     ...(image ? { image } : {}),

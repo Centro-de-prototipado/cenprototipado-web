@@ -10,6 +10,7 @@ import {
   ClockIcon,
   ArrowRightIcon,
   GlobeIcon,
+  CpuIcon,
 } from "lucide-react"
 
 import { DecorIcon } from "@/components/ui/decor-icon"
@@ -88,9 +89,8 @@ export function ContactoClient({
               index={2}
               className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground"
             >
-              Coordinamos asesoría técnica, talleres, reservas de equipo y
-              proyectos colaborativos con la comunidad académica y aliados
-              externos.
+              Coordinamos asesoría técnica, talleres y proyectos colaborativos
+              con la comunidad académica y aliados externos.
             </Reveal>
           </div>
 
@@ -222,7 +222,7 @@ export function ContactoClient({
               <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
                 Promedio{" "}
                 <strong className="text-foreground">≤ 36 h hábiles</strong> por
-                correo institucional. Reservas confirmadas en ≤ 2 días hábiles.
+                correo institucional.
               </p>
             </div>
             <div className="border bg-card p-5">
@@ -232,8 +232,7 @@ export function ContactoClient({
               <div className="mt-3.5 flex flex-col gap-2.5">
                 <Link href="/tecnologias">
                   <Button variant="outline" className="w-full justify-start">
-                    <CalendarIcon className="size-3.5" /> Reservar equipo
-                    directamente
+                    <CpuIcon className="size-3.5" /> Explorar las tecnologías
                   </Button>
                 </Link>
                 <a href="https://unal.edu.co" target="_blank" rel="noreferrer">
@@ -385,25 +384,6 @@ export function ContactoClient({
         }
       `}</style>
     </>
-  )
-}
-
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
   )
 }
 

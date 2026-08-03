@@ -6,8 +6,6 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
 import {
   ArrowRightIcon,
-  CalendarIcon,
-  PhoneIcon,
   PrinterIcon,
   GlassesIcon,
   BotIcon,
@@ -91,14 +89,9 @@ export function TecnologiasClient({
             hasta realidad virtual.
           </Reveal>
           <Reveal as="div" immediate index={3} className="flex flex-wrap gap-3">
-            <Link href="/contacto">
-              <Button size="lg">
-                Reservar un equipo <CalendarIcon data-icon="inline-end" />
-              </Button>
-            </Link>
-            <Link href="/contacto">
+            <Link href="/portafolio">
               <Button variant="outline" size="lg">
-                <PhoneIcon data-icon="inline-start" /> Pedir asesoría
+                Ver portafolio <ArrowRightIcon data-icon="inline-end" />
               </Button>
             </Link>
           </Reveal>
@@ -178,66 +171,6 @@ export function TecnologiasClient({
         <DecorIcon className="size-3" position="bottom-right" />
       </section>
 
-      {/* ── Reserve CTA ── */}
-      <section className="relative overflow-hidden border-b bg-muted/30">
-        <div
-          aria-hidden="true"
-          className="fx-grid-drift pointer-events-none absolute inset-0 hidden opacity-40 dark:block"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-            WebkitMaskImage:
-              "radial-gradient(ellipse at 80% 0%, black, transparent 75%)",
-            maskImage:
-              "radial-gradient(ellipse at 80% 0%, black, transparent 75%)",
-          }}
-        />
-        <div className="relative z-1 grid grid-cols-1 gap-8 px-8 py-16 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-16">
-          <Reveal as="div">
-            <span className="fx-accent text-[11px] font-semibold tracking-[0.24em] text-primary uppercase">
-              Reservar
-            </span>
-            <TechHeading
-              as="h2"
-              text="Agenda tu sesión en el Centro."
-              className="mt-2.5 leading-[1.05] font-extrabold tracking-[-0.02em] text-foreground dark:text-white"
-              style={{ fontSize: "clamp(26px,3.6vw,46px)" }}
-            />
-            <p className="mt-3.5 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Sin costo para la comunidad UNAL. Confirmación en máximo 2 días
-              hábiles.
-            </p>
-          </Reveal>
-          <Reveal as="div" index={1} className="flex flex-col gap-3">
-            <div className="flex items-center gap-3 border bg-card p-4 dark:border-white/15 dark:bg-white/6">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center border text-primary dark:border-white/20">
-                <CalendarIcon className="size-4" />
-              </div>
-              <div>
-                <p className="m-0 text-[10px] font-semibold text-muted-foreground uppercase">
-                  Respuesta
-                </p>
-                <p className="m-0 mt-1 text-sm font-semibold text-foreground dark:text-white">
-                  ≤ 2 días hábiles
-                </p>
-              </div>
-            </div>
-            <Link href="/contacto">
-              <Button size="lg" className="w-full">
-                Reservar ahora <ArrowRightIcon data-icon="inline-end" />
-              </Button>
-            </Link>
-            <Link href="/contacto">
-              <Button variant="outline" size="lg" className="w-full">
-                Prefiero escribir primero{" "}
-                <ArrowRightIcon data-icon="inline-end" />
-              </Button>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── FAQ ── */}
       <FaqSection faq={faq} />
     </>
@@ -246,10 +179,6 @@ export function TecnologiasClient({
 
 function TechCardDetail({ t, index }: { t: Technology; index: number }) {
   const Icon = categories.find((c) => c.id === t.category)?.Icon ?? LayersIcon
-  const available = t.status === "disponible"
-  const statusColor = available
-    ? "var(--color-primary)"
-    : "var(--color-muted-foreground)"
   return (
     <Reveal
       as="article"
@@ -276,12 +205,6 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
                 "linear-gradient(to top, var(--color-card), transparent)",
             }}
           />
-          <span
-            className="absolute top-3 right-3 flex items-center border bg-background/85 px-2 py-1 font-mono text-[10px] tracking-[0.06em] backdrop-blur-sm"
-            style={{ color: statusColor }}
-          >
-            {available ? "● Disponible" : "○ En uso"}
-          </span>
         </div>
       )}
 
@@ -296,14 +219,6 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
           <div className="fx-icon relative z-10 flex h-12 w-12 items-center justify-center border bg-background text-primary shadow-[3px_3px_0_0_rgba(0,0,0,0.05)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,0.06)]">
             <Icon className="size-5" />
           </div>
-          {!t.image && (
-            <span
-              className="font-mono text-[10px] tracking-[0.06em]"
-              style={{ color: statusColor }}
-            >
-              {available ? "● Disponible" : "○ En uso"}
-            </span>
-          )}
         </div>
         <p className="m-0 text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
           {t.subtitle}
@@ -335,13 +250,10 @@ function TechCardDetail({ t, index }: { t: Technology; index: number }) {
         </div>
       )}
 
-      <div className="mt-auto flex flex-col gap-2 border-t px-6 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-auto border-t px-6 py-3">
         <span className="font-mono text-[11px] text-muted-foreground/70">
           {t.category} · {t.units} u.
         </span>
-        <Link href="/contacto">
-          <Button size="sm">Reservar</Button>
-        </Link>
       </div>
     </Reveal>
   )
@@ -361,7 +273,7 @@ function FaqSection({ faq }: { faq: FaqItem[] }) {
           </span>
           <TechHeading
             as="h2"
-            text="Antes de reservar."
+            text="Resolvemos tus dudas."
             className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground"
           />
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">

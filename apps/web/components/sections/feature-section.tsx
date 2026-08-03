@@ -53,7 +53,7 @@ export function FeatureSection({
             className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0")}
             href="/contacto"
           >
-            Reservar equipo
+            Solicitar asesoría
           </Link>
           <Link
             className={cn(buttonVariants({ size: "sm" }), "shrink-0")}

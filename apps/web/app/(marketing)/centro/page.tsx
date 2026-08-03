@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import {
   ArrowRightIcon,
-  CalendarIcon,
+  MailIcon,
   ZapIcon,
   GlobeIcon,
   UsersIcon,
@@ -117,7 +117,7 @@ function CentroHero({ stats }: { stats: Metric[] }) {
             </Link>
             <Link href="/contacto">
               <Button variant="outline" size="lg">
-                <CalendarIcon data-icon="inline-start" /> Reservar
+                <MailIcon data-icon="inline-start" /> Contáctanos
               </Button>
             </Link>
           </div>
@@ -507,13 +507,13 @@ function CentroCta() {
         </span>
         <TechHeading
           as="h2"
-          text="Agenda tu primera sesión o escríbenos hoy."
+          text="Cuéntanos tu proyecto y empecemos hoy."
           className="m-0 text-3xl leading-[1.05] font-extrabold tracking-[-0.02em] text-balance text-foreground md:text-5xl"
         />
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="/contacto">
             <Button size="lg">
-              Reservar un equipo <ArrowRightIcon data-icon="inline-end" />
+              Escríbenos <ArrowRightIcon data-icon="inline-end" />
             </Button>
           </Link>
           <Link href="/contacto">
