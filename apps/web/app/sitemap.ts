@@ -3,7 +3,14 @@ import type { MetadataRoute } from "next"
 import { SITE_URL } from "@/lib/site-config"
 import { getPortfolioSlugs } from "@/lib/notion/portfolio"
 
-const STATIC_ROUTES = ["", "/centro", "/tecnologias", "/portafolio", "/contacto"]
+const STATIC_ROUTES = [
+  "",
+  "/centro",
+  "/tecnologias",
+  "/portafolio",
+  "/aprende",
+  "/contacto",
+]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const slugs = await getPortfolioSlugs()

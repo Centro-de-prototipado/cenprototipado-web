@@ -1,5 +1,10 @@
 import Link from "next/link"
-import { UsersIcon, CpuIcon, FolderKanbanIcon } from "lucide-react"
+import {
+  UsersIcon,
+  CpuIcon,
+  FolderKanbanIcon,
+  GraduationCapIcon,
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
@@ -63,6 +68,16 @@ export function DesktopNav() {
           >
             <FolderKanbanIcon className="size-4" />
             Portafolio
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<Link href="/aprende" />}
+            className={cn(navigationMenuTriggerStyle(), "gap-1.5")}
+          >
+            <GraduationCapIcon className="size-4" />
+            Aprende
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

@@ -15,6 +15,8 @@ const nextConfig = {
       { protocol: "https", hostname: "secure.notion-static.com", pathname: "/**" },
       // Cloudinary (used by some image URLs from Notion or external assets)
       { protocol: "https", hostname: "res.cloudinary.com", pathname: "/**" },
+      // Miniaturas de YouTube para las tarjetas de /tutoriales
+      { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
     ],
   },
   logging: {

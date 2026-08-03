@@ -5,6 +5,7 @@ import {
   StarIcon,
   CpuIcon,
   FolderKanbanIcon,
+  GraduationCapIcon,
 } from "lucide-react"
 
 export const centroLinks: LinkItemType[] = [
@@ -40,5 +41,11 @@ export const exploreLinks: LinkItemType[] = [
     href: "/portafolio",
     description: "Proyectos desarrollados en educación, industria y comunidad",
     icon: <FolderKanbanIcon />,
+  },
+  {
+    label: "Aprende con nosotros",
+    href: "/aprende",
+    description: "Guías en video para preparar tus archivos y usar los equipos",
+    icon: <GraduationCapIcon />,
   },
 ]
