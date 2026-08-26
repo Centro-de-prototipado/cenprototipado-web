@@ -12,6 +12,8 @@
     "generate": "supabase gen types typescript --local > src/database.types.ts"
   },
   "devDependencies": {
+    "@cen/eslint-config": "workspace:*",
+    "eslint": "catalog:",
     "typescript": "catalog:"
   }
 }

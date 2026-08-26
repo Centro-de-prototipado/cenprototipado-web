@@ -11,6 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@cen/eslint-config": "workspace:*",
+    "eslint": "catalog:",
     "typescript": "catalog:"
   }
 }

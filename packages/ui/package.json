@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@cen/eslint-config": "workspace:*",
     "@types/react": "catalog:",
+    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "peerDependencies": {
