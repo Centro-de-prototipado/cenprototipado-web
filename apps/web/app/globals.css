@@ -318,6 +318,32 @@
     }
   }
 
+  /* Ambient: grupos de líneas de fondo que respiran y derivan. Solo `opacity`
+     y `transform` para que el compositor las anime sin repintar el SVG. */
+  .fx-floating-path {
+    will-change: opacity, transform;
+    animation:
+      fx-floating-path-pulse 18s ease-in-out infinite,
+      fx-floating-path-drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes fx-floating-path-pulse {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes fx-floating-path-drift {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-2.5%, 1.5%, 0);
+    }
+  }
+
   /* Ambient: a glow blob that breathes and drifts. */
   .fx-aurora {
     animation: fx-aurora 16s ease-in-out infinite alternate;
