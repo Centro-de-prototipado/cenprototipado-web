@@ -31,7 +31,9 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm -r --if-present test
       - name: Mergear el PR
         run: gh pr merge --squash --delete-branch "$PR_URL"
         env:
