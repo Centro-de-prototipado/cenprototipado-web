@@ -1,0 +1,46 @@
+name: Dependabot auto-merge
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  metadata:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    outputs:
+      dependency-type: ${{ steps.meta.outputs.dependency-type }}
+      update-type: ${{ steps.meta.outputs.update-type }}
+    steps:
+      - id: meta
+        uses: dependabot/fetch-metadata@v2
+
+  build-and-merge:
+    needs: metadata
+    if: >-
+      needs.metadata.outputs.dependency-type == 'direct:development' &&
+      needs.metadata.outputs.update-type != 'version-update:semver-major'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Mergear el PR
+        run: gh pr merge --squash --delete-branch "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Rebasear los PRs de Dependabot que queden
+        run: |
+          for pr in $(gh pr list --author 'app/dependabot' --json number --jq '.[].number'); do
+            gh pr comment "$pr" --body '@dependabot rebase'
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
