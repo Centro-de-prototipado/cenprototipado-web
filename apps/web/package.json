@@ -50,7 +50,7 @@
     "@types/react-dom": "catalog:",
     "@types/three": "^0.185.4",
     "eslint": "catalog:",
-    "eslint-config-next": "16.3.2",
+    "eslint-config-next": "16.3.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-autofix": "^2.2.0",
     "eslint-plugin-import": "^2.32.0",
