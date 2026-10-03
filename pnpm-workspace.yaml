@@ -2,16 +2,19 @@ packages:
   - "apps/*"
   - "packages/*"
 
+allowBuilds:
+  unrs-resolver: true
+
 # Versiones compartidas — un solo punto de verdad para todo el monorepo.
 # En cada app/package usa "catalog:" en lugar de la versión literal.
 catalog:
-  next: 16.3.2
-  react: ^19.2.8
-  react-dom: ^19.2.8
+  next: 16.3.8
+  react: ^19.3.0
+  react-dom: ^19.3.0
   typescript: ^6.0.3
-  "@types/react": ^19.2.18
-  "@types/react-dom": ^19.2.4
-  "@types/node": ^25.9.5
-  eslint: ^9.39.4
-  prettier: ^3.9.6
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
+  "@types/node": ^25.9.9
+  eslint: ^9.39.5
+  prettier: ^3.9.9
   tailwindcss: ^4.3.3
