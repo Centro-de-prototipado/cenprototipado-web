@@ -1,6 +1,6 @@
-# CLAUDE.md — apps/web
+# AGENTS.md — apps/web
 
-Guidance specific to `@cen/web` (the Next.js marketing app). See the root [CLAUDE.md](../../CLAUDE.md) for monorepo-wide guidance and [ARCHITECTURE.md](./ARCHITECTURE.md) for the full app architecture.
+Guidance specific to `@cen/web` (the Next.js marketing app). See the root [AGENTS.md](../../AGENTS.md) for monorepo-wide guidance and [ARCHITECTURE.md](./ARCHITECTURE.md) for the full app architecture.
 
 ### Data Flow (Notion CMS)
 

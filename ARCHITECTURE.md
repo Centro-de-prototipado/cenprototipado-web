@@ -62,9 +62,9 @@ Así todas las apps usan la misma versión de React/Next/TS y se evita el bug de
 
 ### Skills de IA (Claude Code)
 
-Viven en la **raíz** del monorepo (`.claude/skills/`, `.agents/skills/`) — compartidas por todas las apps. No se ponen por-app.
+Viven en la **raíz** del monorepo, en `.claude/skills/` (carpetas reales, no symlinks: Git en Windows sin modo desarrollador los clona como texto y Claude Code no lee `.agents/`) — compartidas por todas las apps. No se ponen por-app.
 
-- `skills-lock.json` y el contenido de las skills **se commitean** (el equipo comparte las mismas).
+- El contenido de las skills **se commitea** (el equipo comparte las mismas).
 - `.claude/settings.local.json` está **gitignoreado** — es config personal de cada dev (permisos, etc.). El `settings.json` compartido sí se commitea.
 
 ## Stack tecnológico
