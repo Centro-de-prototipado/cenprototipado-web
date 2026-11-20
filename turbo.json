@@ -11,7 +11,9 @@
         "NOTION_TECNOLOGIAS_DATA_SOURCE_ID",
         "NOTION_EQUIPO_DATA_SOURCE_ID",
         "NOTION_FAQ_DATA_SOURCE_ID",
-        "REVALIDATE_SECRET"
+        "REVALIDATE_SECRET",
+        "NEXT_PUBLIC_RED_STEAM_URL",
+        "NEXT_PUBLIC_CENTRO_URL"
       ]
     },
     "dev": {
