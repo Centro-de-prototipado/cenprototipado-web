@@ -4,9 +4,9 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://cenprototipado.vercel.app"
 
-// Red STEAM Caldas (apps/red), desplegada como proyecto propio en Vercel.
+// Red STEAM Caldas (apps/red), desplegada como proyecto propio en Cloudflare Pages.
 export const RED_STEAM_URL =
-  process.env.NEXT_PUBLIC_RED_STEAM_URL || "https://red-steam-caldas.vercel.app"
+  process.env.NEXT_PUBLIC_RED_STEAM_URL || "https://red-steam-caldas.pages.dev"
 
 export const SITE_NAME = "Centro de Prototipado"
 

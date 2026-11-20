@@ -9,17 +9,27 @@ pnpm install
 pnpm dev:red        # http://localhost:3001
 ```
 
-## Despliegue en Vercel (proyecto propio)
+## Despliegue en Cloudflare Pages (proyecto propio)
 
-1. En Vercel: **Add New → Project** e importar este mismo repositorio.
-2. **Root Directory:** `apps/red`. Vercel detecta Next.js y pnpm.
-3. **Project name:** `red-steam-caldas` (queda en `red-steam-caldas.vercel.app`; si el nombre está ocupado, usar otro con «red-steam»).
-4. Variables de entorno:
-   - `NEXT_PUBLIC_RED_STEAM_URL` = la dirección final del proyecto.
-   - `NEXT_PUBLIC_CENTRO_URL` = `https://cenprototipado.vercel.app`.
-5. En el proyecto de `apps/web`, agregar `NEXT_PUBLIC_RED_STEAM_URL` con la misma dirección y volver a desplegar: es el destino de la pestaña «Red STEAM» del menú.
+La app se exporta como sitio estático (`output: "export"` en `next.config.mjs`, salida en `apps/red/out`). Vercel Hobby no despliega repositorios privados de una organización; Cloudflare Pages sí, sin costo.
 
-> El plan Hobby de Vercel no permite uso comercial (ver ARCHITECTURE.md). La Red no cobra en línea, pero conviene confirmarlo con el Centro.
+1. En Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, autorizar la organización `Centro-de-prototipado` y elegir este repositorio.
+2. **Project name:** `red-steam-caldas` (queda en `red-steam-caldas.pages.dev`; si está ocupado, usar otro con «red-steam»).
+3. **Production branch:** `main`.
+4. **Framework preset:** None. **Root directory:** vacío (raíz del monorepo).
+5. **Build command:**
+   ```bash
+   npx -y pnpm@11.20.0 install --frozen-lockfile && npx -y pnpm@11.20.0 --filter @cen/red build
+   ```
+6. **Build output directory:** `apps/red/out`
+7. Variables de entorno:
+   - `NODE_VERSION` = `22`
+   - `SKIP_DEPENDENCY_INSTALL` = `1` (la instalación la hace el comando de build con la versión de pnpm del repo)
+   - `NEXT_PUBLIC_RED_STEAM_URL` = la dirección final del proyecto
+   - `NEXT_PUBLIC_CENTRO_URL` = `https://cenprototipado.vercel.app`
+8. En el proyecto de `apps/web`, agregar `NEXT_PUBLIC_RED_STEAM_URL` con la misma dirección y volver a desplegar: es el destino de la pestaña «Red STEAM» del menú.
+
+Cuando la Red necesite servidor (inicio de sesión con Logto, Supabase, formularios), migrar a `@opennextjs/cloudflare` (Cloudflare Workers) y quitar `output: "export"`.
 
 ## Notas
 
