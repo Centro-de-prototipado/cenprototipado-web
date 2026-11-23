@@ -9,6 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "typecheck": "turbo typecheck",
     "dev:web": "turbo dev --filter=@cen/web",
+    "dev:red": "turbo dev --filter=@cen/red",
     "dev:dashboard": "turbo dev --filter=@cen/dashboard",
     "dev:lms": "turbo dev --filter=@cen/lms"
   },

@@ -4,7 +4,9 @@ import {
   CpuIcon,
   FolderKanbanIcon,
   GraduationCapIcon,
+  NetworkIcon,
 } from "lucide-react"
+import { RED_STEAM_URL } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
@@ -78,6 +80,16 @@ export function DesktopNav() {
           >
             <GraduationCapIcon className="size-4" />
             Aprende
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<a href={RED_STEAM_URL} />}
+            className={cn(navigationMenuTriggerStyle(), "gap-1.5")}
+          >
+            <NetworkIcon className="size-4" />
+            Red STEAM
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

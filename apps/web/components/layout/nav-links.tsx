@@ -6,7 +6,9 @@ import {
   CpuIcon,
   FolderKanbanIcon,
   GraduationCapIcon,
+  NetworkIcon,
 } from "lucide-react"
+import { RED_STEAM_URL } from "@/lib/site-config"
 
 export const centroLinks: LinkItemType[] = [
   {
@@ -47,5 +49,11 @@ export const exploreLinks: LinkItemType[] = [
     href: "/aprende",
     description: "Guías en video para preparar tus archivos y usar los equipos",
     icon: <GraduationCapIcon />,
+  },
+  {
+    label: "Red STEAM",
+    href: RED_STEAM_URL,
+    description: "Mapa y servicios de las aulas STEAM de Caldas",
+    icon: <NetworkIcon />,
   },
 ]
