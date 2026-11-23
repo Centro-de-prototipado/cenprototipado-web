@@ -1,4 +1,4 @@
-import { aulasColegio, aulasMunicipales, centro, type Aula } from "@/lib/aulas"
+import type { Aula } from "@/lib/red-data"
 import { CALDAS_VIEWBOX, PX_POR_KM, municipiosCaldas } from "@/lib/caldas-geo"
 import { MapMotionToggle } from "@/components/map-motion-toggle"
 
@@ -12,9 +12,7 @@ const { width: W, height: H } = CALDAS_VIEWBOX
 
 const sinTildes = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
 const geoPorNombre = new Map(municipiosCaldas.map((m) => [sinTildes(m.nombre), m]))
-const punto = (aula: Aula): [number, number] => geoPorNombre.get(sinTildes(aula.municipio))?.centro ?? [W / 2, H / 2]
-
-const municipiosConAula = new Set([centro, ...aulasMunicipales].map((a) => sinTildes(a.municipio)))
+const punto = (aula: Aula): [number, number] => geoPorNombre.get(sinTildes(aula.municipio.nombre))?.centro ?? [W / 2, H / 2]
 
 /** Arco suave entre un aula y el nodo central (curva cuadrática hacia arriba). */
 function arco([x1, y1]: [number, number], [x2, y2]: [number, number]) {
@@ -32,7 +30,12 @@ function arco([x1, y1]: [number, number], [x2, y2]: [number, number]) {
   return `M${x1},${y1} Q${(mx + nx * lift).toFixed(1)},${(my + ny * lift).toFixed(1)} ${x2},${y2}`
 }
 
-export function RedMap() {
+export function RedMap({ aulas }: { aulas: Aula[] }) {
+  const centro = aulas.find((a) => a.tipo === "centro")
+  const aulasMunicipales = aulas.filter((a) => a.tipo === "municipal")
+  const aulasColegio = aulas.filter((a) => a.tipo === "colegio")
+  const municipiosConAula = new Set(aulas.filter((a) => a.tipo !== "colegio").map((a) => sinTildes(a.municipio.nombre)))
+  if (!centro) return null
   const hub = punto(centro)
   const escalaKm = 20
   const escalaPx = escalaKm * PX_POR_KM
@@ -133,12 +136,12 @@ export function RedMap() {
         {aulasMunicipales.map((aula) => {
           const [x, y] = punto(aula)
           return (
-            <a key={aula.slug} href={`#aula-${aula.slug}`} aria-label={`${aula.nombre}, ${aula.municipio}`} className="red-map__node">
+            <a key={aula.slug} href={`/aulas/${aula.slug}`} aria-label={`${aula.nombre}, ${aula.municipio.nombre}`} className="red-map__node">
               <circle cx={x} cy={y} r="16" fill="transparent" />
               <circle cx={x} cy={y} r="7.5" className="red-map__dot" />
               <circle cx={x} cy={y} r="3" fill="#0b1726" />
               <text x={x} y={y - 14} textAnchor="middle" className="red-map__label">
-                {aula.municipio.toUpperCase()}
+                {aula.municipio.nombre.toUpperCase()}
               </text>
             </a>
           )
@@ -146,14 +149,14 @@ export function RedMap() {
 
         {/* Aulas de colegio en Manizales, en anillo alrededor del nodo central. */}
         {colegios.map(({ aula, x, y }) => (
-          <a key={aula.slug} href={`#aula-${aula.slug}`} aria-label={`${aula.nombre}, aula de colegio en Manizales`} className="red-map__node">
+          <a key={aula.slug} href={`/aulas/${aula.slug}`} aria-label={`${aula.nombre}, aula de colegio en Manizales`} className="red-map__node">
             <rect x={x - 9} y={y - 9} width="18" height="18" fill="transparent" />
             <rect x={x - 5} y={y - 5} width="10" height="10" transform={`rotate(45 ${x} ${y})`} className="red-map__diamond" />
           </a>
         ))}
 
         {/* Nodo central. */}
-        <a href={`#aula-${centro.slug}`} aria-label={`${centro.nombre}, nodo central en Manizales`} className="red-map__node">
+        <a href={`/aulas/${centro.slug}`} aria-label={`${centro.nombre}, nodo central en Manizales`} className="red-map__node">
           <circle cx={hub[0]} cy={hub[1]} r="12" className="red-map__hub" />
           <circle cx={hub[0]} cy={hub[1]} r="4.5" fill="#ffffff" />
           <text x={hub[0]} y={hub[1] + 68} textAnchor="middle" className="red-map__label red-map__label--hub">

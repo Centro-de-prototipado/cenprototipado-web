@@ -1,13 +1,16 @@
 # @cen/red — Red STEAM Caldas
 
-Plataforma de la red de aulas STEAM de Caldas, articulada por el Centro de Prototipado (nodo central en Manizales). Esta es la base de la app: página de inicio con el mapa Blueprint + Neón nocturno y la lista de las 24 aulas del inventario. Los módulos (servicios y cotizador, capacitaciones y certificados, convocatorias, montaje de aulas) llegan en las siguientes etapas.
+Plataforma de la red de aulas STEAM de Caldas, articulada por el Centro de Prototipado (nodo central en Manizales). Incluye la página de inicio con el mapa Blueprint + Neón nocturno y una página de perfil por aula (`/aulas/[slug]`) con sus servicios y su inventario, todo leído de Supabase. Los módulos (cotizador, capacitaciones y certificados, convocatorias, montaje de aulas) llegan en las siguientes etapas.
 
 ## Desarrollo
 
 ```bash
+cp apps/red/.env.example apps/red/.env.local   # completar URL y clave publicable de Supabase
 pnpm install
 pnpm dev:red        # http://localhost:3001
 ```
+
+Los datos vienen del schema `red` del proyecto Supabase «Red STEAM» (ver `supabase/README.md`). Como la app es estática, **los cambios en la base de datos se ven al volver a compilar y desplegar**.
 
 ## Despliegue en Cloudflare Pages (proyecto propio)
 
@@ -27,6 +30,7 @@ La app se exporta como sitio estático (`output: "export"` en `next.config.mjs`,
    - `SKIP_DEPENDENCY_INSTALL` = `1` (la instalación la hace el comando de build con la versión de pnpm del repo)
    - `NEXT_PUBLIC_RED_STEAM_URL` = la dirección final del proyecto
    - `NEXT_PUBLIC_CENTRO_URL` = `https://cenprototipado.vercel.app`
+   - `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` = los del proyecto Supabase «Red STEAM»
 8. En el proyecto de `apps/web`, agregar `NEXT_PUBLIC_RED_STEAM_URL` con la misma dirección y volver a desplegar: es el destino de la pestaña «Red STEAM» del menú.
 
 Cuando la Red necesite servidor (inicio de sesión con Logto, Supabase, formularios), migrar a `@opennextjs/cloudflare` (Cloudflare Workers) y quitar `output: "export"`.
@@ -34,5 +38,6 @@ Cuando la Red necesite servidor (inicio de sesión con Logto, Supabase, formular
 ## Notas
 
 - Identidad visual: mismos tokens que `apps/web` (copiados en `app/globals.css` hasta que `packages/ui` deje de ser un stub), con dos ajustes de accesibilidad: texto oscuro sobre el cian y enlaces en cyan-700.
-- Datos de aulas en `lib/aulas.ts`, con la ubicación aproximada de cada municipio. Pasarán al schema `red` de Supabase cuando se conecte `packages/db`.
-- Pendiente según ARCHITECTURE.md: cliente OIDC en Logto, schema `red` en Supabase y tipos en `packages/db`.
+- Datos: `lib/red-data.ts` (cliente Supabase de solo lectura; pasará a `packages/db` cuando ese paquete se llene). Mapa: `lib/caldas-geo.ts` con los límites municipales del DANE.
+- Archivos (fotos de aulas y proyectos): Cloudflare R2.
+- Inicio de sesión: será el mismo del sitio del Centro (pendiente de que el Centro lo ponga en funcionamiento), compartido por ambas apps.
