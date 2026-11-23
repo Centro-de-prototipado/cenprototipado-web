@@ -492,35 +492,61 @@
   }
 }
 
-/* Mapa Blueprint + Neón nocturno (siempre oscuro). */
-.red-map__silueta {
+/* Mapa Blueprint + Neón nocturno (siempre oscuro), con límites reales de Caldas. */
+.red-map__halo path {
+  fill: #22d3ee;
+  fill-opacity: 0.08;
+  stroke: #22d3ee;
+  stroke-width: 10;
+  stroke-opacity: 0.18;
+  stroke-linejoin: round;
+  filter: blur(8px);
+}
+.red-map__mpio {
   fill: #0e2238;
   stroke: #22d3ee;
-  stroke-width: 1.5;
-  stroke-dasharray: 6 4;
-  filter: drop-shadow(0 0 6px rgb(34 211 238 / 0.55));
+  stroke-opacity: 0.32;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+  transition: fill 160ms ease;
+}
+.red-map__mpio--aula {
+  fill: #123657;
+  stroke-opacity: 0.55;
+}
+.red-map__mpio:hover {
+  fill: #164368;
+}
+.red-map__mpio-label {
+  fill: #5b7b98;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
 }
 .red-map__line {
+  fill: none;
   stroke: #22d3ee;
-  stroke-opacity: 0.7;
-  stroke-width: 1.4;
-  filter: drop-shadow(0 0 4px rgb(34 211 238 / 0.7));
+  stroke-opacity: 0.75;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgb(34 211 238 / 0.75));
 }
 .red-map__pulse {
+  fill: none;
   stroke: #e0faff;
-  stroke-width: 3;
+  stroke-width: 3.5;
   stroke-linecap: round;
-  stroke-dasharray: 4 1000;
-  stroke-dashoffset: 0;
+  stroke-dasharray: 3 200;
+  stroke-dashoffset: 3;
   filter: drop-shadow(0 0 6px #22d3ee);
-  animation: red-map-pulse 5s linear infinite;
+  animation: red-map-pulse 4.8s linear infinite;
 }
 @keyframes red-map-pulse {
   from {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: 3;
   }
   to {
-    stroke-dashoffset: -1004;
+    stroke-dashoffset: -100;
   }
 }
 .red-map__ring,
@@ -530,7 +556,8 @@
   stroke-width: 1.2;
 }
 .red-map__ring-static {
-  stroke-opacity: 0.22;
+  stroke-opacity: 0.25;
+  stroke-dasharray: 2 4;
 }
 .red-map__ring {
   transform-box: fill-box;
@@ -543,10 +570,10 @@
 @keyframes red-map-ring {
   from {
     transform: scale(0.6);
-    opacity: 0.8;
+    opacity: 0.85;
   }
   to {
-    transform: scale(2.2);
+    transform: scale(2.6);
     opacity: 0;
   }
 }
@@ -556,23 +583,48 @@
   filter: drop-shadow(0 0 6px #22d3ee);
 }
 .red-map__hub {
-  filter: drop-shadow(0 0 12px #22d3ee);
+  filter: drop-shadow(0 0 14px #22d3ee);
 }
 .red-map__diamond {
   fill: #fbbf24;
   filter: drop-shadow(0 0 6px #fbbf24);
 }
 .red-map__label {
-  fill: #cbd5e1;
+  fill: #e2e8f0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.12em;
+  paint-order: stroke;
+  stroke: #0b1726;
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 .red-map__label--hub {
   fill: #22d3ee;
 }
 .red-map__title {
   fill: #7dd3fc;
+  font-size: 14px;
+}
+.red-map__coord {
+  fill: #7a9bb8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+.red-map__compass {
+  fill: #0b1726;
+  stroke: #22d3ee;
+  stroke-opacity: 0.5;
+}
+.red-map__scale {
+  fill: none;
+  stroke: #7a9bb8;
+  stroke-width: 1.5;
+}
+.red-map__node {
+  cursor: pointer;
 }
 .red-map__node:focus-visible {
   outline: none;
@@ -585,7 +637,7 @@
 }
 .red-map__node:hover .red-map__dot,
 .red-map__node:hover .red-map__diamond {
-  filter: drop-shadow(0 0 12px currentColor) brightness(1.2);
+  filter: drop-shadow(0 0 12px currentColor) brightness(1.25);
 }
 .red-map--paused .red-map__pulse,
 .red-map--paused .red-map__ring {

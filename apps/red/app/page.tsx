@@ -54,7 +54,7 @@ export default function HomePage() {
       </header>
 
       <main id="contenido" className="mx-auto max-w-6xl px-4 pb-24">
-        <section className="grid gap-10 py-14 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+        <section className="grid gap-10 py-14 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div>
             <p className="font-mono text-sm tracking-[0.2em] text-link uppercase">Red de aulas STEAM de Caldas</p>
             <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Aulas STEAM conectadas en todo Caldas</h1>
@@ -62,7 +62,8 @@ export default function HomePage() {
               El Centro de Prototipado de la UNAL en Manizales articula {todasLasAulas.length} aulas en municipios y colegios del
               departamento. Encuentra el aula más cercana, conoce sus equipos y sus proyectos.
             </p>
-            <dl className="mt-8 grid grid-cols-3 gap-3">
+          </div>
+          <dl className="grid grid-cols-3 gap-3">
               {[
                 [todasLasAulas.length, "aulas en la red"],
                 [aulasMunicipales.length, "municipios"],
@@ -74,11 +75,11 @@ export default function HomePage() {
                   <dd className="text-sm text-muted-foreground">{texto}</dd>
                 </div>
               ))}
-            </dl>
-          </div>
-          <div id="mapa" className="scroll-mt-24">
-            <RedMap />
-          </div>
+          </dl>
+        </section>
+
+        <section id="mapa" aria-label="Mapa de la red" className="scroll-mt-24">
+          <RedMap />
         </section>
 
         <section id="aulas" aria-labelledby="aulas-titulo" className="scroll-mt-24 py-10">

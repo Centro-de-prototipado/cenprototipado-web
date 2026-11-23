@@ -66,11 +66,3 @@ export const aulasColegio: Aula[] = colegios.map(([slug, nombre, dotacion]) => (
 }))
 
 export const todasLasAulas: Aula[] = [...aulasMunicipales, ...aulasColegio]
-
-/** Silueta aproximada del departamento de Caldas, [longitud, latitud]. */
-export const siluetaCaldas: Array<[number, number]> = [
-  [-75.9, 5.12], [-75.82, 5.3], [-75.7, 5.47], [-75.58, 5.6], [-75.5, 5.77],
-  [-75.33, 5.71], [-75.2, 5.56], [-75.05, 5.5], [-74.9, 5.56], [-74.74, 5.6],
-  [-74.62, 5.5], [-74.65, 5.34], [-74.8, 5.24], [-75.0, 5.14], [-75.25, 5.04],
-  [-75.37, 4.92], [-75.55, 4.86], [-75.7, 4.94], [-75.86, 4.98],
-]
