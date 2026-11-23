@@ -30,7 +30,32 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           >
             Saltar al contenido
           </a>
-          {children}
+          {/* Fondo con trama diagonal sutil: mismas capas que apps/web/app/layout.tsx. */}
+          <div className="relative min-h-screen w-full bg-background">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 dark:hidden"
+              style={{
+                backgroundImage: `
+          repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px),
+          repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 0, rgba(0, 0, 0, 0.01) 1px, transparent 1px, transparent 10px)
+        `,
+                backgroundSize: "40px 40px",
+              }}
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 hidden dark:block"
+              style={{
+                backgroundImage: `
+            repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px),
+            repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 20px)
+          `,
+                backgroundSize: "40px 40px",
+              }}
+            />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
