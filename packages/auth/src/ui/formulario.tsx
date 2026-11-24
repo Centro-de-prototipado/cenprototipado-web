@@ -20,21 +20,20 @@ export function PanelCuenta({
   descripcion?: ReactNode
   children: ReactNode
 }) {
+  // Mismo estilo de la pantalla de login del Centro: sin tarjeta, título y texto sobre el fondo.
   return (
-    <div className="relative mx-auto w-full max-w-md px-4 py-14">
-      <div className="iso-panel p-6 sm:p-8">
+    <div className="relative mx-auto w-full space-y-6 sm:w-sm">
+      <div className="space-y-1">
         <p className="font-mono text-xs tracking-[0.2em] text-cyan-700 uppercase dark:text-cyan-400">
           Cuenta · {sitio}
         </p>
-        <h1 className="mt-2 text-3xl font-extrabold tracking-tight">
-          {titulo}
-        </h1>
+        <h1 className="text-2xl font-bold">{titulo}</h1>
         {descripcion && (
-          <p className="mt-2 text-muted-foreground">{descripcion}</p>
+          <p className="text-base text-muted-foreground">{descripcion}</p>
         )}
-        <div className="mt-6">{children}</div>
       </div>
-      <p className="mt-4 text-center text-xs text-muted-foreground">
+      <div>{children}</div>
+      <p className="text-xs text-muted-foreground">
         Una sola cuenta para el sitio del Centro de Prototipado y la Red STEAM.
       </p>
     </div>

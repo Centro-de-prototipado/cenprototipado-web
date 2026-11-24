@@ -24,3 +24,4 @@ export {
   BotonSecundario,
   PanelCuenta,
 } from "./ui/formulario"
+export { MarcoDividido } from "./ui/marco-dividido"
