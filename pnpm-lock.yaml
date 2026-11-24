@@ -56,6 +56,9 @@ importers:
 
   apps/red:
     dependencies:
+      '@cen/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@supabase/supabase-js':
         specifier: ^2.119.2
         version: 2.119.2
@@ -129,6 +132,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@date-fns/tz@1.4.1)(@types/react@19.3.0)(date-fns@4.1.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@cen/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@hookform/resolvers':
         specifier: ^5.9.1
         version: 5.9.1(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@8.20.0))(ajv@8.20.0)(react-hook-form@7.89.0(@types/react@19.3.0)(react@19.3.0))(zod@4.6.5)
@@ -141,6 +147,9 @@ importers:
       '@react-pdf/renderer':
         specifier: ^4.9.0
         version: 4.9.0(react@19.3.0)
+      '@supabase/supabase-js':
+        specifier: ^2.119.2
+        version: 2.119.2
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -270,13 +279,35 @@ importers:
         version: 4.1.12(@types/node@25.9.9)(vite@8.1.4(@types/node@25.9.9)(jiti@2.7.0))
 
   packages/auth:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.119.2
+        version: 2.119.2
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-react:
+        specifier: ^1.50.0
+        version: 1.50.0(@types/react@19.3.0)(react@19.3.0)
+      tailwind-merge:
+        specifier: ^3.7.0
+        version: 3.7.0
     devDependencies:
       '@cen/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.3.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
+      next:
+        specifier: 'catalog:'
+        version: 16.3.8(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@25.9.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.3.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

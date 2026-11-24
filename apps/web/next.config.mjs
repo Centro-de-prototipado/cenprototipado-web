@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Paquete compartido de cuentas (TypeScript sin compilar).
+  transpilePackages: ["@cen/auth"],
   images: {
     // Hosts permitidos para la propiedad "Imagen" (URL externa permanente) en Notion.
     // Añade aquí el dominio de tu CDN/almacenamiento. NO uses "**" (riesgo de SSRF

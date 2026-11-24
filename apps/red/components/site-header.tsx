@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowUpRightIcon } from "lucide-react"
 import { CENTRO_URL } from "@/lib/site-config"
+import { BotonCuenta } from "@cen/auth"
 
 export function SiteHeader() {
   return (
@@ -21,9 +22,10 @@ export function SiteHeader() {
           <Link href="/#aulas" className="hidden px-3 py-2 hover:bg-accent sm:inline-block">
             Aulas
           </Link>
-          <a href={CENTRO_URL} className="inline-flex min-h-10 items-center gap-1 border px-3 font-medium hover:bg-accent">
+          <a href={CENTRO_URL} className="hidden min-h-10 items-center gap-1 border px-3 font-medium hover:bg-accent md:inline-flex">
             Centro de Prototipado <ArrowUpRightIcon className="size-4" aria-hidden="true" />
           </a>
+          <BotonCuenta />
         </nav>
       </div>
     </header>

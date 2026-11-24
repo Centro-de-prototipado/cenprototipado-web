@@ -1,6 +1,6 @@
 {
   "name": "@cen/auth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -10,9 +10,22 @@
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.50.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "peerDependencies": {
+    "next": ">=16",
+    "react": "^19.0.0"
+  },
   "devDependencies": {
     "@cen/eslint-config": "workspace:*",
+    "@types/react": "catalog:",
     "eslint": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
     "typescript": "catalog:"
   }
 }
