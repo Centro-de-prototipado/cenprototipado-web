@@ -1,7 +1,9 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import { CuentaProvider } from "@cen/auth"
 import { ThemeProvider } from "@/components/theme-provider"
+import { configCuenta } from "@/lib/cuenta-config"
 import { cn } from "@/lib/utils"
 import { RED_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/site-config"
 
@@ -24,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="es" suppressHydrationWarning className={cn("overflow-x-hidden antialiased", ancizarFont.variable, "font-sans")}>
       <body>
         <ThemeProvider>
+          <CuentaProvider config={configCuenta}>
           <a
             href="#contenido"
             className="sr-only z-50 bg-primary px-4 py-2 text-primary-foreground focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
@@ -56,6 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             />
             {children}
           </div>
+          </CuentaProvider>
         </ThemeProvider>
       </body>
     </html>

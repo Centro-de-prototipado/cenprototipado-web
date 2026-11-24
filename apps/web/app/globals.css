@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Clases usadas por los formularios de cuenta del paquete compartido. */
+@source "../../../packages/auth/src";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
