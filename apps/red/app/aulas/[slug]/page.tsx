@@ -6,6 +6,7 @@ import { MunicipioMapa } from "@/components/municipio-mapa"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { Contador, TituloAnimado, TituloEntrada } from "@/components/ui/animaciones"
+import { Antetitulo, tipo } from "@/components/ui/tipografia"
 import { ETIQUETA_TIPO, ORDEN_CATEGORIAS, getAula, getAulas, type Equipo } from "@/lib/red-data"
 
 // Exportación estática: una página por aula, generada en el build con los datos de Supabase.
@@ -99,29 +100,29 @@ export default async function AulaPage({ params }: Props) {
         </nav>
 
         {/* Encabezado del aula */}
-        <section className="grid gap-8 border-b px-8 py-8 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:px-16 lg:pb-14">
-          <div>
-            <p className="font-mono text-sm tracking-[0.2em] text-link uppercase">
+        <section className="grid gap-8 border-b px-8 py-8 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:px-14 lg:pb-14">
+          <div className="flex flex-col gap-5">
+            <Antetitulo pulso>
               {ETIQUETA_TIPO[aula.tipo]} · {aula.municipio.nombre}
-            </p>
-            <TituloEntrada texto={aula.nombre} className="mt-3 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl" />
-            {aula.institucion && aula.tipo !== "centro" && <p className="mt-2 text-lg text-muted-foreground">{aula.institucion}</p>}
-            {aula.descripcion && <p className="mt-5 max-w-prose text-lg text-muted-foreground">{aula.descripcion}</p>}
+            </Antetitulo>
+            <TituloEntrada texto={aula.nombre} className={tipo.h1} />
+            {aula.institucion && aula.tipo !== "centro" && <p className="-mt-2 text-base font-semibold text-muted-foreground">{aula.institucion}</p>}
+            {aula.descripcion && <p className={tipo.entrada}>{aula.descripcion}</p>}
 
-            <dl className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <dl className="grid grid-cols-2 border-t pt-6 sm:grid-cols-4">
               {[
                 { icon: BoxesIcon, valor: unidades || "—", texto: "unidades de equipo" },
                 { icon: WrenchIcon, valor: aula.servicios.length || "—", texto: "servicios" },
                 { icon: CalendarIcon, valor: aula.anio_dotacion ?? "—", texto: "año de dotación" },
                 { icon: FolderKanbanIcon, valor: 0, texto: "proyectos publicados" },
               ].map(({ icon: Icon, valor, texto }) => (
-                <div key={texto} className="border-l-4 border-primary bg-card p-3">
+                <div key={texto} className="flex flex-col gap-0.5 pr-4 pb-3">
                   <dt className="sr-only">{texto}</dt>
-                  <dd className="flex items-center gap-2 text-2xl font-extrabold">
+                  <dd className={`flex items-center gap-2 ${tipo.cifra}`}>
                     <Icon className="size-5 text-link" aria-hidden="true" />
                     <Contador valor={valor} />
                   </dd>
-                  <dd className="text-sm text-muted-foreground">{texto}</dd>
+                  <dd className={tipo.rotulo}>{texto}</dd>
                 </div>
               ))}
             </dl>
@@ -130,7 +131,7 @@ export default async function AulaPage({ params }: Props) {
           <aside className="space-y-4">
             <MunicipioMapa municipio={aula.municipio.nombre} colegio={aula.tipo === "colegio"} />
             <div className="iso-panel p-5">
-              <h2 className="font-semibold">Contacto</h2>
+              <h2 className={tipo.h3}>Contacto</h2>
               {whatsapp || aula.correo ? (
                 <div className="mt-3 flex flex-col gap-2">
                   {aula.gestor_nombre && <p className="text-sm text-muted-foreground">Gestor: {aula.gestor_nombre}</p>}
@@ -158,18 +159,19 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Servicios */}
-        <section aria-labelledby="servicios-titulo" className="border-b px-8 py-12 lg:px-16">
-          <TituloAnimado id="servicios-titulo" texto="Servicios" className="text-3xl font-bold tracking-tight" />
-          <p className="mt-2 text-muted-foreground">
+        <section aria-labelledby="servicios-titulo" className={`border-b ${tipo.seccion}`}>
+          <Antetitulo>Qué ofrece</Antetitulo>
+          <TituloAnimado id="servicios-titulo" texto="Servicios" className={tipo.h2} />
+          <p className={tipo.bajada}>
             Lo que el aula puede ofrecer con su dotación. Las tarifas las define cada aula: el precio se acuerda directamente con ella.
           </p>
           {aula.servicios.length ? (
             <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {aula.servicios.map((s) => (
                 <li key={s.id} className="iso-panel flex flex-col p-5">
-                  <p className="text-lg font-semibold">{s.nombre}</p>
-                  {s.descripcion && <p className="mt-1 text-sm text-muted-foreground">{s.descripcion}</p>}
-                  <dl className="mt-4 space-y-1 text-sm">
+                  <p className={tipo.h3}>{s.nombre}</p>
+                  {s.descripcion && <p className={`mt-1.5 ${tipo.textoTarjeta}`}>{s.descripcion}</p>}
+                  <dl className="mt-4 space-y-1 text-xs">
                     {s.equipo_base && (
                       <div>
                         <dt className="inline font-mono text-[11px] tracking-widest text-muted-foreground uppercase">Equipo · </dt>
@@ -183,7 +185,7 @@ export default async function AulaPage({ params }: Props) {
                       </div>
                     )}
                   </dl>
-                  <p className="text-link mt-auto pt-4 text-sm font-semibold">
+                  <p className="text-link mt-auto pt-4 text-xs font-semibold">
                     {s.tarifa_min != null
                       ? `Desde $${s.tarifa_min.toLocaleString("es-CO")}`
                       : "Precio a convenir con el aula"}
@@ -197,9 +199,10 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Equipos */}
-        <section aria-labelledby="equipos-titulo" className="border-b px-8 py-12 lg:px-16">
-          <TituloAnimado id="equipos-titulo" texto="Equipos" className="text-3xl font-bold tracking-tight" />
-          <p className="mt-2 text-muted-foreground">
+        <section aria-labelledby="equipos-titulo" className={`border-b ${tipo.seccion}`}>
+          <Antetitulo>Dotación</Antetitulo>
+          <TituloAnimado id="equipos-titulo" texto="Equipos" className={tipo.h2} />
+          <p className={tipo.bajada}>
             {aula.equipos.length
               ? `${unidades} unidades en ${grupos.length} categorías, según el inventario de las aulas.`
               : "El inventario de esta aula se publicará pronto."}
@@ -269,8 +272,9 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Proyectos */}
-        <section aria-labelledby="proyectos-titulo" className="px-8 py-12 lg:px-16">
-          <TituloAnimado id="proyectos-titulo" texto="Proyectos" className="text-3xl font-bold tracking-tight" />
+        <section aria-labelledby="proyectos-titulo" className={tipo.seccion}>
+          <Antetitulo>Portafolio</Antetitulo>
+          <TituloAnimado id="proyectos-titulo" texto="Proyectos" className={tipo.h2} />
           <p className="mt-6 border border-dashed p-6 text-muted-foreground">
             Esta aula todavía no ha publicado proyectos. El portafolio colaborativo llega con el inicio de sesión de la plataforma.
           </p>
