@@ -5,6 +5,7 @@ import { ArrowLeftIcon, BoxesIcon, CalendarIcon, ChevronDownIcon, FolderKanbanIc
 import { MunicipioMapa } from "@/components/municipio-mapa"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { Contador, TituloAnimado, TituloEntrada } from "@/components/ui/animaciones"
 import { ETIQUETA_TIPO, ORDEN_CATEGORIAS, getAula, getAulas, type Equipo } from "@/lib/red-data"
 
 // Exportación estática: una página por aula, generada en el build con los datos de Supabase.
@@ -76,8 +77,8 @@ export default async function AulaPage({ params }: Props) {
     <div className="relative min-h-screen">
       <SiteHeader />
 
-      <main id="contenido" className="relative mx-auto max-w-6xl px-4 pb-24">
-        <nav aria-label="Ruta" className="pt-8 text-sm text-muted-foreground">
+      <main id="contenido" className="relative mx-auto w-full max-w-6xl border-x bg-background/60">
+        <nav aria-label="Ruta" className="px-8 pt-8 text-sm text-muted-foreground lg:px-16">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link href="/" className="hover:text-foreground">
@@ -98,12 +99,12 @@ export default async function AulaPage({ params }: Props) {
         </nav>
 
         {/* Encabezado del aula */}
-        <section className="grid gap-8 py-8 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+        <section className="grid gap-8 border-b px-8 py-8 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:px-16 lg:pb-14">
           <div>
             <p className="font-mono text-sm tracking-[0.2em] text-link uppercase">
               {ETIQUETA_TIPO[aula.tipo]} · {aula.municipio.nombre}
             </p>
-            <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">{aula.nombre}</h1>
+            <TituloEntrada texto={aula.nombre} className="mt-3 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl" />
             {aula.institucion && aula.tipo !== "centro" && <p className="mt-2 text-lg text-muted-foreground">{aula.institucion}</p>}
             {aula.descripcion && <p className="mt-5 max-w-prose text-lg text-muted-foreground">{aula.descripcion}</p>}
 
@@ -118,7 +119,7 @@ export default async function AulaPage({ params }: Props) {
                   <dt className="sr-only">{texto}</dt>
                   <dd className="flex items-center gap-2 text-2xl font-extrabold">
                     <Icon className="size-5 text-link" aria-hidden="true" />
-                    {valor}
+                    <Contador valor={valor} />
                   </dd>
                   <dd className="text-sm text-muted-foreground">{texto}</dd>
                 </div>
@@ -157,10 +158,8 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Servicios */}
-        <section aria-labelledby="servicios-titulo" className="py-10">
-          <h2 id="servicios-titulo" className="text-3xl font-bold">
-            Servicios
-          </h2>
+        <section aria-labelledby="servicios-titulo" className="border-b px-8 py-12 lg:px-16">
+          <TituloAnimado id="servicios-titulo" texto="Servicios" className="text-3xl font-bold tracking-tight" />
           <p className="mt-2 text-muted-foreground">
             Lo que el aula puede ofrecer con su dotación. Las tarifas las define cada aula: el precio se acuerda directamente con ella.
           </p>
@@ -198,10 +197,8 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Equipos */}
-        <section aria-labelledby="equipos-titulo" className="py-10">
-          <h2 id="equipos-titulo" className="text-3xl font-bold">
-            Equipos
-          </h2>
+        <section aria-labelledby="equipos-titulo" className="border-b px-8 py-12 lg:px-16">
+          <TituloAnimado id="equipos-titulo" texto="Equipos" className="text-3xl font-bold tracking-tight" />
           <p className="mt-2 text-muted-foreground">
             {aula.equipos.length
               ? `${unidades} unidades en ${grupos.length} categorías, según el inventario de las aulas.`
@@ -272,10 +269,8 @@ export default async function AulaPage({ params }: Props) {
         </section>
 
         {/* Proyectos */}
-        <section aria-labelledby="proyectos-titulo" className="py-10">
-          <h2 id="proyectos-titulo" className="text-3xl font-bold">
-            Proyectos
-          </h2>
+        <section aria-labelledby="proyectos-titulo" className="px-8 py-12 lg:px-16">
+          <TituloAnimado id="proyectos-titulo" texto="Proyectos" className="text-3xl font-bold tracking-tight" />
           <p className="mt-6 border border-dashed p-6 text-muted-foreground">
             Esta aula todavía no ha publicado proyectos. El portafolio colaborativo llega con el inicio de sesión de la plataforma.
           </p>

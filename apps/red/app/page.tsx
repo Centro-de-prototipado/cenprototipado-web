@@ -3,6 +3,8 @@ import { ArrowRightIcon, BadgeCheckIcon, CalculatorIcon, MegaphoneIcon, SchoolIc
 import { RedMap } from "@/components/red-map"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { Contador, TituloAnimado, TituloEntrada } from "@/components/ui/animaciones"
+import { DecorIcon } from "@/components/ui/decor-icon"
 import { ETIQUETA_TIPO, getAulas, type Aula } from "@/lib/red-data"
 
 const modulos = [
@@ -39,11 +41,15 @@ export default async function HomePage() {
     <div className="relative min-h-screen">
       <SiteHeader />
 
-      <main id="contenido" className="relative mx-auto max-w-6xl px-4 pb-24">
-        <section className="grid gap-10 py-14 lg:grid-cols-[1.3fr_1fr] lg:items-end">
+      <main id="contenido" className="relative mx-auto w-full max-w-6xl border-x bg-background/60">
+        <section className="relative grid gap-10 border-b px-8 py-14 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:px-16 lg:py-20">
           <div>
             <p className="font-mono text-sm tracking-[0.2em] text-link uppercase">Red de aulas STEAM de Caldas</p>
-            <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Aulas STEAM conectadas en todo Caldas</h1>
+            <TituloEntrada
+              texto="Aulas STEAM conectadas en todo Caldas"
+              acento="en todo Caldas"
+              className="mt-3 text-4xl leading-[0.98] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl lg:text-[clamp(38px,4.6vw,64px)]"
+            />
             <p className="mt-5 max-w-prose text-lg text-muted-foreground">
               El Centro de Prototipado de la UNAL en Manizales articula {red.length} aulas en municipios y colegios del departamento.
               Encuentra el aula más cercana, conoce sus equipos y sus servicios.
@@ -57,21 +63,23 @@ export default async function HomePage() {
             ].map(([valor, texto]) => (
               <div key={texto} className="border-l-4 border-primary bg-card p-3">
                 <dt className="sr-only">{texto}</dt>
-                <dd className="text-3xl font-extrabold">{valor}</dd>
+                <dd className="text-3xl font-extrabold">
+                  <Contador valor={valor} />
+                </dd>
                 <dd className="text-sm text-muted-foreground">{texto}</dd>
               </div>
             ))}
           </dl>
+          <DecorIcon position="bottom-left" />
+          <DecorIcon position="bottom-right" />
         </section>
 
-        <section id="mapa" aria-label="Mapa de la red" className="scroll-mt-24">
+        <section id="mapa" aria-label="Mapa de la red" className="scroll-mt-24 border-b px-4 py-8 sm:px-8 lg:px-16">
           <RedMap aulas={aulas} />
         </section>
 
-        <section id="aulas" aria-labelledby="aulas-titulo" className="scroll-mt-24 py-10">
-          <h2 id="aulas-titulo" className="text-3xl font-bold">
-            Aulas de la red
-          </h2>
+        <section id="aulas" aria-labelledby="aulas-titulo" className="scroll-mt-24 border-b px-8 py-12 lg:px-16">
+          <TituloAnimado id="aulas-titulo" texto="Aulas de la red" acento="red" className="text-3xl font-bold tracking-tight" />
           <p className="mt-2 text-muted-foreground">La misma información del mapa, en lista. Entra a cada aula para ver sus equipos y servicios.</p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {aulas.map((aula) => (
@@ -80,10 +88,8 @@ export default async function HomePage() {
           </ul>
         </section>
 
-        <section aria-labelledby="modulos-titulo" className="py-10">
-          <h2 id="modulos-titulo" className="text-3xl font-bold">
-            Lo que viene
-          </h2>
+        <section aria-labelledby="modulos-titulo" className="px-8 py-12 lg:px-16">
+          <TituloAnimado id="modulos-titulo" texto="Lo que viene" acento="viene" className="text-3xl font-bold tracking-tight" />
           <p className="mt-2 text-muted-foreground">Módulos en construcción durante las próximas etapas del proyecto.</p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {modulos.map(({ icon: Icon, titulo, texto }) => (
