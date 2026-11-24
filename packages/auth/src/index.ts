@@ -1,3 +1,4 @@
+export * from "./proyecto"
 // @cen/auth — cuenta única del Centro de Prototipado y la Red STEAM (Supabase Auth).
 // Cada app monta <CuentaProvider config={…}> y usa los formularios de cuenta.
 // Las páginas que usan formularios con parámetros de URL deben envolverse en <Suspense>.

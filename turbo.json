@@ -3,8 +3,14 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ],
       "env": [
         "NOTION_TOKEN",
         "NOTION_PORTFOLIO_DATA_SOURCE_ID",
@@ -16,7 +22,20 @@
         "NEXT_PUBLIC_CENTRO_URL",
         "NEXT_PUBLIC_SUPABASE_URL",
         "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-        "NEXT_PUBLIC_CENTRO_SSO"
+        "NEXT_PUBLIC_CENTRO_SSO",
+        "NOTION_CONFIGURACION_DATA_SOURCE_ID",
+        "NOTION_INSTAGRAM_DATA_SOURCE_ID",
+        "NOTION_METRICAS_DATA_SOURCE_ID",
+        "NOTION_SOLICITUDES_DATA_SOURCE_ID",
+        "NEXT_PUBLIC_SITE_URL",
+        "CLOUDINARY_CLOUD_NAME",
+        "CLOUDINARY_API_KEY",
+        "CLOUDINARY_API_SECRET",
+        "YOUTUBE_API_KEY",
+        "YOUTUBE_CHANNEL_ID",
+        "RESEND_API_KEY",
+        "RESEND_FROM",
+        "CONTACT_TO_EMAIL"
       ]
     },
     "dev": {
@@ -24,10 +43,14 @@
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": [
+        "^typecheck"
+      ]
     },
     "format": {
       "cache": false
