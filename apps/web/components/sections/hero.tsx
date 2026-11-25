@@ -81,7 +81,7 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
             className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground lg:text-[clamp(15px,1.4vw,17px)]"
           >
             Fabricación digital, realidad inmersiva y robótica al servicio de
-            estudiantes, docentes y comunidades. Un espacio abierto en el Centro
+            estudiantes, docentes y comunidades. Un espacio abierto en el Parque
             de Innovación del Campus La Nubia.
           </Reveal>
 

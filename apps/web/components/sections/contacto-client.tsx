@@ -271,7 +271,7 @@ export function ContactoClient({
             className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground"
           />
           <p className="mt-2 text-sm text-muted-foreground">
-            Centro de Innovación de la Universidad Nacional, sede Manizales.
+            Parque de Innovación de la Universidad Nacional, sede Manizales.
             Entrada por la portería principal del Campus La Nubia.
           </p>
         </Reveal>
@@ -330,7 +330,7 @@ export function ContactoClient({
             {[
               {
                 k: "Dirección",
-                v: "Centro de Innovación · Bloque X\nCampus La Nubia · Universidad Nacional\nManizales, Caldas — Colombia",
+                v: "Parque de Innovación · Bloque X\nCampus La Nubia · Universidad Nacional\nManizales, Caldas — Colombia",
               },
               { k: "Coordenadas", v: contact.coordinates },
             ]
