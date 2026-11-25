@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { ArrowLeftIcon, CalendarIcon, FolderKanbanIcon, MailIcon, MessageCircleIcon, WrenchIcon } from "lucide-react"
+import { ArrowLeftIcon, CalendarIcon, FolderKanbanIcon, MailIcon, MapPinIcon, MessageCircleIcon, WrenchIcon } from "lucide-react"
 import { MunicipioMapa } from "@/components/municipio-mapa"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
@@ -93,6 +93,12 @@ export default async function AulaPage({ params }: Props) {
             <MunicipioMapa aula={aula} />
             <div className="iso-panel p-5">
               <h2 className={tipo.h3}>Contacto</h2>
+              {aula.direccion && (
+                <p className="mt-2 flex gap-2 text-sm text-muted-foreground">
+                  <MapPinIcon className="mt-0.5 size-4 shrink-0 text-link" aria-hidden="true" />
+                  {aula.direccion}
+                </p>
+              )}
               {whatsapp || aula.correo ? (
                 <div className="mt-3 flex flex-col gap-2">
                   {aula.gestor_nombre && <p className="text-sm text-muted-foreground">Gestor: {aula.gestor_nombre}</p>}

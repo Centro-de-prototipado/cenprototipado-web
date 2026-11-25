@@ -13,7 +13,7 @@ comment on column red.aulas.ubicacion_aproximada is 'true si lat/lon son del bar
 -- IE Instituto Malabar e IE Marco Fidel Suárez quedan sin ubicación hasta confirmarla.
 update red.aulas a set lat = v.lat, lon = v.lon, ubicacion_aproximada = v.aprox
 from (values
-  ('centro-de-prototipado', 5.05800, -75.49100, true),
+  ('centro-de-prototipado', 5.05800, -75.49100, true), -- luego: Campus La Nubia (migración 20261125170000)
   ('ie-la-asuncion', 5.06720, -75.49431, false),
   ('ie-san-sebastian', 5.09062, -75.49246, false),
   ('ie-estambul', 5.05395, -75.52575, false),

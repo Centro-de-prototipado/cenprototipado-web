@@ -47,6 +47,8 @@ function client() {
   if (!url || !key) {
     throw new Error("Faltan NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (ver apps/red/.env.example).")
   }
+  // Ojo: Next guarda estas lecturas en .next/cache/fetch-cache; el script de build lo borra
+  // antes de compilar para que cada build lea los datos vigentes de Supabase.
   return createClient(url, key, { db: { schema: "red" }, auth: { persistSession: false } })
 }
 
