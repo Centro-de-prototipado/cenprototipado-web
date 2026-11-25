@@ -16,7 +16,7 @@ export default function Pagina() {
           <EncabezadoPanel
             antetitulo="Privado · Gestor de aula"
             titulo="Mi aula"
-            descripcion="El inventario de equipos de tu aula. Solo lo ven tú y la coordinación de la red."
+            descripcion="Actualiza los datos de tu aula, publica sus proyectos y consulta su inventario."
           />
         </section>
         <section className={tipo.seccion}>

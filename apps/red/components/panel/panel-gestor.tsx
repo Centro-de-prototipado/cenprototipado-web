@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ArrowUpRightIcon } from "lucide-react"
 import { useSupabase } from "@cen/auth"
 import { tipo } from "@/components/ui/tipografia"
+import { GestionProyectos } from "@/components/proyectos/gestion-proyectos"
+import { EditorAula } from "./editor-aula"
 import { Cargando, SinAcceso } from "./marco-panel"
 import { useRoles, type AulaCorta } from "./use-roles"
 
@@ -107,7 +109,13 @@ function Inventario({ aulas }: { aulas: AulaCorta[] }) {
         </Link>
       </div>
 
-      <section aria-labelledby="inventario-titulo">
+      <EditorAula key={`datos-${aula.id}`} aula={aula} />
+
+      <div className="border-t pt-8">
+        <GestionProyectos key={aula.id} aula={aula} />
+      </div>
+
+      <section aria-labelledby="inventario-titulo" className="border-t pt-8">
         <h2 id="inventario-titulo" className={tipo.h3}>
           Inventario de equipos
         </h2>

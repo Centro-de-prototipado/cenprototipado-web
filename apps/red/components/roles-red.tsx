@@ -49,11 +49,11 @@ export function RolesRed({ userId }: { userId: string }) {
       {roles.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
           <Link href="/mi-aula" className="inline-flex min-h-10 items-center border px-3 text-sm font-semibold hover:bg-accent">
-            {roles.some((r) => r.rol !== "gestor") ? "Inventario de las aulas" : "Abrir mi aula"}
+            {roles.some((r) => r.rol !== "gestor") ? "Aulas" : "Abrir mi aula"}
           </Link>
           {roles.some((r) => r.rol !== "gestor") && (
-            <Link href="/coordinacion" className="inline-flex min-h-10 items-center border px-3 text-sm font-semibold hover:bg-accent">
-              Gestionar roles
+            <Link href="/admin" className="inline-flex min-h-10 items-center border px-3 text-sm font-semibold hover:bg-accent">
+              Administración
             </Link>
           )}
         </div>

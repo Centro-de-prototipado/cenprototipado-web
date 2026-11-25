@@ -1,8 +1,10 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { ArrowLeftIcon, CalendarIcon, FolderKanbanIcon, MailIcon, MapPinIcon, MessageCircleIcon, WrenchIcon } from "lucide-react"
+import { ArrowLeftIcon, CalendarIcon, WrenchIcon } from "lucide-react"
+import { ContactoAula } from "@/components/contacto-aula"
 import { MunicipioMapa } from "@/components/municipio-mapa"
+import { ProyectosAula } from "@/components/proyectos/proyectos-publicos"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { Contador, TituloAnimado, TituloEntrada } from "@/components/ui/animaciones"
@@ -34,7 +36,6 @@ export default async function AulaPage({ params }: Props) {
   const aula = await getAula(slug)
   if (!aula) notFound()
 
-  const whatsapp = aula.whatsapp?.replace(/\D/g, "")
 
   return (
     <div className="relative min-h-screen">
@@ -71,11 +72,10 @@ export default async function AulaPage({ params }: Props) {
             {aula.institucion && aula.tipo !== "centro" && <p className="-mt-2 text-base font-semibold text-muted-foreground">{aula.institucion}</p>}
             {aula.descripcion && <p className={tipo.entrada}>{aula.descripcion}</p>}
 
-            <dl className="grid grid-cols-3 border-t pt-6">
+            <dl className="grid grid-cols-2 border-t pt-6">
               {[
                 { icon: WrenchIcon, valor: aula.servicios.length || "—", texto: "servicios" },
                 { icon: CalendarIcon, valor: aula.anio_dotacion ?? "—", texto: "año de dotación" },
-                { icon: FolderKanbanIcon, valor: 0, texto: "proyectos publicados" },
               ].map(({ icon: Icon, valor, texto }) => (
                 <div key={texto} className="flex flex-col gap-0.5 pr-4 pb-3">
                   <dt className="sr-only">{texto}</dt>
@@ -91,37 +91,11 @@ export default async function AulaPage({ params }: Props) {
 
           <aside className="space-y-4">
             <MunicipioMapa aula={aula} />
-            <div className="iso-panel p-5">
-              <h2 className={tipo.h3}>Contacto</h2>
-              {aula.direccion && (
-                <p className="mt-2 flex gap-2 text-sm text-muted-foreground">
-                  <MapPinIcon className="mt-0.5 size-4 shrink-0 text-link" aria-hidden="true" />
-                  {aula.direccion}
-                </p>
-              )}
-              {whatsapp || aula.correo ? (
-                <div className="mt-3 flex flex-col gap-2">
-                  {aula.gestor_nombre && <p className="text-sm text-muted-foreground">Gestor: {aula.gestor_nombre}</p>}
-                  {whatsapp && (
-                    <a
-                      href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hola, escribo desde la Red STEAM de Caldas sobre el ${aula.nombre}.`)}`}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#25d366] px-4 font-semibold text-neutral-950"
-                    >
-                      <MessageCircleIcon className="size-5" aria-hidden="true" /> Escribir por WhatsApp
-                    </a>
-                  )}
-                  {aula.correo && (
-                    <a href={`mailto:${aula.correo}`} className="inline-flex min-h-11 items-center justify-center gap-2 border px-4 font-medium hover:bg-accent">
-                      <MailIcon className="size-5" aria-hidden="true" /> {aula.correo}
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Los datos de contacto de esta aula se están actualizando. Mientras tanto, escribe al Centro de Prototipado.
-                </p>
-              )}
-            </div>
+            <ContactoAula
+              aulaId={aula.id}
+              nombre={aula.nombre}
+              inicial={{ direccion: aula.direccion, gestor_nombre: aula.gestor_nombre, whatsapp: aula.whatsapp, correo: aula.correo }}
+            />
           </aside>
         </section>
 
@@ -169,9 +143,7 @@ export default async function AulaPage({ params }: Props) {
         <section aria-labelledby="proyectos-titulo" className={tipo.seccion}>
           <Antetitulo>Portafolio</Antetitulo>
           <TituloAnimado id="proyectos-titulo" texto="Proyectos" className={tipo.h2} />
-          <p className="mt-6 border border-dashed p-6 text-muted-foreground">
-            Esta aula todavía no ha publicado proyectos. El portafolio colaborativo llega con el inicio de sesión de la plataforma.
-          </p>
+          <ProyectosAula aulaId={aula.id} />
         </section>
 
         <Link href="/#aulas" className="text-link inline-flex items-center gap-2 font-medium">

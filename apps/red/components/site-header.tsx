@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { ArrowUpRightIcon, MapIcon, SchoolIcon } from "lucide-react"
+import { ArrowUpRightIcon, FolderKanbanIcon, MapIcon, SchoolIcon } from "lucide-react"
 import { BotonCuenta } from "@cen/auth"
 import { CENTRO_URL } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
@@ -49,6 +49,10 @@ export function SiteHeader() {
               <Link href="/#aulas" className={enlace}>
                 <SchoolIcon className="size-4" aria-hidden="true" />
                 Aulas
+              </Link>
+              <Link href="/proyectos" className={enlace}>
+                <FolderKanbanIcon className="size-4" aria-hidden="true" />
+                Proyectos
               </Link>
               <a href={CENTRO_URL} className={cn(enlace, "bg-muted/60")}>
                 Centro de Prototipado
