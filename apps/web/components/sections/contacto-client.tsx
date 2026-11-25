@@ -267,12 +267,12 @@ export function ContactoClient({
           </span>
           <TechHeading
             as="h2"
-            text="Museo Interactivo Samoga, segundo piso."
+            text="Campus La Nubia, Bloque X."
             className="mt-3.5 text-3xl leading-[1.05] font-extrabold tracking-[-0.015em] text-foreground"
           />
           <p className="mt-2 text-sm text-muted-foreground">
-            Entrada por la portería principal del museo, Sede Manizales de la
-            UNAL.
+            Centro de Innovación de la Universidad Nacional, sede Manizales.
+            Entrada por la portería principal del Campus La Nubia.
           </p>
         </Reveal>
 
@@ -320,7 +320,7 @@ export function ContactoClient({
                 Centro de Prototipado
               </p>
               <p className="m-0 text-xs text-muted-foreground">
-                Samoga · 2do piso
+                La Nubia · Bloque X
               </p>
             </div>
           </div>
@@ -330,13 +330,9 @@ export function ContactoClient({
             {[
               {
                 k: "Dirección",
-                v: "Museo Interactivo Samoga · 2do piso\nSede Manizales · Universidad Nacional\nManizales, Caldas — Colombia",
+                v: "Centro de Innovación · Bloque X\nCampus La Nubia · Universidad Nacional\nManizales, Caldas — Colombia",
               },
               { k: "Coordenadas", v: contact.coordinates },
-              {
-                k: "Transporte",
-                v: "Cable Aéreo · estación Cámbulos\nBuses ruta UNAL · paradero principal",
-              },
             ]
               .filter((r) => r.v)
               .map((r) => (
@@ -351,7 +347,7 @@ export function ContactoClient({
               ))}
             <div className="mt-auto flex flex-wrap gap-2 pt-2">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Museo+Interactivo+Samoga+Manizales"
+                href="https://www.google.com/maps/search/?api=1&query=5.02869,-75.47271"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -467,13 +463,13 @@ function MapSVG() {
       </g>
       <g fill="var(--color-muted-foreground)" fontSize="9" letterSpacing="1">
         <text x="190" y="128" fontFamily="monospace">
-          SAMOGA
+          BLOQUE X
         </text>
         <text x="382" y="168" fontFamily="monospace">
-          SEDE UNAL
+          CAMPUS LA NUBIA
         </text>
         <text x="42" y="185" fontFamily="monospace">
-          CL 30
+          VÍA AL AEROPUERTO
         </text>
         <text x="630" y="54" textAnchor="end" fontFamily="monospace">
           N ↑

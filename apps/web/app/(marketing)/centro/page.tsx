@@ -106,8 +106,8 @@ function CentroHero({ stats }: { stats: Metric[] }) {
           <Reveal as="p" immediate index={2} className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground">
             Un espacio de innovación abierto donde estudiantes, docentes y
             comunidades convierten ideas en soluciones reales mediante
-            fabricación digital y tecnologías emergentes. Sede: Museo
-            Interactivo Samoga, Manizales.
+            fabricación digital y tecnologías emergentes. Sede: Centro de
+            Innovación (Bloque X), Campus La Nubia, Manizales.
           </Reveal>
           <div className="flex flex-wrap gap-3">
             <Link href="/tecnologias">

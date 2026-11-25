@@ -11,4 +11,4 @@ export const RED_STEAM_URL =
 export const SITE_NAME = "Centro de Prototipado"
 
 export const SITE_DESCRIPTION =
-  "Centro de Prototipado de la Universidad Nacional de Colombia, sede Manizales — fabricación digital, realidad inmersiva y robótica al servicio de estudiantes, docentes y comunidades. Sede: Museo Interactivo Samoga."
+  "Centro de Prototipado de la Universidad Nacional de Colombia, sede Manizales — fabricación digital, realidad inmersiva y robótica al servicio de estudiantes, docentes y comunidades. Sede: Centro de Innovación (Bloque X), Campus La Nubia."

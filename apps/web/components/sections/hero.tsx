@@ -81,8 +81,8 @@ export function HeroSection({ miniStats }: { miniStats: Metric[] }) {
             className="m-0 max-w-[44ch] text-base leading-relaxed text-muted-foreground lg:text-[clamp(15px,1.4vw,17px)]"
           >
             Fabricación digital, realidad inmersiva y robótica al servicio de
-            estudiantes, docentes y comunidades. Un espacio abierto dentro del
-            Museo Interactivo Samoga.
+            estudiantes, docentes y comunidades. Un espacio abierto en el Centro
+            de Innovación del Campus La Nubia.
           </Reveal>
 
           {/* CTAs */}
@@ -443,9 +443,9 @@ function HeroMediaFrame() {
         className="proto-boot relative z-10 flex items-center justify-between border-t bg-card/80 px-4 py-2.5 backdrop-blur-sm"
         style={{ "--boot": "1.15s" } as React.CSSProperties}
       >
-        <span className="font-mono text-[10px] text-muted-foreground/60">5.06° N</span>
-        <span className="font-mono text-[10px] text-muted-foreground/60">SAMOGA · P2</span>
-        <span className="font-mono text-[10px] text-muted-foreground/60">75.49° W</span>
+        <span className="font-mono text-[10px] text-muted-foreground/60">5.03° N</span>
+        <span className="font-mono text-[10px] text-muted-foreground/60">LA NUBIA · BLOQUE X</span>
+        <span className="font-mono text-[10px] text-muted-foreground/60">75.47° W</span>
       </figcaption>
 
       <style>{`
