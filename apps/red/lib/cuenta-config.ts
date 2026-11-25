@@ -2,8 +2,8 @@ import { SUPABASE_CLAVE_PUBLICA, SUPABASE_URL_PUBLICA, type ConfigCuenta } from 
 import { CENTRO_URL } from "@/lib/site-config"
 
 // Cuenta única (Supabase Auth) compartida con el sitio del Centro.
-// El paso de sesión hacia el Centro se activa con NEXT_PUBLIC_CENTRO_SSO=1 cuando ese sitio
-// tenga desplegadas sus páginas de cuenta.
+// El paso de sesión hacia el Centro está activo (el Centro ya publicó /cuenta/continuar).
+// Se puede apagar con NEXT_PUBLIC_CENTRO_SSO=0.
 export const configCuenta: ConfigCuenta = {
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || SUPABASE_URL_PUBLICA,
   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || SUPABASE_CLAVE_PUBLICA,
@@ -17,7 +17,7 @@ export const configCuenta: ConfigCuenta = {
     continuar: "/auth/continuar",
   },
   otroSitio:
-    process.env.NEXT_PUBLIC_CENTRO_SSO === "1"
+    process.env.NEXT_PUBLIC_CENTRO_SSO !== "0"
       ? { nombre: "el sitio del Centro", continuarUrl: `${CENTRO_URL}/cuenta/continuar` }
       : undefined,
 }
