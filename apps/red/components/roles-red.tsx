@@ -9,7 +9,7 @@ type Rol = { rol: "gestor" | "coordinador" | "admin"; aula: { nombre: string; sl
 const ETIQUETA_ROL: Record<Rol["rol"], string> = {
   gestor: "Gestor de aula",
   coordinador: "Coordinación de la red",
-  admin: "Administración técnica",
+  admin: "Administración",
 }
 
 /** Roles de la persona en la Red (tabla red.miembros). */
@@ -46,6 +46,18 @@ export function RolesRed({ userId }: { userId: string }) {
           </li>
         ))}
       </ul>
+      {roles.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link href="/mi-aula" className="inline-flex min-h-10 items-center border px-3 text-sm font-semibold hover:bg-accent">
+            {roles.some((r) => r.rol !== "gestor") ? "Inventario de las aulas" : "Abrir mi aula"}
+          </Link>
+          {roles.some((r) => r.rol !== "gestor") && (
+            <Link href="/coordinacion" className="inline-flex min-h-10 items-center border px-3 text-sm font-semibold hover:bg-accent">
+              Gestionar roles
+            </Link>
+          )}
+        </div>
+      )}
       <p className="mt-2 text-xs text-muted-foreground">Los roles de gestor los asigna la coordinación de la red.</p>
     </section>
   )

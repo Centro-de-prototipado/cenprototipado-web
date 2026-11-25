@@ -43,3 +43,17 @@ La app debe declarar `transpilePackages: ["@cen/auth"]` en `next.config.mjs` y `
 
 - Ambas apps: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 - Red: `NEXT_PUBLIC_CENTRO_SSO=1` para mostrar «Continuar con mi sesión del sitio del Centro» (activar cuando el sitio del Centro tenga estas páginas desplegadas).
+
+## Roles de la Red (gestor, coordinación, administración)
+
+- **Gestor de aula:** ve el inventario privado de su aula en `/mi-aula`.
+- **Coordinación:** asigna y quita gestores en `/coordinacion` y ve el inventario de todas las aulas.
+- **Administración:** lo mismo que coordinación, y además asigna coordinadores y administradores.
+
+Se asigna por correo (función `red.invitar`). Si la persona aún no tiene cuenta, queda una invitación y el rol se aplica solo cuando confirma su correo.
+
+**Primera administración (una sola vez):** como aún nadie es admin, se crea la invitación a mano en el SQL Editor de Supabase, con el correo que corresponda:
+
+```sql
+insert into red.invitaciones (email, rol) values ('correo@unal.edu.co', 'admin');
+```
