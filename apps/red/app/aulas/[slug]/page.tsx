@@ -1,13 +1,13 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { ArrowLeftIcon, BoxesIcon, CalendarIcon, ChevronDownIcon, FolderKanbanIcon, MailIcon, MessageCircleIcon, WrenchIcon } from "lucide-react"
+import { ArrowLeftIcon, CalendarIcon, FolderKanbanIcon, MailIcon, MessageCircleIcon, WrenchIcon } from "lucide-react"
 import { MunicipioMapa } from "@/components/municipio-mapa"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { Contador, TituloAnimado, TituloEntrada } from "@/components/ui/animaciones"
 import { Antetitulo, tipo } from "@/components/ui/tipografia"
-import { ETIQUETA_TIPO, ORDEN_CATEGORIAS, getAula, getAulas, type Equipo } from "@/lib/red-data"
+import { ETIQUETA_TIPO, getAula, getAulas } from "@/lib/red-data"
 
 // Exportación estática: una página por aula, generada en el build con los datos de Supabase.
 export const dynamicParams = false
@@ -29,49 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const ESTADO: Record<NonNullable<Equipo["estado"]>, { texto: string; clase: string }> = {
-  funcional: { texto: "Funcional", clase: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" },
-  inconvenientes: { texto: "Con inconvenientes", clase: "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300" },
-  danado: { texto: "Presenta daños", clase: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-300" },
-  no_funcional: { texto: "No funcional", clase: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-300" },
-}
-
-const USO: Record<NonNullable<Equipo["frecuencia_uso"]>, string> = {
-  diario: "Diario",
-  semanal: "Semanal",
-  mensual: "Mensual",
-  ocasional: "Ocasional",
-  no_se_usa: "No se usa",
-}
-
-function agrupar(equipos: Equipo[]) {
-  const grupos = new Map<string, Equipo[]>()
-  for (const e of equipos) grupos.set(e.categoria, [...(grupos.get(e.categoria) ?? []), e])
-  return [...grupos.entries()]
-    .map(([categoria, items]) => ({
-      categoria,
-      items: items.sort((a, b) => a.nombre.localeCompare(b.nombre, "es")),
-      unidades: items.reduce((s, e) => s + e.cantidad, 0),
-    }))
-    .sort((a, b) => {
-      const ia = ORDEN_CATEGORIAS.indexOf(a.categoria)
-      const ib = ORDEN_CATEGORIAS.indexOf(b.categoria)
-      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib)
-    })
-}
-
-/** Las categorías técnicas se muestran abiertas; mobiliario, cables y cómputo, plegadas. */
-const PLEGADAS = new Set(["Mobiliario", "Energía y cables", "Cómputo", "Audiovisual y realidad virtual"])
-
 export default async function AulaPage({ params }: Props) {
   const { slug } = await params
   const aula = await getAula(slug)
   if (!aula) notFound()
 
-  const grupos = agrupar(aula.equipos)
-  const unidades = aula.equipos.reduce((s, e) => s + e.cantidad, 0)
-  const conEstado = aula.equipos.filter((e) => e.estado)
-  const funcionales = conEstado.filter((e) => e.estado === "funcional").length
   const whatsapp = aula.whatsapp?.replace(/\D/g, "")
 
   return (
@@ -109,9 +71,8 @@ export default async function AulaPage({ params }: Props) {
             {aula.institucion && aula.tipo !== "centro" && <p className="-mt-2 text-base font-semibold text-muted-foreground">{aula.institucion}</p>}
             {aula.descripcion && <p className={tipo.entrada}>{aula.descripcion}</p>}
 
-            <dl className="grid grid-cols-2 border-t pt-6 sm:grid-cols-4">
+            <dl className="grid grid-cols-3 border-t pt-6">
               {[
-                { icon: BoxesIcon, valor: unidades || "—", texto: "unidades de equipo" },
                 { icon: WrenchIcon, valor: aula.servicios.length || "—", texto: "servicios" },
                 { icon: CalendarIcon, valor: aula.anio_dotacion ?? "—", texto: "año de dotación" },
                 { icon: FolderKanbanIcon, valor: 0, texto: "proyectos publicados" },
@@ -129,7 +90,7 @@ export default async function AulaPage({ params }: Props) {
           </div>
 
           <aside className="space-y-4">
-            <MunicipioMapa municipio={aula.municipio.nombre} colegio={aula.tipo === "colegio"} />
+            <MunicipioMapa aula={aula} />
             <div className="iso-panel p-5">
               <h2 className={tipo.h3}>Contacto</h2>
               {whatsapp || aula.correo ? (
@@ -196,79 +157,6 @@ export default async function AulaPage({ params }: Props) {
           ) : (
             <p className="mt-6 border border-dashed p-6 text-muted-foreground">Esta aula aún no tiene servicios registrados.</p>
           )}
-        </section>
-
-        {/* Equipos */}
-        <section aria-labelledby="equipos-titulo" className={`border-b ${tipo.seccion}`}>
-          <Antetitulo>Dotación</Antetitulo>
-          <TituloAnimado id="equipos-titulo" texto="Equipos" className={tipo.h2} />
-          <p className={tipo.bajada}>
-            {aula.equipos.length
-              ? `${unidades} unidades en ${grupos.length} categorías, según el inventario de las aulas.`
-              : "El inventario de esta aula se publicará pronto."}
-            {conEstado.length > 0 && ` ${funcionales} de ${conEstado.length} registros con estado reportado funcionan bien.`}
-          </p>
-
-          <div className="mt-6 space-y-3">
-            {grupos.map((g) => (
-              <details key={g.categoria} open={!PLEGADAS.has(g.categoria)} className="group iso-panel">
-                <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 px-5 py-3 [&::-webkit-details-marker]:hidden">
-                  <span className="font-semibold">{g.categoria}</span>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {g.unidades} {g.unidades === 1 ? "unidad" : "unidades"}
-                  </span>
-                  <ChevronDownIcon className="ml-auto size-5 transition-transform group-open:rotate-180" aria-hidden="true" />
-                </summary>
-                <div className="overflow-x-auto border-t">
-                  <table className="w-full text-left text-sm">
-                    <caption className="sr-only">Equipos de la categoría {g.categoria}</caption>
-                    <thead className="font-mono text-[11px] tracking-widest text-muted-foreground uppercase">
-                      <tr>
-                        <th scope="col" className="px-5 py-2 font-normal">
-                          Equipo
-                        </th>
-                        <th scope="col" className="px-3 py-2 text-right font-normal">
-                          Cant.
-                        </th>
-                        <th scope="col" className="px-3 py-2 font-normal">
-                          Estado
-                        </th>
-                        <th scope="col" className="px-5 py-2 font-normal">
-                          Uso
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {g.items.map((e) => (
-                        <tr key={e.id} className="border-t align-top">
-                          <td className="px-5 py-3">
-                            <span className="font-medium">{e.nombre}</span>
-                            {e.catalogo?.descripcion && (
-                              <span className="mt-1 line-clamp-2 text-xs text-muted-foreground">{e.catalogo.descripcion}</span>
-                            )}
-                            {e.tipo_dano && <span className="mt-1 block text-xs text-amber-700 dark:text-amber-300">{e.tipo_dano}</span>}
-                          </td>
-                          <td className="px-3 py-3 text-right font-mono">{e.cantidad}</td>
-                          <td className="px-3 py-3">
-                            {e.estado ? (
-                              <span className={`inline-block border px-2 py-0.5 text-xs whitespace-nowrap ${ESTADO[e.estado].clase}`}>
-                                {ESTADO[e.estado].texto}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-muted-foreground">Sin reporte</span>
-                            )}
-                          </td>
-                          <td className="px-5 py-3 text-xs whitespace-nowrap">
-                            {e.frecuencia_uso ? USO[e.frecuencia_uso] : <span className="text-muted-foreground">—</span>}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </details>
-            ))}
-          </div>
         </section>
 
         {/* Proyectos */}

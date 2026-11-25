@@ -1,17 +1,21 @@
 import type { Aula } from "@/lib/red-data"
 import { CALDAS_VIEWBOX, PX_POR_KM, municipiosCaldas } from "@/lib/caldas-geo"
-import { MapMotionToggle } from "@/components/map-motion-toggle"
+import { MapaManizalesSvg } from "@/components/mapa-manizales"
+import { MapaZoom } from "@/components/mapa-zoom"
 
 // Mapa de la Red en estilo Blueprint + Neón nocturno (ver «Identidad visual y
 // accesibilidad», tablero IV-04), dibujado con los límites reales de los 27
-// municipios de Caldas. Cada aula se ubica en el centro de su municipio
-// (ubicación aproximada). SVG + CSS, sin librerías de mapas; las animaciones
-// se pausan con el botón o con `prefers-reduced-motion`.
+// municipios de Caldas. Cada aula municipal se ubica en el centro de su municipio.
+// Las aulas de colegio no caben a esta escala: al hacer clic en Manizales el mapa se
+// amplía a la ciudad (components/mapa-manizales.tsx) y las muestra en su ubicación.
+// SVG + CSS, sin librerías de mapas; las animaciones se pausan con el botón o con
+// `prefers-reduced-motion`.
 
 const { width: W, height: H } = CALDAS_VIEWBOX
 
 const sinTildes = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
 const geoPorNombre = new Map(municipiosCaldas.map((m) => [sinTildes(m.nombre), m]))
+const mpioManizales = geoPorNombre.get("manizales")
 const punto = (aula: Aula): [number, number] => geoPorNombre.get(sinTildes(aula.municipio.nombre))?.centro ?? [W / 2, H / 2]
 
 /** Arco suave entre un aula y el nodo central (curva cuadrática hacia arriba). */
@@ -35,18 +39,13 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
   const aulasMunicipales = aulas.filter((a) => a.tipo === "municipal")
   const aulasColegio = aulas.filter((a) => a.tipo === "colegio")
   const municipiosConAula = new Set(aulas.filter((a) => a.tipo !== "colegio").map((a) => sinTildes(a.municipio.nombre)))
+  const sinUbicar = aulasColegio.filter((a) => a.lat == null || a.lon == null)
   if (!centro) return null
   const hub = punto(centro)
   const escalaKm = 20
   const escalaPx = escalaKm * PX_POR_KM
 
-  const colegios = aulasColegio.map((aula, i) => {
-    const angle = (i / aulasColegio.length) * Math.PI * 2 - Math.PI / 2
-    return { aula, x: hub[0] + Math.cos(angle) * 44, y: hub[1] + Math.sin(angle) * 44 }
-  })
-
-  return (
-    <figure className="red-map relative overflow-hidden border border-cyan-950 bg-[#0b1726]">
+  const mapaCaldas = (
       <svg
         viewBox={`0 0 ${W} ${H}`}
         role="img"
@@ -55,7 +54,7 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
       >
         <title id="red-map-title">Mapa de la Red STEAM de Caldas</title>
         <desc id="red-map-desc">
-          {`Mapa de los 27 municipios de Caldas. Manizales es el nodo central; ${aulasMunicipales.length} aulas municipales y ${aulasColegio.length} aulas de colegio están conectadas a él. La lista de aulas debajo del mapa tiene la misma información.`}
+          {`Mapa de los 27 municipios de Caldas. Manizales es el nodo central; ${aulasMunicipales.length} aulas municipales están conectadas a él. Manizales se puede ampliar para ver sus ${aulasColegio.length} aulas de colegio. La lista de aulas debajo del mapa tiene la misma información.`}
         </desc>
         <defs>
           <pattern id="rm-grid-minor" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -97,9 +96,16 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
             <path
               key={m.codigo}
               d={m.d}
-              className={municipiosConAula.has(sinTildes(m.nombre)) ? "red-map__mpio red-map__mpio--aula" : "red-map__mpio"}
+              data-zoom={m === mpioManizales ? "manizales" : undefined}
+              className={
+                m === mpioManizales
+                  ? "red-map__mpio red-map__mpio--aula red-map__mpio--zoom"
+                  : municipiosConAula.has(sinTildes(m.nombre))
+                    ? "red-map__mpio red-map__mpio--aula"
+                    : "red-map__mpio"
+              }
             >
-              <title>{m.nombre}</title>
+              <title>{m === mpioManizales ? "Manizales: clic para ver las aulas de colegio" : m.nombre}</title>
             </path>
           ))}
         </g>
@@ -147,22 +153,24 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
           )
         })}
 
-        {/* Aulas de colegio en Manizales, en anillo alrededor del nodo central. */}
-        {colegios.map(({ aula, x, y }) => (
-          <a key={aula.slug} href={`/aulas/${aula.slug}`} aria-label={`${aula.nombre}, aula de colegio en Manizales`} className="red-map__node">
-            <rect x={x - 9} y={y - 9} width="18" height="18" fill="transparent" />
-            <rect x={x - 5} y={y - 5} width="10" height="10" transform={`rotate(45 ${x} ${y})`} className="red-map__diamond" />
-          </a>
-        ))}
-
-        {/* Nodo central. */}
-        <a href={`/aulas/${centro.slug}`} aria-label={`${centro.nombre}, nodo central en Manizales`} className="red-map__node">
+        {/* Nodo central: abre la vista ampliada de Manizales. */}
+        <g
+          role="button"
+          tabIndex={0}
+          data-zoom="manizales"
+          aria-label={`Ampliar Manizales: nodo central y ${aulasColegio.length} aulas de colegio`}
+          className="red-map__node"
+        >
+          <circle cx={hub[0]} cy={hub[1]} r="30" fill="transparent" />
           <circle cx={hub[0]} cy={hub[1]} r="12" className="red-map__hub" />
           <circle cx={hub[0]} cy={hub[1]} r="4.5" fill="#ffffff" />
           <text x={hub[0]} y={hub[1] + 68} textAnchor="middle" className="red-map__label red-map__label--hub">
             MANIZALES · NODO CENTRAL
           </text>
-        </a>
+          <text x={hub[0]} y={hub[1] + 84} textAnchor="middle" className="red-map__coord red-map__zoom-hint">
+            + CLIC PARA AMPLIAR · {aulasColegio.length} COLEGIOS
+          </text>
+        </g>
 
         <rect width={W} height={H} fill="url(#rm-vignette)" pointerEvents="none" />
 
@@ -172,7 +180,7 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
             RED STEAM · CALDAS
           </text>
           <text x="20" y="52" className="red-map__coord">
-            BLUEPRINT + NEÓN · 27 MUNICIPIOS · {aulasMunicipales.length + aulasColegio.length + 1} NODOS
+            BLUEPRINT + NEÓN · 27 MUNICIPIOS · {aulasMunicipales.length + 1} NODOS
           </text>
           <g transform={`translate(${W - 48} 56)`}>
             <circle r="20" className="red-map__compass" />
@@ -190,19 +198,43 @@ export function RedMap({ aulas }: { aulas: Aula[] }) {
           </g>
         </g>
       </svg>
+  )
 
-      <figcaption className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-cyan-950 px-4 py-3 font-mono text-xs text-slate-300">
-        <span className="flex items-center gap-2">
-          <span aria-hidden="true" className="inline-block size-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-          Centro y aulas municipales
-        </span>
-        <span className="flex items-center gap-2">
-          <span aria-hidden="true" className="inline-block size-2 rotate-45 bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
-          Aulas de colegio (Manizales)
-        </span>
-        <span className="text-slate-400">Límites: DANE · ubicación aproximada</span>
-        <MapMotionToggle />
-      </figcaption>
-    </figure>
+  return (
+    <MapaZoom
+      caldas={mapaCaldas}
+      manizales={<MapaManizalesSvg aulas={aulas} />}
+      origen={[(hub[0] / W) * 100, (hub[1] / H) * 100]}
+      colegios={aulasColegio.length}
+      leyendaCaldas={
+        <>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="inline-block size-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            Centro y aulas municipales
+          </span>
+          <span className="text-slate-400">Límites: DANE · ubicación por municipio</span>
+        </>
+      }
+      leyendaManizales={
+        <>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="inline-block size-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
+            Centro de Prototipado
+          </span>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="inline-block size-2 rotate-45 bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
+            Aulas de colegio
+          </span>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="inline-block size-3 rounded-full border border-dashed border-amber-300" />
+            Ubicación aproximada (barrio o vereda)
+          </span>
+          {sinUbicar.length > 0 && (
+            <span className="text-slate-400">Ubicación por confirmar: {sinUbicar.map((a) => a.nombre).join(", ")}</span>
+          )}
+          <span className="text-slate-400">Límites: OpenStreetMap</span>
+        </>
+      }
+    />
   )
 }

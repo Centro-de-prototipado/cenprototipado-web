@@ -19,19 +19,12 @@ export type Aula = {
   whatsapp: string | null
   correo: string | null
   foto_url: string | null
+  /** Coordenadas de la sede (null si aún no se conocen). */
+  lat: number | null
+  lon: number | null
+  /** true si lat/lon son del barrio o la vereda y no de la sede exacta. */
+  ubicacion_aproximada: boolean
   municipio: { codigo: string; nombre: string }
-}
-
-export type Equipo = {
-  id: number
-  categoria: string
-  nombre: string
-  cantidad: number
-  anio: number | null
-  estado: "funcional" | "inconvenientes" | "danado" | "no_funcional" | null
-  frecuencia_uso: "diario" | "semanal" | "mensual" | "ocasional" | "no_se_usa" | null
-  tipo_dano: string | null
-  catalogo: { descripcion: string | null } | null
 }
 
 export type Servicio = {
@@ -44,7 +37,9 @@ export type Servicio = {
   tarifa_max: number | null
 }
 
-export type AulaDetalle = Aula & { equipos: Equipo[]; servicios: Servicio[] }
+// El inventario de equipos (red.equipos) es privado: solo lo ven el gestor del aula y la
+// coordinación con sesión iniciada. Las páginas públicas muestran solo los servicios.
+export type AulaDetalle = Aula & { servicios: Servicio[] }
 
 function client() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -56,7 +51,7 @@ function client() {
 }
 
 const AULA_COLS =
-  "id, slug, nombre, tipo, institucion, anio_dotacion, descripcion, direccion, gestor_nombre, whatsapp, correo, foto_url, municipio:municipios!inner(codigo, nombre)"
+  "id, slug, nombre, tipo, institucion, anio_dotacion, descripcion, direccion, gestor_nombre, whatsapp, correo, foto_url, lat, lon, ubicacion_aproximada, municipio:municipios!inner(codigo, nombre)"
 
 const ORDEN_TIPO: Record<TipoAula, number> = { centro: 0, municipal: 1, colegio: 2 }
 
@@ -70,29 +65,13 @@ export async function getAula(slug: string): Promise<AulaDetalle | null> {
   const { data, error } = await client()
     .from("aulas")
     .select(
-      `${AULA_COLS}, equipos(id, categoria, nombre, cantidad, anio, estado, frecuencia_uso, tipo_dano, catalogo:equipos_catalogo(descripcion)), servicios(id, nombre, descripcion, equipo_base, unidad_cobro, tarifa_min, tarifa_max)`
+      `${AULA_COLS}, servicios(id, nombre, descripcion, equipo_base, unidad_cobro, tarifa_min, tarifa_max)`
     )
     .eq("slug", slug)
     .maybeSingle()
   if (error) throw new Error(`No se pudo leer el aula ${slug}: ${error.message}`)
   return data as unknown as AulaDetalle | null
 }
-
-/** Orden de presentación: primero lo que sirve para fabricar y enseñar. */
-export const ORDEN_CATEGORIAS = [
-  "Impresión 3D",
-  "CNC y láser",
-  "Escáner 3D",
-  "Brazos robóticos",
-  "Robótica educativa",
-  "Electrónica y sensores",
-  "Instrumentos de medida",
-  "Soldadura",
-  "Cómputo",
-  "Audiovisual y realidad virtual",
-  "Energía y cables",
-  "Mobiliario",
-]
 
 export const ETIQUETA_TIPO: Record<TipoAula, string> = {
   centro: "Nodo central",

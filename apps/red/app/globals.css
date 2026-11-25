@@ -687,3 +687,56 @@
     filter: brightness(1.25) drop-shadow(0 0 14px color-mix(in srgb, var(--color-primary) 40%, transparent));
   }
 }
+
+/* Zoom Caldas ↔ Manizales: el mapa de Caldas se agranda hacia Manizales y se desvanece
+   mientras aparece la ciudad. Con «reducir movimiento» el cambio es instantáneo. */
+.mapa-zoom__capa {
+  transition:
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 450ms ease,
+    filter 700ms ease;
+}
+.mapa-zoom__capa[data-oculta] {
+  opacity: 0;
+  transform: scale(5);
+  filter: blur(6px);
+  pointer-events: none;
+}
+.mapa-zoom__capa--manizales[data-oculta] {
+  transform: scale(0.2);
+}
+.red-map__mpio--zoom {
+  cursor: pointer;
+  fill: #155a7a;
+  stroke-opacity: 0.9;
+}
+.red-map__mpio--zoom:hover {
+  fill: #1b6e94;
+}
+.red-map__zoom-hint {
+  fill: #fbbf24;
+  font-size: 9px;
+}
+.red-map__comuna {
+  stroke-opacity: 0.45;
+}
+.red-map__comuna-label {
+  fill: #6f93b3;
+  font-size: 7.5px;
+}
+.red-map__line--fina {
+  stroke-width: 1.1;
+  stroke-opacity: 0.55;
+}
+.red-map__label--colegio {
+  fill: #fde68a;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+}
+.red-map__aprox {
+  fill: none;
+  stroke: #fcd34d;
+  stroke-width: 1.2;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}

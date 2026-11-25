@@ -1,6 +1,6 @@
 # @cen/red — Red STEAM Caldas
 
-Plataforma de la red de aulas STEAM de Caldas, articulada por el Centro de Prototipado (nodo central en Manizales). Incluye la página de inicio con el mapa Blueprint + Neón nocturno y una página de perfil por aula (`/aulas/[slug]`) con sus servicios y su inventario, todo leído de Supabase. Los módulos (cotizador, capacitaciones y certificados, convocatorias, montaje de aulas) llegan en las siguientes etapas.
+Plataforma de la red de aulas STEAM de Caldas, articulada por el Centro de Prototipado (nodo central en Manizales). Incluye la página de inicio con el mapa Blueprint + Neón nocturno y una página de perfil por aula (`/aulas/[slug]`) con sus servicios y su contacto, todo leído de Supabase. El inventario de equipos es privado (solo lo ven el gestor del aula y la coordinación con sesión iniciada). El mapa se amplía a Manizales para mostrar las aulas de colegio (límites de OpenStreetMap, `lib/manizales-geo.ts`). Los módulos (cotizador, capacitaciones y certificados, convocatorias, montaje de aulas) llegan en las siguientes etapas.
 
 ## Desarrollo
 

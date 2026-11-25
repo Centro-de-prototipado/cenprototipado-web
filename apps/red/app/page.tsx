@@ -53,7 +53,7 @@ export default async function HomePage() {
             />
             <p className={tipo.entrada}>
               El Centro de Prototipado de la UNAL en Manizales articula {red.length} aulas en municipios y colegios del departamento.
-              Encuentra el aula más cercana, conoce sus equipos y sus servicios.
+              Encuentra el aula más cercana, conoce sus servicios y cómo contactarla.
             </p>
           </div>
           <dl className="grid grid-cols-3 border-t pt-6">
@@ -82,7 +82,7 @@ export default async function HomePage() {
         <section id="aulas" aria-labelledby="aulas-titulo" className={`scroll-mt-24 border-b ${tipo.seccion}`}>
           <Antetitulo>Directorio</Antetitulo>
           <TituloAnimado id="aulas-titulo" texto="Aulas de la red" acento="red" className={tipo.h2} />
-          <p className={tipo.bajada}>La misma información del mapa, en lista. Entra a cada aula para ver sus equipos y servicios.</p>
+          <p className={tipo.bajada}>La misma información del mapa, en lista. Entra a cada aula para ver sus servicios y su contacto. Las aulas de colegio están en el mapa ampliado de Manizales.</p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {aulas.map((aula) => (
               <AulaItem key={aula.slug} aula={aula} />
