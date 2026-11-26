@@ -73,7 +73,7 @@ export function MiCuenta({
 
   async function salir() {
     setSaliendo(true)
-    await sb.auth.signOut()
+    await sb.auth.signOut({ scope: "global" })
     router.replace("/")
   }
 

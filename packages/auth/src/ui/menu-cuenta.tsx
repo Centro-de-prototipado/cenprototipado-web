@@ -107,7 +107,7 @@ export function MenuCuenta({
 
   async function salir() {
     cerrar()
-    await sb.auth.signOut()
+    await sb.auth.signOut({ scope: "global" })
     router.replace("/")
     router.refresh()
   }
