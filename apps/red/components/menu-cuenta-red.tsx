@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { LayoutDashboardIcon, SchoolIcon, UserIcon } from "lucide-react"
+import { AwardIcon, LayoutDashboardIcon, SchoolIcon, UserIcon } from "lucide-react"
 import { MenuCuenta, claseOpcionMenu } from "@cen/auth"
+import { CENTRO_URL } from "@/lib/site-config"
 import { ETIQUETA_ROL, useRoles } from "@/components/panel/use-roles"
 
 /** Menú de perfil de la Red: además de lo común, los paneles según el rol de la persona. */
@@ -28,6 +29,11 @@ export function MenuCuentaRed() {
                 {estado.esCoordinador ? "Aulas" : "Mi aula"}
               </Link>
             )}
+            {/* Los certificados viven en el sitio del Centro (allí se emiten y verifican). */}
+            <a href={`${CENTRO_URL}/cuenta#certificados`} className={claseOpcionMenu}>
+              <AwardIcon className="size-4" aria-hidden="true" />
+              Mis certificados
+            </a>
             <Link href="/cuenta" onClick={cerrar} className={claseOpcionMenu}>
               <UserIcon className="size-4" aria-hidden="true" />
               Mi cuenta

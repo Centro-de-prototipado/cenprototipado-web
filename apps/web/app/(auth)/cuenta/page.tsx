@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { MiCuenta } from "@cen/auth"
+import { CuentaCentro } from "@/components/aprende/mis-certificados"
 import { PaginaCuenta } from "@/components/cuenta/pagina-cuenta"
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Pagina() {
   return (
     <PaginaCuenta>
-      <MiCuenta />
+      <CuentaCentro />
     </PaginaCuenta>
   )
 }
