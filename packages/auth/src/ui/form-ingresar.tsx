@@ -18,7 +18,7 @@ export function FormIngresar() {
   const { sitio, rutas, otroSitio } = useConfigCuenta()
   const sb = useSupabase()
   const router = useRouter()
-  const siguiente = destinoSeguro(useSearchParams().get("next"), rutas.cuenta)
+  const siguiente = destinoSeguro(useSearchParams().get("next"), "/")
   const [error, setError] = useState<string | null>(null)
   const [enviando, setEnviando] = useState(false)
 

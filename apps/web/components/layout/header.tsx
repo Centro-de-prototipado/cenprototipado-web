@@ -8,6 +8,7 @@ import { DesktopNav } from "@/components/layout/desktop-nav"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { DecorIcon } from "@/components/ui/decor-icon"
+import { MenuCuentaCentro } from "@/components/cuenta/menu-cuenta-centro"
 import { MessageCircleIcon } from "lucide-react"
 import Link from "next/link"
 
@@ -40,9 +41,7 @@ export function Header() {
           </div>
           <div className="hidden items-center gap-2 lg:flex">
             <ThemeToggle />
-            <Link href="/login">
-              <Button variant="outline">Ingresar</Button>
-            </Link>
+            <MenuCuentaCentro />
             <Link href="/contacto">
               <Button>
                 <MessageCircleIcon data-icon="inline-start" /> Contacto

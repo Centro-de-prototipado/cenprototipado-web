@@ -23,7 +23,7 @@ export function Continuar() {
   const params = useSearchParams()
   const tokenHash = params.get("token_hash")
   const redirectTo = params.get("redirect_to")
-  const siguiente = destinoSeguro(params.get("next"), rutas.cuenta)
+  const siguiente = destinoSeguro(params.get("next"), "/")
   const [fallo, setFallo] = useState(false)
   const sinDatos = !tokenHash && !redirectTo
 

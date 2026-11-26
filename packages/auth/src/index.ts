@@ -12,6 +12,7 @@ export {
 } from "./cliente"
 export { useSesion } from "./ui/use-sesion"
 export { BotonCuenta } from "./ui/boton-cuenta"
+export { MenuCuenta, claseOpcionMenu } from "./ui/menu-cuenta"
 export { FormIngresar } from "./ui/form-ingresar"
 export { FormRegistro } from "./ui/form-registro"
 export { FormRecuperar } from "./ui/form-recuperar"

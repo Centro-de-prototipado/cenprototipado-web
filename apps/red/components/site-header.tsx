@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRightIcon, FolderKanbanIcon, MapIcon, SchoolIcon } from "lucide-react"
-import { BotonCuenta } from "@cen/auth"
+import { MenuCuentaRed } from "@/components/menu-cuenta-red"
 import { CENTRO_URL } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 import { DecorIcon } from "@/components/ui/decor-icon"
@@ -63,7 +63,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <BotonCuenta className="h-9 min-h-9 gap-1.5 px-3 text-sm font-medium" />
+            <MenuCuentaRed />
           </div>
         </nav>
       </div>

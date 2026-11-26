@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type FormEvent, type ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowUpRightIcon, LogOutIcon } from "lucide-react"
 import { useConfigCuenta } from "../config"
@@ -8,9 +8,7 @@ import { mensajeError, urlConSesion, useSupabase } from "../cliente"
 import { useSesion } from "./use-sesion"
 import {
   Aviso,
-  BotonPrincipal,
   BotonSecundario,
-  Campo,
   PanelCuenta,
 } from "./formulario"
 
@@ -43,7 +41,6 @@ export function MiCuenta({
         ? { tipo: "exito", texto: "Tu contraseña se actualizó." }
         : null
   )
-  const [guardando, setGuardando] = useState(false)
   const [saliendo, setSaliendo] = useState(false)
 
   useEffect(() => {
@@ -58,25 +55,6 @@ export function MiCuenta({
       .maybeSingle()
       .then(({ data }) => setNombre(data?.nombre ?? ""))
   }, [sesion, sb, router, rutas])
-
-  async function guardarNombre(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    if (!sesion) return
-    const nuevo = nombre.trim()
-    if (nuevo.length < 3)
-      return setAviso({ tipo: "error", texto: "Escribe tu nombre completo." })
-    setGuardando(true)
-    const { error } = await sb
-      .from("perfiles")
-      .update({ nombre: nuevo })
-      .eq("id", sesion.user.id)
-    setGuardando(false)
-    setAviso(
-      error
-        ? { tipo: "error", texto: mensajeError(error) }
-        : { tipo: "exito", texto: "Nombre actualizado." }
-    )
-  }
 
   async function irAlOtroSitio() {
     if (!otroSitio) return
@@ -116,18 +94,10 @@ export function MiCuenta({
       <div className="space-y-6">
         {aviso && <Aviso tipo={aviso.tipo}>{aviso.texto}</Aviso>}
 
-        <form onSubmit={guardarNombre} className="space-y-3">
-          <Campo
-            id="nombre"
-            etiqueta="Nombre"
-            autoComplete="name"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
-          <BotonPrincipal type="submit" disabled={guardando} className="w-auto">
-            {guardando ? "Guardando…" : "Guardar nombre"}
-          </BotonPrincipal>
-        </form>
+        <div className="space-y-1">
+          <p className="text-sm font-semibold">Nombre</p>
+          <p className="text-base">{nombre || "Sin nombre"}</p>
+        </div>
 
         {children?.(sesion.user.id)}
 

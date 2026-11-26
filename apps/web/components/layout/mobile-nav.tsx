@@ -9,6 +9,7 @@ import { LinkItem } from "@/components/shared/shared"
 import { centroLinks, exploreLinks } from "@/components/layout/nav-links"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { XIcon, MenuIcon, MessageCircleIcon } from "lucide-react"
+import { MenuCuentaCentro } from "@/components/cuenta/menu-cuenta-centro"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -98,11 +99,7 @@ export function MobileNav() {
             <div className="mt-6 flex flex-col gap-2">
               <div className="flex gap-2">
                 <ThemeToggle />
-                <Link href="/login" className="flex-1">
-                  <Button className="w-full" variant="outline">
-                    Ingresar
-                  </Button>
-                </Link>
+                <MenuCuentaCentro anchoCompleto />
               </div>
               <Link href="/contacto" onClick={() => setOpen(false)}>
                 <Button className="w-full">
